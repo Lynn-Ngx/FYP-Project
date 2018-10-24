@@ -1,7 +1,17 @@
 /*
 Scrape every single link for Men and Women, then store the links into an array.
 
-Loop through the array and for each link
+Loop through the array and for each link call function
+scrape(link){
+    navigate to page
+    scrape data
+    store to db
+
+algorithm will run every day / week
+
+check for new links every week
+
+make a price graph for that item
  */
 const scrapeLinks = () => {
     links = []
