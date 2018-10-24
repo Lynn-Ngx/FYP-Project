@@ -8,29 +8,34 @@
 <body style="background-color: #FFFFBD">
 <div id="navBar">
     <ul>
-        <li style="float: right"><a> Sign Up </a></li>
-        <li style="float: right"><a> Login </a></li>
-        <li><a> Back </a></li>
+        <li style="float: right"><a href="signUp.html"> Sign Up </a></li>
+        <li style="float: right"><a href="login.html"> Login </a></li>
+        <li><a href="main.html"> Back </a></li>
     </ul>
 </div>
 
 <div class="mainWrapper">
     <div class="mainWrapperWrapper">
         <div id="name">Bershka Short Bomber Jacket With Fur Hood In Khaki</div>
-        <div id="price">€47.70</div>
+        <div id="price">Current Price: €47.70</div>
     </div>
     <div class="mainWrapperWrapper">
         <div id="selectSize"> Select Your Size:
             <div class="styled-select">
                 <select>
                     <option>Select Size</option>
+                    <option>X - Small</option>
                     <option>Small</option>
                     <option>Medium</option>
                     <option>Large</option>
+                    <option>X - Large</option>
                 </select>
             </div>
+            <button id="next"> Next </button>
         </div>
-        <div id="priceHistory">Price History</div>
+        <div id="priceHistory">Price History:
+                <img src="graph.png" style="width: 400px; float: right">
+        </div>
     </div>
 </div>
 </body>
