@@ -65,10 +65,8 @@ const scrapeSingleData = async (page) => {
 
         return {
             link: page,
-            description: {
-                name : name,
-                sizes : options
-            },
+            name : name,
+            sizes : options,
             prices: [
                 {
                     date: date,

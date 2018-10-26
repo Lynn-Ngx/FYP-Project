@@ -33,11 +33,9 @@ const getSingleName = async (page) => {
 const getSingleSizes = async (page) => {
     return await page.evaluate(() => {
 
+        const name = document.querySelector('#aside-content > div.product-hero > h1').innerHTML
         const selectorDiv = document.querySelector('#product-size > section > div > div.size-section > div.colour-size-select > select')
         const options = []
-
-
-        const name = document.querySelector('#aside-content > div.product-hero > h1').innerHTML
 
         /**
          *  Asos can return something like
@@ -57,12 +55,10 @@ const getSingleSizes = async (page) => {
                 optionSplit[i] = optionSplit[i].replace(/\s/g, '')
             }
 
-
             if (optionSplit[optionSplit.length - 1] === 'Notavailable') options.push( optionSplit[0] + ' - Notavailable')
 
             else options.push(optionSplit[0])
         }
-
         return {
             name : name,
             sizes : options
@@ -77,7 +73,6 @@ const getMultiName = async(page) => {
         for (let i = 0; i < document.getElementsByClassName("product-title").length; i++){
             names.push(document.getElementsByClassName("product-title")[i].innerHTML)
         }
-
         return names
     })
 }
@@ -113,12 +108,9 @@ const getMultiSizes = async(page) => {
                     if (optionSplit[optionSplit.length - 1] === 'Notavailable') itemObj.sizes.push( optionSplit[0] + ' - ' + optionSplit[optionSplit.length - 1])
                     else itemObj.sizes.push(optionSplit[0])
                 }
-
                 item.push(itemObj)
             }
-
         }
-
         return item
     })
 }
@@ -126,13 +118,9 @@ const getMultiSizes = async(page) => {
 const isPageSingleViewLayout = async(page) => {
     return await page.evaluate(() => {
 
-        if(!document.getElementById('mix-and-match')) {
-            return true
-        }
+        if(!document.getElementById('mix-and-match')) return true
 
-        else {
-            return false
-        }
+        else return false
     })
 }
 
@@ -152,8 +140,6 @@ const isItemAvailable = async(link, testName, testSize) => {
     //         return true
     // }
 
-
-
     for(let item of items) {
         //const name = item.name
         const size = item.sizes
@@ -169,21 +155,11 @@ const isItemAvailable = async(link, testName, testSize) => {
                     break
                 }
 
-                else {
-                    console.log('is available')
-                }
-
-
+                else console.log('is available')
             }
-
             break
-
-
         }
-
-
     }
-
     // const  a = []
     // for(let i in item.sizes){
     //     if(item.sizes[i].includes("notavailable")){
@@ -195,8 +171,6 @@ const isItemAvailable = async(link, testName, testSize) => {
     // }
 }
 
-
-
 const getItemDetail = async(link) => {
     const browserObject = await launchBrowser(link);
     let name
@@ -207,7 +181,6 @@ const getItemDetail = async(link) => {
     //      name = await getSingleName(browserObject.page)
     // sizeOption = await getSingleSizes(browserObject.page)
     //  }
-    //
     //  else{
     //      name = await getMultiName(browserObject.page)
     sizeOption = await getMultiSizes(browserObject.page)
@@ -217,18 +190,12 @@ const getItemDetail = async(link) => {
     //      name : name,
     //      sizes : sizeOption
     //  }
-
     return sizeOption
-
 };
 
 (async () => {
     //const details = await getItemDetail('http://www.asos.com/emme/emme-finto-double-breasted-blazer-skinny-trousers-co-ord/grp/21135?clr=bordeaux&SearchQuery=&cid=27108&gridcolumn=4&gridrow=1&gridsize=4&pge=1&pgesize=72&totalstyles=3502')
-
     //const details = await getItemDetail('http://m.asos.com/bershka/bershka-short-bomber-jacket-with-fur-hood-in-khaki/prd/8936877')
-
     //const item = await isItemAvailable('http://m.asos.com/bershka/bershka-short-bomber-jacket-with-fur-hood-in-khaki/prd/8936877', 'Bershka Short Bomber Jacket With Fur Hood In Khaki', '2XL')
-
     const item = await isItemAvailable('https://www.asos.com/french-connection/french-connection-whisper-ruth-fitted-blazer-trouser-suit/grp/20969?clr=black&SearchQuery=blazer%20%26%20skinny%20trousers&gridcolumn=2&gridrow=1&gridsize=4&pge=1&pgesize=72&totalstyles=10', 'French Connection Whisper Ruth Fitted Blazer', 'UK4')
-
 })()
