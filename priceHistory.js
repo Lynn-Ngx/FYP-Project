@@ -27,12 +27,9 @@ const scrapeLinks = () => {
     return links
 }
 
-console.log(scrapeLinks())
-
 const findNumberOfPages = () => {
     all = parseInt(document.querySelector('#plp > div > div._3JNRYc8 > div > p').innerText.split(" ")[0].replace(/,/g, ''))
     return Math.ceil(all/72)
-
 }
 
 const scrapeWomenData = () => {
