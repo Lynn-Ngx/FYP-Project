@@ -1,22 +1,11 @@
 var puppeteer = require('puppeteer');
 
-const getDate = () =>{
-    let today = new Date();
-    let dd = today.getDate();
-    let mm = today.getMonth()+1; //January is 0!
-    let yyyy = today.getFullYear();
 
-    if(dd<10) {
-        dd = '0'+dd
-    }
-
-    if(mm<10) {
-        mm = '0'+mm
-    }
-
-    today = mm + '/' + dd + '/' + yyyy;
-    return today
-}
+// const getPrices = async (page) => {
+//     return await page.evaluate(() => {
+//         return document.querySelector('#product-price > div > span.current-price').innerHTML
+//     })
+// }
 
 const launchBrowser = async (link) => {
     const browser = await puppeteer.launch({headless:false}) //headless so it shows browser
@@ -34,8 +23,27 @@ const launchBrowser = async (link) => {
 const scrapeSingleData = async (page) => {
     return await page.evaluate(() => {
 
+        const getDate = () =>{
+            let today = new Date();
+            let dd = today.getDate();
+            let mm = today.getMonth()+1; //January is 0!
+            let yyyy = today.getFullYear();
+
+            if(dd<10) {
+                dd = '0'+dd
+            }
+
+            if(mm<10) {
+                mm = '0'+mm
+            }
+
+            today = mm + '/' + dd + '/' + yyyy;
+            return today
+        }
+
+
         const name = document.querySelector('#aside-content > div.product-hero > h1').innerHTML
-        const price = getPrices()
+        const price = document.querySelector('#product-price > div > span.current-price').innerHTML
         const date = getDate()
         const selectorDiv = document.querySelector('#product-size > section > div > div.size-section > div.colour-size-select > select')
         const options = []
@@ -64,7 +72,7 @@ const scrapeSingleData = async (page) => {
         }
 
         return {
-            link: page,
+            //link: page,
             name : name,
             sizes : options,
             prices: [
@@ -77,11 +85,6 @@ const scrapeSingleData = async (page) => {
     })
 }
 
-const getPrices = async (page) => {
-    return await page.evaluate(() => {
-        return document.querySelector('#product-price > div > span.current-price').innerHTML
-    })
-}
 
 const getItemDetail = async(link) => {
     const browserObject = await launchBrowser(link);
@@ -92,6 +95,6 @@ const getItemDetail = async(link) => {
 };
 
 (async () => {
-    const item = await getItemDetail('http://m.asos.com/bershka/bershka-short-bomber-jacket-with-fur-hood-in-khaki/prd/8936877')
+    const item = await getItemDetail('https://www.asos.com/asos-white/asos-white-plus-oversized-shirt-in-grey-stripe/prd/10898742?clr=grey&SearchQuery=&cid=28295&gridcolumn=3&gridrow=1&gridsize=4&pge=1&pgesize=72&totalstyles=44')
     console.log(item)
 })()
