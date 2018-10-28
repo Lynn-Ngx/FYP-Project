@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 var Schema = mongoose.Schema;
 
-
 const priceSchema = new Schema({
     date: String,
     price: String
