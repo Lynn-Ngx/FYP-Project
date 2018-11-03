@@ -3,10 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="4096c04a-c84d-4432-b159-de45da4068b6" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/links.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/links.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cheerio.js" beforeDir="false" afterPath="$PROJECT_DIR$/cheerio.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/items.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/items.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/links.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scrapeLinks.js" beforeDir="false" afterPath="$PROJECT_DIR$/scrapeLinks.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -23,17 +23,17 @@
       <file leaf-file-name="scrapeData.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scrapeData.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1260">
-              <caret line="84" column="6" selection-start-line="23" selection-start-column="4" selection-end-line="84" selection-end-column="6" />
+            <state relative-caret-position="1365">
+              <caret line="91" selection-start-line="91" selection-end-line="91" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="scrapeLinks.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scrapeLinks.js">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="349">
-              <caret line="104" column="4" selection-start-line="104" selection-start-column="4" selection-end-line="104" selection-end-column="4" />
+            <state relative-caret-position="15">
+              <caret line="1" column="6" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -41,8 +41,8 @@
       <file leaf-file-name="cheerio.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cheerio.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="349">
-              <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+            <state relative-caret-position="315">
+              <caret line="21" column="3" selection-start-line="21" selection-start-column="3" selection-end-line="21" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -56,11 +56,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="links.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/links.js">
+      <file leaf-file-name="scrapeLinks.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scrapeLinks.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" selection-start-line="15" selection-end-line="15" />
+            <state relative-caret-position="180">
+              <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="links.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/links.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" selection-start-line="2" selection-end-line="2" />
             </state>
           </provider>
         </entry>
@@ -72,6 +81,11 @@
               <caret line="13" column="2" selection-start-line="13" selection-start-column="2" selection-end-line="13" selection-end-column="2" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="prices.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/prices.js">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="database.js" pinned="false" current-in-tab="false">
@@ -115,11 +129,11 @@
         <option value="$PROJECT_DIR$/checkAvailability.js" />
         <option value="$PROJECT_DIR$/database.js" />
         <option value="$PROJECT_DIR$/scrapeData.js" />
-        <option value="$PROJECT_DIR$/links.js" />
         <option value="$PROJECT_DIR$/models/items.js" />
-        <option value="$PROJECT_DIR$/scrapeItems.js" />
         <option value="$PROJECT_DIR$/scrapeLinks.js" />
+        <option value="$PROJECT_DIR$/links.js" />
         <option value="$PROJECT_DIR$/cheerio.js" />
+        <option value="$PROJECT_DIR$/scrapeItems.js" />
       </list>
     </option>
   </component>
@@ -131,35 +145,85 @@
   </component>
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths>
+      <path value="$PROJECT_DIR$/node_modules/@types/node/package.json" />
       <path value="$PROJECT_DIR$/node_modules/agent-base/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/ajv/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/ansi-regex/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/asn1/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/assert-plus/package.json" />
       <path value="$PROJECT_DIR$/node_modules/async-limiter/package.json" />
       <path value="$PROJECT_DIR$/node_modules/async/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/asynckit/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/aws-sign2/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/aws4/package.json" />
       <path value="$PROJECT_DIR$/node_modules/balanced-match/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/bcrypt-pbkdf/package.json" />
       <path value="$PROJECT_DIR$/node_modules/bluebird/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/boolbase/package.json" />
       <path value="$PROJECT_DIR$/node_modules/brace-expansion/package.json" />
       <path value="$PROJECT_DIR$/node_modules/bson/browser_build/package.json" />
       <path value="$PROJECT_DIR$/node_modules/bson/package.json" />
       <path value="$PROJECT_DIR$/node_modules/buffer-from/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/caseless/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/cheerio/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/cli-progress/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/co/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/colors/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/combined-stream/package.json" />
       <path value="$PROJECT_DIR$/node_modules/concat-map/package.json" />
       <path value="$PROJECT_DIR$/node_modules/concat-stream/package.json" />
       <path value="$PROJECT_DIR$/node_modules/core-util-is/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/css-select/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/css-what/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/dashdash/package.json" />
       <path value="$PROJECT_DIR$/node_modules/debug/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/delayed-stream/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/dom-serializer/node_modules/domelementtype/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/dom-serializer/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/domelementtype/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/domhandler/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/domutils/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/ecc-jsbn/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/entities/package.json" />
       <path value="$PROJECT_DIR$/node_modules/es6-promise/package.json" />
       <path value="$PROJECT_DIR$/node_modules/es6-promisify/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/extend/package.json" />
       <path value="$PROJECT_DIR$/node_modules/extract-zip/node_modules/debug/package.json" />
       <path value="$PROJECT_DIR$/node_modules/extract-zip/node_modules/ms/package.json" />
       <path value="$PROJECT_DIR$/node_modules/extract-zip/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/extsprintf/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/fast-deep-equal/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/fast-json-stable-stringify/package.json" />
       <path value="$PROJECT_DIR$/node_modules/fd-slicer/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/forever-agent/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/form-data/package.json" />
       <path value="$PROJECT_DIR$/node_modules/fs.realpath/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/getpass/package.json" />
       <path value="$PROJECT_DIR$/node_modules/glob/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/har-schema/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/har-validator/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/htmlparser2/node_modules/domelementtype/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/htmlparser2/node_modules/readable-stream/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/htmlparser2/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/http-signature/package.json" />
       <path value="$PROJECT_DIR$/node_modules/https-proxy-agent/package.json" />
       <path value="$PROJECT_DIR$/node_modules/inflight/package.json" />
       <path value="$PROJECT_DIR$/node_modules/inherits/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/is-fullwidth-code-point/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/is-typedarray/package.json" />
       <path value="$PROJECT_DIR$/node_modules/isarray/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/isstream/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/jsbn/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/json-schema-traverse/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/json-schema/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/json-stringify-safe/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/jsprim/package.json" />
       <path value="$PROJECT_DIR$/node_modules/kareem/package.json" />
       <path value="$PROJECT_DIR$/node_modules/lodash.get/package.json" />
       <path value="$PROJECT_DIR$/node_modules/lodash/package.json" />
       <path value="$PROJECT_DIR$/node_modules/memory-pager/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/mime-db/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/mime-types/package.json" />
       <path value="$PROJECT_DIR$/node_modules/mime/package.json" />
       <path value="$PROJECT_DIR$/node_modules/minimatch/package.json" />
       <path value="$PROJECT_DIR$/node_modules/minimist/package.json" />
@@ -184,27 +248,44 @@
       <path value="$PROJECT_DIR$/node_modules/mquery/node_modules/ms/package.json" />
       <path value="$PROJECT_DIR$/node_modules/mquery/package.json" />
       <path value="$PROJECT_DIR$/node_modules/ms/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/nth-check/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/oauth-sign/package.json" />
       <path value="$PROJECT_DIR$/node_modules/once/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/parse5/package.json" />
       <path value="$PROJECT_DIR$/node_modules/path-is-absolute/package.json" />
       <path value="$PROJECT_DIR$/node_modules/pend/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/performance-now/package.json" />
       <path value="$PROJECT_DIR$/node_modules/process-nextick-args/package.json" />
       <path value="$PROJECT_DIR$/node_modules/progress/package.json" />
       <path value="$PROJECT_DIR$/node_modules/proxy-from-env/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/psl/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/punycode/package.json" />
       <path value="$PROJECT_DIR$/node_modules/puppeteer/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/qs/package.json" />
       <path value="$PROJECT_DIR$/node_modules/readable-stream/package.json" />
       <path value="$PROJECT_DIR$/node_modules/regexp-clone/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/request/package.json" />
       <path value="$PROJECT_DIR$/node_modules/require_optional/package.json" />
       <path value="$PROJECT_DIR$/node_modules/require_optional/test/nestedTest/package.json" />
       <path value="$PROJECT_DIR$/node_modules/resolve-from/package.json" />
       <path value="$PROJECT_DIR$/node_modules/rimraf/package.json" />
       <path value="$PROJECT_DIR$/node_modules/safe-buffer/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/safer-buffer/package.json" />
       <path value="$PROJECT_DIR$/node_modules/saslprep/package.json" />
       <path value="$PROJECT_DIR$/node_modules/semver/package.json" />
       <path value="$PROJECT_DIR$/node_modules/sliced/package.json" />
       <path value="$PROJECT_DIR$/node_modules/sparse-bitfield/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/sshpk/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/string-width/package.json" />
       <path value="$PROJECT_DIR$/node_modules/string_decoder/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/strip-ansi/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/tough-cookie/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/tunnel-agent/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/tweetnacl/package.json" />
       <path value="$PROJECT_DIR$/node_modules/typedarray/package.json" />
       <path value="$PROJECT_DIR$/node_modules/util-deprecate/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/uuid/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/verror/package.json" />
       <path value="$PROJECT_DIR$/node_modules/wrappy/package.json" />
       <path value="$PROJECT_DIR$/node_modules/ws/package.json" />
       <path value="$PROJECT_DIR$/node_modules/yauzl/package.json" />
@@ -230,11 +311,6 @@
               <item name="FYP-Project" type="b2602c69:ProjectViewProjectNode" />
               <item name="FYP-Project" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="FYP-Project" type="b2602c69:ProjectViewProjectNode" />
-              <item name="FYP-Project" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -249,11 +325,10 @@
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/models" />
+    <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -288,27 +363,25 @@
       <workItem from="1540633256956" duration="2268000" />
       <workItem from="1540753462720" duration="276000" />
       <workItem from="1540753840728" duration="740000" />
-      <workItem from="1540759294974" duration="167000" />
-      <workItem from="1540816153869" duration="3040000" />
-      <workItem from="1540900120351" duration="534000" />
-      <workItem from="1541171309817" duration="3949000" />
+      <workItem from="1541249865209" duration="88000" />
+      <workItem from="1541249995592" duration="253000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30002000" />
+    <option name="totallyTimeSpent" value="23777000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2494043" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2494043" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32965517" />
+      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32965517" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -327,6 +400,13 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/scrapeData.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="11" lean-forward="true" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/checkAvailability.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -558,13 +638,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="6" lean-forward="true" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -607,21 +680,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/links,js" />
-    <entry file="file://$PROJECT_DIR$/priceHistory.js">
+    <entry file="file://$PROJECT_DIR$/checkAvailability.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="33" selection-start-line="33" selection-end-line="33" />
+        <state relative-caret-position="135">
+          <caret line="9" column="2" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/prices.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/checkAvailability.js">
+    <entry file="file://$PROJECT_DIR$/priceHistory.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-635">
-          <caret line="9" column="2" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
+        <state relative-caret-position="285">
+          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
         </state>
       </provider>
     </entry>
@@ -632,24 +701,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scrapeData.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1260">
-          <caret line="84" column="6" selection-start-line="23" selection-start-column="4" selection-end-line="84" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/links.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/models/prices.js">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/models/items.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="13" column="2" selection-start-line="13" selection-start-column="2" selection-end-line="13" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scrapeLinks.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/links.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scrapeData.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1365">
+          <caret line="91" selection-start-line="91" selection-end-line="91" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="6" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
         </state>
       </provider>
     </entry>
@@ -660,17 +746,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scrapeLinks.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="104" column="4" selection-start-line="104" selection-start-column="4" selection-end-line="104" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cheerio.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+        <state relative-caret-position="315">
+          <caret line="21" column="3" selection-start-line="21" selection-start-column="3" selection-end-line="21" selection-end-column="3" />
         </state>
       </provider>
     </entry>

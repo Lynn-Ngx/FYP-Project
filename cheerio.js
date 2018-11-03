@@ -21,4 +21,3 @@ request(url, function (error, response, body) {
         console.log("We’ve encountered an error: " + error);
     }
 });
-
