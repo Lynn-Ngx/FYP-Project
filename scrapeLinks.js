@@ -84,8 +84,8 @@ const scrapeLinks = async () => {
 };
 
 (async () => {
-    const linksToAdd = await scrapeLinks()
     await connectToLocalDB()
+    const linksToAdd = await scrapeLinks()
 
     const website = 'Asos'
     const doc = await linksSchema.findOne({name: website})
