@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 const priceSchema = new Schema({
     date: String,
@@ -13,7 +13,7 @@ const itemSchema = new Schema({
     prices: [priceSchema]
 })
 
-var Items = mongoose.model('Items', itemSchema);
+const items = mongoose.model('Items', itemSchema);
 
-module.exports = Items
+module.exports = items
 

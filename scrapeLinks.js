@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const mongoose = require('mongoose');
-const linksSchema = require('./links')
+const linksSchema = require('./models/links');
+const _cliProgress = require('cli-progress');
 
 const connectToLocalDB = () => {
     return new Promise(resolve => {
@@ -38,40 +39,55 @@ const scrapeLinks = async () => {
 
         console.log(numberOfPagesInSearch)
 
+        const bar1 = new _cliProgress.Bar({}, _cliProgress.Presets.shades_classic);
+        bar1.start(numberOfPagesInSearch, 0);
 
-        for (let i = 1; i <= 3; i++){
+
+        //481 but they didnt all store to db, only like 7 pages stored to db
+        for (let i = 1; i <= numberOfPagesInSearch; i++){
+
+            bar1.update(i);
+
 
             page.goto(link.replace('PAGENUMBER', i))
             await page.waitForSelector('#plp > div > div._3JNRYc8 > div > div._3-pEc3l > section')
             await page.waitForSelector('#plp > div > div._3JNRYc8 > div > div._3-pEc3l > section > div')
 
-            const links = await page.evaluate(() => {
-                const links = []
-                for (let i = 1; i < document.querySelector('#plp > div > div._3JNRYc8 > div > div._3-pEc3l > section').children.length; i++) {
-                    links.push(document.querySelector('#plp > div > div._3JNRYc8 > div > div._3-pEc3l > section > article:nth-child(' + i + ') > a').href)
-                }
+            try {
 
-                for (let i = 1; i < document.querySelector('#plp > div > div._3JNRYc8 > div > div._3-pEc3l > section > div').children.length + 1; i++) {
-                    links.push(document.querySelector('#plp > div > div._3JNRYc8 > div > div._3-pEc3l > section > div > article:nth-child(' + i + ') > a').href)
-                }
+                const links = await page.evaluate(() => {
+                    const links = []
+                    for (let i = 1; i < document.querySelector('#plp > div > div._3JNRYc8 > div > div._3-pEc3l > section').children.length; i++) {
+                        if (document.querySelector('#plp > div > div._3JNRYc8 > div > div._3-pEc3l > section > article:nth-child(' + i + ') > a')){
+                            links.push(document.querySelector('#plp > div > div._3JNRYc8 > div > div._3-pEc3l > section > article:nth-child(' + i + ') > a').href)
+                        }
+                    }
 
-                return links
-            })
+                    for (let i = 1; i < document.querySelector('#plp > div > div._3JNRYc8 > div > div._3-pEc3l > section > div').children.length + 1; i++) {
+                        if (document.querySelector('#plp > div > div._3JNRYc8 > div > div._3-pEc3l > section > div > article:nth-child(' + i + ') > a')){
+                            links.push(document.querySelector('#plp > div > div._3JNRYc8 > div > div._3-pEc3l > section > div > article:nth-child(' + i + ') > a').href)
+                        }
+                    }
 
-            allLinks = allLinks.concat(links)
+                    return links
+                })
 
+                allLinks = allLinks.concat(links)
+
+            }catch(err){
+                console.log('Error at page i: ', i , err)
+            }
         }
     }
 
     return allLinks
 };
 
-
 (async () => {
     const linksToAdd = await scrapeLinks()
     await connectToLocalDB()
 
-    const website = 'asos'
+    const website = 'Asos'
     const doc = await linksSchema.findOne({name: website})
 
 
@@ -86,5 +102,5 @@ const scrapeLinks = async () => {
 
         await newLinksDB.save()
     }
-
+    
 })()
