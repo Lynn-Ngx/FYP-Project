@@ -47,3 +47,17 @@ request('https://www.asos.com/search/?q=women', (error, response, html) => {
         console.log('Scraping done...')
     }else console.log(error)
 })
+
+(async () => {
+
+    for (let i =0; i < 500; i++){
+        await new Promise(resolve => {
+            setTimeout(() => {
+                resolve()
+            }, 300)
+        })
+        window.scrollBy(0, 100)
+
+    }
+
+})()

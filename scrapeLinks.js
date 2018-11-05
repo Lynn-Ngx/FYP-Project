@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const mongoose = require('mongoose');
 const linksSchema = require('./models/links');
 const _cliProgress = require('cli-progress');
+const fs = require('fs')
 
 const connectToLocalDB = () => {
     return new Promise(resolve => {
@@ -22,7 +23,7 @@ const scrapeLinks = async () => {
     let allLinks = []
 
     //predetermined links that we want to scrape
-    const hardLinks = ['https://www.asos.com/search/?page=PAGENUMBER&q=women', 'https://www.asos.com/search/?page=PAGENUMBER&q=men']
+    const hardLinks = ['https://www.asos.com/search/?page=PAGENUMBER&q=Women', "https://www.asos.com/search/?page=PAGENUMBER&q=Men"]
 
     for (const link of hardLinks){
         await page.goto(link.replace('PAGENUMBER', '1'))
@@ -48,12 +49,11 @@ const scrapeLinks = async () => {
 
             bar1.update(i);
 
-
-            page.goto(link.replace('PAGENUMBER', i))
-            await page.waitForSelector('#plp > div > div._3JNRYc8 > div > div._3-pEc3l > section')
-            await page.waitForSelector('#plp > div > div._3JNRYc8 > div > div._3-pEc3l > section > div')
-
             try {
+
+                page.goto(link.replace('PAGENUMBER', i))
+                await page.waitForSelector('#plp > div > div._3JNRYc8 > div > div._3-pEc3l > section')
+                await page.waitForSelector('#plp > div > div._3JNRYc8 > div > div._3-pEc3l > section > div')
 
                 const links = await page.evaluate(() => {
                     const links = []
@@ -84,23 +84,38 @@ const scrapeLinks = async () => {
 };
 
 (async () => {
-    await connectToLocalDB()
+    // await connectToLocalDB()
     const linksToAdd = await scrapeLinks()
 
-    const website = 'Asos'
-    const doc = await linksSchema.findOne({name: website})
+    //const website = 'Asos'
+    // const doc = await linksSchema.findOne({name: website})
+
+    // exportToFile('AsosLinks', linksToAdd)
 
 
-    if (doc){
-        await linksSchema.findOneAndUpdate({name: website}, {$addToSet: {links: linksToAdd}})
+    require('fs').writeFile(
 
-    }else {
-        const newLinksDB = await linksSchema({
-            name: website,
-            links: linksToAdd
-        })
+        './data/asosLinks.json',
 
-        await newLinksDB.save()
-    }
-    
+        JSON.stringify(linksToAdd),
+
+        function (err) {
+            if (err) {
+                console.error('Crap happens');
+            }
+        }
+    );
+
+    // if (doc){
+    //     await linksSchema.findOneAndUpdate({name: website}, {$addToSet: {links: linksToAdd}})
+    //
+    // }else {
+    //     const newLinksDB = await linksSchema({
+    //         name: website,
+    //         links: linksToAdd
+    //     })
+    //
+    //     await newLinksDB.save()
+    // }
+
 })()
