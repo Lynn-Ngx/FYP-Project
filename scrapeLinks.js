@@ -23,7 +23,7 @@ const scrapeLinks = async () => {
     let allLinks = []
 
     //predetermined links that we want to scrape
-    const hardLinks = ['https://www.asos.com/search/?page=PAGENUMBER&q=Women', "https://www.asos.com/search/?page=PAGENUMBER&q=Men"]
+    const hardLinks = ["https://www.asos.com/search/?page=PAGENUMBER&q=Women"]
 
     for (const link of hardLinks){
         await page.goto(link.replace('PAGENUMBER', '1'))
@@ -95,7 +95,7 @@ const scrapeLinks = async () => {
 
     require('fs').writeFile(
 
-        './data/asosLinks.json',
+        './data/asosWomensLinks.json',
 
         JSON.stringify(linksToAdd),
 
