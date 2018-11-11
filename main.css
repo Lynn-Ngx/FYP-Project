@@ -8,6 +8,16 @@
     top: 40%;
 }
 
+#mainWrapper{
+//background-color: mistyrose;
+    background-color: #FFFFBD;
+    position: absolute;
+    width: 500px;
+    height: 50px;
+    left: 27%;
+    top: 50%;
+}
+
 .link{
     height: 70%;
     margin: 5px;
@@ -53,12 +63,12 @@
 }
 
 .mainWrapperWrapper{
-    background-color: #FDFD96;
+    background-color: #FFFFBD;
     width: 100%;
 }
 
 #name{
-    background-color: #FDFD96;
+    background-color: #FFFFBD;
     display: inline-block;
     width: 65%;
     font-size: x-large;
@@ -67,15 +77,15 @@
 }
 
 #price{
-    background-color: #FDFD96;
+    background-color: #FFFFBD;
     display: inline-block;
     width: 25%;
     font-size: x-large;
-    margin: 20px;
 }
 
 #selectSize{
-    background-color: #FDFD96;
+    /*background-color: #FDFD96;*/
+    background-color: #FFFFBD;
     display: inline-block;
     width: 40%;
     height: 400px;
@@ -84,7 +94,7 @@
 }
 
 #priceHistory{
-    background-color: #FDFD96;
+    background-color: #FFFFBD;
     display: inline-block;
     width: 40%;
     height: 400px;
@@ -93,7 +103,7 @@
 }
 
 .styled-select{
-    background-color: #FDFD96;
+    background-color: #FFFFBD;
     width: 270px;
     border: lightgray 1px solid;
     margin: 20px;
@@ -113,8 +123,8 @@
     background-color: transparent;
     width: 100px;
     height: 30px;
-    right:    75%;
-    bottom:   20%;
+    right: 78%;
+    bottom: 40%;
     border-radius: 10px;
 }
 
