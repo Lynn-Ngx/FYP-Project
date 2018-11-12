@@ -1,15 +1,5 @@
 var puppeteer = require('puppeteer');
 
-// Const run = function(){
-//
-// }
-// run()
-// Making a function then calling it afterwards
-
-// Const run = async function(){
-//
-// }
-// To make it async
 
 const launchBrowser = async (link) => {
     const browser = await puppeteer.launch({headless:false}) //headless so it shows browser
@@ -155,7 +145,10 @@ const isItemAvailable = async(link, testName, testSize) => {
                     break
                 }
 
-                else console.log('is available')
+                else {
+                    console.log('is available')
+                    break
+                }
             }
             break
         }
@@ -197,5 +190,7 @@ const getItemDetail = async(link) => {
     //const details = await getItemDetail('http://www.asos.com/emme/emme-finto-double-breasted-blazer-skinny-trousers-co-ord/grp/21135?clr=bordeaux&SearchQuery=&cid=27108&gridcolumn=4&gridrow=1&gridsize=4&pge=1&pgesize=72&totalstyles=3502')
     //const details = await getItemDetail('http://m.asos.com/bershka/bershka-short-bomber-jacket-with-fur-hood-in-khaki/prd/8936877')
     //const item = await isItemAvailable('http://m.asos.com/bershka/bershka-short-bomber-jacket-with-fur-hood-in-khaki/prd/8936877', 'Bershka Short Bomber Jacket With Fur Hood In Khaki', '2XL')
-    const item = await isItemAvailable('https://www.asos.com/french-connection/french-connection-whisper-ruth-fitted-blazer-trouser-suit/grp/20969?clr=black&SearchQuery=blazer%20%26%20skinny%20trousers&gridcolumn=2&gridrow=1&gridsize=4&pge=1&pgesize=72&totalstyles=10', 'French Connection Whisper Ruth Fitted Blazer', 'UK4')
+    // const item = await isItemAvailable('https://www.asos.com/french-connection/french-connection-whisper-ruth-fitted-blazer-trouser-suit/grp/20969?clr=black&SearchQuery=blazer%20%26%20skinny%20trousers&gridcolumn=2&gridrow=1&gridsize=4&pge=1&pgesize=72&totalstyles=10', 'French Connection Whisper Ruth Fitted Blazer', 'UK6')
 })()
+
+module.exports = isItemAvailable()
