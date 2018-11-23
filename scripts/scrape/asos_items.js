@@ -7,7 +7,8 @@ const scrapeItems = async () => {
     //read in items links to scrape
     const links = [
         'https://www.asos.com/french-connection/french-connection-whisper-ruth-fitted-blazer-trouser-suit/grp/20969?clr=black&SearchQuery=blazer%20%26%20skinny%20trousers&gridcolumn=2&gridrow=1&gridsize=4&pge=1&pgesize=72&totalstyles=10',
-        'https://www.asos.com/french-connection/french-connection-whisper-ruth-fitted-blazer-trouser-suit/grp/20969?clr=black&SearchQuery=blazer%20%26%20skinny%20trousers&gridcolumn=2&gridrow=1&gridsize=4&pge=1&pgesize=72&totalstyles=10'
+        'https://www.asos.com/french-connection/french-connection-whisper-ruth-fitted-blazer-trouser-suit/grp/20969?clr=black&SearchQuery=blazer%20%26%20skinny%20trousers&gridcolumn=2&gridrow=1&gridsize=4&pge=1&pgesize=72&totalstyles=10',
+        // 'https://www.asos.com/le-mini-macaron/le-mini-macaron-gel-polish-sweet-olive/prd/10253147?clr=sweet-olive&SearchQuery=Men&gridcolumn=2&gridrow=9&gridsize=3&pge=227&pgesize=72&totalstyles=49927'
     ]
 
     //scrape details of the item link
