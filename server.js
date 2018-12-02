@@ -5,6 +5,7 @@ const user = require('./models/users')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 // const prices = require('./models/prices')
+const cron_test = require('./cron_test')
 
 const connect = () => {
     return new Promise(resolve => {
@@ -17,7 +18,6 @@ const connect = () => {
         });
     })
 }
-
 
 
 

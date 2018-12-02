@@ -8,7 +8,7 @@ class App extends Component {
     return (
         <div>
             <SignUpPage path={'/signup'}/>
-          <SignIn path={'/signin'}/>
+             <SignIn path={'/signin'}/>
         </div>
     );
   }

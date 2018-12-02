@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-const sendMail = (subject, message, attachment) => {
+const sendMail = (subject, message, attachment, to) => {
     let transporter = nodemailer.createTransport({
         service: 'gmail',
         secure: false,
@@ -16,7 +16,7 @@ const sendMail = (subject, message, attachment) => {
 
     let HelperOptions = {
         from: '"FYP" <lynn.ngx@gmail.com',
-        to: 'lynn.ngx@gmail.com',
+        to: to,
         subject: subject,
         text: message,
         attachments: attachment
