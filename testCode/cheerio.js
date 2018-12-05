@@ -1,5 +1,5 @@
 var request = require('request');
-var cheerio = require('cheerio');
+var cheerio = require('testCode/cheerio');
 
 var url = "http://wikipedia.org";
 

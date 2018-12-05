@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const items = require('./models/items')
+const items = require('../models/items')
 // const prices = require('./models/prices')
 
 const connect = () => {

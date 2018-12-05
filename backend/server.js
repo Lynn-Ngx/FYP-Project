@@ -1,11 +1,11 @@
 var express = require('express')
 const path = require('path');
 // const database = require('./database')
-const user = require('./models/users')
+const user = require('../models/users')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 // const prices = require('./models/prices')
-const cron_test = require('./cron_test')
+const cron_test = require('../mail/cron_test')
 
 const connect = () => {
     return new Promise(resolve => {

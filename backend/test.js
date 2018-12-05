@@ -1,5 +1,5 @@
-const check_asos = require('./scripts/checkItemAvailability/checkAvailability_asos.js')
-const mail = require('./mail')
+const check_asos = require('../scripts/checkItemAvailability/checkAvailability_asos.js')
+const mail = require('../mail/mail')
 const items = [
     {
         link:'https://www.asos.com/french-connection/french-connection-whisper-ruth-fitted-blazer-trouser-suit/grp/20969?clr=black&SearchQuery=blazer%20%26%20skinny%20trousers&gridcolumn=2&gridrow=1&gridsize=4&pge=1&pgesize=72&totalstyles=10',
