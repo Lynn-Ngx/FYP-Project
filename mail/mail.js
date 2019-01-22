@@ -6,8 +6,8 @@ const sendMail = (subject, message, attachment, to) => {
         secure: false,
         port: 25,
         auth: {
-            user: 'lynn.ngx@gmail.com',
-            pass: ''
+            user: 'shopaholicsystem@gmail.com',
+            pass: 'FYPC15426672'
         },
         tls: {
             rejectUnauthorized: false
@@ -15,7 +15,7 @@ const sendMail = (subject, message, attachment, to) => {
     });
 
     let HelperOptions = {
-        from: '"FYP" <lynn.ngx@gmail.com',
+        from: '"SHOPAHOLIC" <shopaholicsystem@gmail.com',
         to: to,
         subject: subject,
         text: message,
@@ -28,5 +28,7 @@ const sendMail = (subject, message, attachment, to) => {
         console.log("The message was sent!" + info)
     })
 }
+
+module.exports = sendMail
 
 

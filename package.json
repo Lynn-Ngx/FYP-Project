@@ -1,0 +1,28 @@
+{
+  "name": "fyp-project",
+  "version": "1.0.0",
+  "description": "npm i - install all libraries",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.3.16",
+    "node-schedule": "^1.3.1",
+    "nodemailer": "^4.7.0",
+    "path": "^0.12.7",
+    "puppeteer": "^1.11.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lynn-Ngx/FYP-Project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lynn-Ngx/FYP-Project/issues"
+  },
+  "homepage": "https://github.com/Lynn-Ngx/FYP-Project#readme"
+}

@@ -78,4 +78,29 @@ app.post('/api/signup', async (req, res) => {
         })
 })
 
+app.post('/api/signin', async (req, res) => {
+    const email = req.body.email
+    const password = req.body.password
+
+    const userExists = await user.findOne({email: email})
+    const passwordMatch = await user.findOne({password: password})
+
+    if (!userExists) {
+        res.status(200).send({
+            success: false,
+            message: 'User Does Not Exist'
+        })
+        return
+    }
+
+    if (!passwordMatch) {
+        res.status(200).send({
+            success: false,
+            message: 'Incorrect Password'
+        })
+        return
+    }
+})
+
+
 app.listen(4000)

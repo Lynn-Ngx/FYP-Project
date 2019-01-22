@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Segment } from 'semantic-ui-react'
-import { Button, Input, Message } from 'semantic-ui-react'
+import {Segment, Button, Input, Message } from 'semantic-ui-react'
 import axios from 'axios'
+import Navbar from './Navbar'
 
 
 class SignUp extends Component {
@@ -62,18 +62,21 @@ class SignUp extends Component {
     render() {
         const {errorMessage, name, email, password, confirmPassword} = this.state
         return (
-            <Segment raised style={{width: '300px', margin: '50px auto 0px auto'}}>
-                <h1>Sign Up</h1>
+            <div>
+                <Navbar/>
 
-                <div>
-                    <form  onSubmit={this.submitName}>
-                        <Input style={{width: '250px', marginBottom: '20px'}} type='text' name='name'  placeholder="Enter name" value={name}  onChange={this.inputChanged} />
-                        <Input style={{width: '250px', marginBottom: '20px'}} type='email' name='email'  placeholder="Enter email" value={email}  onChange={this.inputChanged} />
-                        <Input style={{width: '250px', marginBottom: '20px'}} type='password' name='password'  placeholder="Enter password" value={password}  onChange={this.inputChanged} />
-                        <Input style={{width: '250px', marginBottom: '20px'}} type='password' name="confirmPassword"  placeholder="Confirm password" value={confirmPassword}  onChange={this.inputChanged} />
-                        <Button primary style={{width: '250px'}} onClick={this.submitName}> Sign Up </Button>
-                    </form>
-                </div>
+                <Segment raised style={{width: '300px', margin: '100px auto 0px auto'}}>
+                    <h1>Sign Up</h1>
+
+                    <div>
+                        <form  onSubmit={this.submitName}>
+                            <Input style={{width: '250px', marginBottom: '20px'}} type='text' name='name'  placeholder="Enter name" value={name}  onChange={this.inputChanged} />
+                            <Input style={{width: '250px', marginBottom: '20px'}} type='email' name='email'  placeholder="Enter email" value={email}  onChange={this.inputChanged} />
+                            <Input style={{width: '250px', marginBottom: '20px'}} type='password' name='password'  placeholder="Enter password" value={password}  onChange={this.inputChanged} />
+                            <Input style={{width: '250px', marginBottom: '20px'}} type='password' name="confirmPassword"  placeholder="Confirm password" value={confirmPassword}  onChange={this.inputChanged} />
+                            <Button primary style={{width: '250px'}} onClick={this.submitName}> Sign Up </Button>
+                        </form>
+                    </div>
 
 
                     {
@@ -83,7 +86,8 @@ class SignUp extends Component {
                         </Message>
                     }
 
-            </Segment>
+                </Segment>
+            </div>
         );
     }
 }

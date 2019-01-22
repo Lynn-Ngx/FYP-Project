@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Segment } from 'semantic-ui-react'
-import { Button, Input, Message } from 'semantic-ui-react'
+import { Input, Message } from 'semantic-ui-react'
+import { Button, Divider, Form, Grid } from 'semantic-ui-react'
 import axios from 'axios'
+import Navbar from './Navbar.js'
+
 class SignIn extends Component {
 
     state = {
@@ -56,27 +59,53 @@ class SignIn extends Component {
 
     render() {
         const {errorMessage, email, password} = this.state
+
         return (
-            <Segment raised style={{width: '300px', margin: '50px auto 0px auto'}}>
-                <h1>Sign Up</h1>
+            <div>
 
-                <div>
-                    <form  onSubmit={this.submitName}>
-                        <Input style={{width: '250px', marginBottom: '20px'}} type='email' name='email'  placeholder="Enter email" value={email}  onChange={this.inputChanged} />
-                        <Input style={{width: '250px', marginBottom: '20px'}} type='password' name='password'  placeholder="Enter password" value={password}  onChange={this.inputChanged} />
-                        <Button primary style={{width: '250px'}} onClick={this.submitName}> Sign Up </Button>
-                    </form>
-                </div>
+                <Navbar/>
+
+                <Segment raised style={{width: '600px', margin: '150px auto 0px auto'}}>
+
+                    <h1>SIGN IN</h1>
+
+                    {/*<div>*/}
+                    {/*<form  onSubmit={this.submitName}>*/}
+                    {/*<Input style={{width: '250px', marginBottom: '20px'}} type='email' name='email'  placeholder="Enter email" value={email}  onChange={this.inputChanged} />*/}
+                    {/*<Input style={{width: '250px', marginBottom: '20px'}} type='password' name='password'  placeholder="Enter password" value={password}  onChange={this.inputChanged} />*/}
+                    {/*<Button primary style={{width: '250px'}} onClick={this.submitName}> Sign Up </Button>*/}
+                    {/*</form>*/}
+                    {/*</div>*/}
+
+                    <Grid columns={2} relaxed='very' stackable>
+                        <Grid.Column>
+                            <Form onSubmit={this.submitName}>
+                                <Form.Input icon='user' iconPosition='left' label='Username' placeholder='Username' value={email}  onChange={this.inputChanged}/>
+                                <Form.Input icon='lock' iconPosition='left' label='Password' type='password' placeholder="Enter password" value={password}  onChange={this.inputChanged}/>
+
+                                <Button primary style={{width: '250px'}} onClick={this.submitName}> Login </Button>
+                            </Form>
+                        </Grid.Column>
 
 
-                {
-                    (errorMessage !== '') &&
-                    <Message negative style={{width:'250px'}}>
-                        <p>{errorMessage}</p>
-                    </Message>
-                }
+                        <Grid.Column verticalAlign='middle'>
+                            <Button content='Sign up' icon='signup' size='big' style={{width: '250px'}}/>
+                        </Grid.Column>
+                    </Grid>
 
-            </Segment>
+                    <Divider vertical>Or</Divider>
+
+                    {
+                        (errorMessage !== '') &&
+                        <Message negative style={{width:'250px'}}>
+                            <p>{errorMessage}</p>
+                        </Message>
+                    }
+
+                </Segment>
+            </div>
+
+
         );
     }
 }

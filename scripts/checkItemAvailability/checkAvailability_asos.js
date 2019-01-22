@@ -2,7 +2,7 @@ var puppeteer = require('puppeteer');
 const helper = require('../helper')
 
 const getSingleSizes = async (page, checkAvailability) => {
-    return await page.evaluate(() => {
+    return await page.evaluate((checkAvailability) => {
 
         const name = document.querySelector('#aside-content > div.product-hero > h1').innerHTML
         const selectorDiv = document.querySelector('#product-size > section > div > div.size-section > div.colour-size-select > select')
@@ -36,7 +36,7 @@ const getSingleSizes = async (page, checkAvailability) => {
             name : name,
             sizes : options
         }
-    })
+    }, checkAvailability)
 }
 
 /**
@@ -102,7 +102,7 @@ const isItemAvailable = async(page, link, testName, testSize) => {
     const isSingleLayout = await isPageSingleViewLayout(page)
 
     if(isSingleLayout){
-        const item = await getSingleSizes(page, link)
+        const item = await getSingleSizes(page, true)
         const name = item.name
         const size = item.sizes
 
@@ -112,7 +112,7 @@ const isItemAvailable = async(page, link, testName, testSize) => {
             }
             else return true
         }
-    }else{
+    }else  {
         const items = await getMultiSizes(page, true)
         for(let item of items) {
             //const name = item.name
@@ -140,7 +140,7 @@ const getItemDetails = async(page, link) => {
     const isSingleLayout = await isPageSingleViewLayout(page)
 
     if(isSingleLayout){
-        return await getSingleSizes(page, link, false)
+        return await getSingleSizes(page, false)
 
     }else{
         return await getMultiSizes(page, false)

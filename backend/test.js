@@ -1,5 +1,6 @@
 const check_asos = require('../scripts/checkItemAvailability/checkAvailability_asos.js')
 const mail = require('../mail/mail')
+
 const items = [
     {
         link:'https://www.asos.com/french-connection/french-connection-whisper-ruth-fitted-blazer-trouser-suit/grp/20969?clr=black&SearchQuery=blazer%20%26%20skinny%20trousers&gridcolumn=2&gridrow=1&gridsize=4&pge=1&pgesize=72&totalstyles=10',
@@ -31,16 +32,16 @@ const items = [
     }
 ];
 
-const messageTemplate = 'Hey, the item ITEM_NAME at size ITEM_SIZE that you are watching is now available. \n' +
+const messageTemplate = 'Hey, \n\n The item ITEM_NAME at size ITEM_SIZE that you are watching is now available. \n\n' +
     'Item link: ITEM_LINK'
 
 
 check_asos.checkItems_asos(items).then(availableItems => {
-    console.log(availableItems)
 
-    for (const availableItem in availableItems){
-        //send an email
+    for (const availableItem of availableItems){
+
         const message = messageTemplate.replace('ITEM_NAME', availableItem.name).replace('ITEM_SIZE', availableItem.size).replace('ITEM_LINK', availableItem.link)
+
         mail('Asos item available', message, null, availableItem.user)
 
         //update database and remove the items that the user were notified about
@@ -48,6 +49,7 @@ check_asos.checkItems_asos(items).then(availableItems => {
         //will remove based on the id
     }
 })
+
 
 
 
