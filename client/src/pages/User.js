@@ -10,7 +10,7 @@ const DashboardHome = () => (
 
             <List.Item style={{margin: '30px'}}>
                 <List.Content floated='right'>
-                    <Button>Delete</Button>
+                    <Button style={{marginTop: '20px'}}>Delete</Button>
                 </List.Content>
                 <Image avatar src='https://react.semantic-ui.com/images/avatar/small/lena.png' />
                 <List.Content>
@@ -23,7 +23,7 @@ const DashboardHome = () => (
 
             <List.Item style={{margin: '30px'}}>
                 <List.Content floated='right'>
-                    <Button>Delete</Button>
+                    <Button style={{marginTop: '30px'}}>Delete</Button>
                 </List.Content>
                 <Image avatar src='https://react.semantic-ui.com/images/avatar/small/lindsay.png' />
                 <List.Content>
@@ -36,7 +36,7 @@ const DashboardHome = () => (
 
             <List.Item style={{margin: '30px'}}>
                 <List.Content floated='right'>
-                    <Button>Delete</Button>
+                    <Button style={{marginTop: '30px'}}>Delete</Button>
                 </List.Content>
                 <Image avatar src='https://react.semantic-ui.com/images/avatar/small/mark.png' />
                 <List.Content>
@@ -49,7 +49,7 @@ const DashboardHome = () => (
 
             <List.Item style={{margin: '30px'}}>
                 <List.Content floated='right'>
-                    <Button>Delete</Button>
+                    <Button style={{marginTop: '30px'}}>Delete</Button>
                 </List.Content>
                 <Image avatar src='https://react.semantic-ui.com/images/avatar/small/molly.png' />
                 <List.Content>
@@ -62,7 +62,7 @@ const DashboardHome = () => (
 
             <List.Item style={{margin: '30px'}}>
                 <List.Content floated='right'>
-                    <Button>Delete</Button>
+                    <Button style={{marginTop: '30px'}}>Delete</Button>
                 </List.Content>
                 <Image avatar src='https://react.semantic-ui.com/images/avatar/small/lena.png' />
                 <List.Content>
@@ -75,7 +75,7 @@ const DashboardHome = () => (
 
             <List.Item style={{margin: '30px'}}>
                 <List.Content floated='right'>
-                    <Button>Delete</Button>
+                    <Button style={{marginTop: '30px'}}>Delete</Button>
                 </List.Content>
                 <Image avatar src='https://react.semantic-ui.com/images/avatar/small/lindsay.png' />
                 <List.Content>

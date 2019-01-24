@@ -2,7 +2,7 @@ import React from 'react'
 import { Divider, Grid } from 'semantic-ui-react'
 import {Segment, Button, Form, Popup } from 'semantic-ui-react'
 import { Dropdown, Menu } from 'semantic-ui-react'
-import Navbar from './Navbar.js'
+import Navbar from './Header.js'
 
 const options = [
     { key: 's', text: 'Small', value: 1 },
@@ -12,8 +12,6 @@ const options = [
 
 const chooseSize = () => (
    <div>
-       <Navbar/>
-
        <Segment style={{margin: '50px', padding:'50px'}}>
 
            <Grid columns={2} relaxed='very'>

@@ -3,7 +3,7 @@ import { Segment } from 'semantic-ui-react'
 import { Input, Message } from 'semantic-ui-react'
 import { Button, Divider, Form, Grid } from 'semantic-ui-react'
 import axios from 'axios'
-import Navbar from './Navbar.js'
+import Navbar from './Header.js'
 
 class SignIn extends Component {
 
@@ -65,7 +65,7 @@ class SignIn extends Component {
 
                 <Navbar/>
 
-                <Segment raised style={{width: '600px', margin: '150px auto 0px auto'}}>
+                <Segment raised style={{width: '600px', margin: '120px auto 0px auto'}}>
 
                     <h1>SIGN IN</h1>
 

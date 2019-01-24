@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Segment, Button, Input, Message } from 'semantic-ui-react'
 import axios from 'axios'
-import Navbar from './Navbar'
+import Navbar from './Header'
 
 
 class SignUp extends Component {
