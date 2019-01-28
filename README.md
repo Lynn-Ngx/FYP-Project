@@ -16,7 +16,7 @@ Backend Directory
 
 Client
 - this is the react files 
-- Contains SignUp.js and SignIn.js for users to register and login
+- Contains Register.jsjs and Loginjs for users to register and login
 
 Data
 - The link to every single item in the ASOS website 

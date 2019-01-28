@@ -1,25 +1,36 @@
 import React, { Component } from 'react';
-import SignUpPage from './pages/SignUp'
-import SignIn from './pages/SignIn'
-import Home from './pages/Home'
-import DashboardHome from './pages/DashboardHome'
-import Recommend from './pages/Recommend'
-import SizeChoose from './pages/SizeChoose'
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
+import Root from "./pages/Root";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+
+import Choose from "./pages/ChooseSize";
+import User from "./pages/User";
+import Recommend from "./pages/Recommend";
 
 class App extends Component {
-  render() {
-    return (
-        <div>
-            {/*<SignUpPage path={'/signup'}/>*/}
-             {/*<SignIn path={'/signin'}/>*/}
-            {/*<Home path={'/home'}/>*/}
-            <SizeChoose path={'/SizeChoose'}/>
-            {/*<DashboardHome path={'/DashboardHome'}/>*/}
-            {/*<Recommend path={'/Recommend'}/>*/}
-        </div>
-    );
-  }
+    render() {
+        return (
+            <Router>
+                <div>
+                    <Root>
+                        <Switch>
+                            <Route exact path="/" component={Home} />
+                            <Route path="/home" component={Home} />
+                            <Route path="/login" component={Login} />
+                            <Route path="/register" component={Register} />
+                            <Route path="/chooseSize" component={Choose} />
+                            <Route path="/User" component={User} />
+                            <Route path="/Recommend" component={Recommend} />
+                        </Switch>
+                    </Root>
+
+                </div>
+            </Router>
+        )
+    }
 }
 
 export default App;

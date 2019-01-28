@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import {Segment, Button, Input, Message } from 'semantic-ui-react'
 import axios from 'axios'
-import Navbar from './Header'
 
-
-class SignUp extends Component {
+class Register extends Component {
 
     state = {
         name: '',
@@ -63,8 +61,6 @@ class SignUp extends Component {
         const {errorMessage, name, email, password, confirmPassword} = this.state
         return (
             <div>
-                <Navbar/>
-
                 <Segment raised style={{width: '300px', margin: '100px auto 0px auto'}}>
                     <h1>Sign Up</h1>
 
@@ -92,4 +88,4 @@ class SignUp extends Component {
     }
 }
 
-export default SignUp;
+export default Register;

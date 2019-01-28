@@ -1,10 +1,10 @@
 import React from 'react'
 import {Image, List } from 'semantic-ui-react'
-import DashboardNavbar from './DashboardNavbar'
+import UserHeader from './UserHeader'
 
 const DashboardHome = () => (
     <div>
-        <DashboardNavbar/>
+        <UserHeader/>
 
         <h2 style={{margin: '50px'}}> Because you liked... </h2>
 

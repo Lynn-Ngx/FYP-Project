@@ -1,10 +1,10 @@
 import React from 'react'
 import { Button, Image, List } from 'semantic-ui-react'
-import DashboardNavbar from './DashboardNavbar'
+import UserHeader from './UserHeader'
 
-const DashboardHome = () => (
+const User = () => (
     <div>
-        <DashboardNavbar/>
+        <UserHeader/>
 
         <List divided verticalAlign='middle' style={{margin: '50px'}}>
 
@@ -90,4 +90,4 @@ const DashboardHome = () => (
     </div>
 )
 
-export default DashboardHome
+export default User
