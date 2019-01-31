@@ -7,19 +7,26 @@ import {Link} from "react-router-dom";
 export default class HomePage extends Component {
     constructor(props) {
         super(props);
-        this.state = { link: '' };
+        this.state = { link: '', click: false };
 
         this.linkSubmitHandler = this.linkSubmitHandler.bind(this);
+        this.onInputChange = this.onInputChange.bind(this);
+
     }
 
     linkSubmitHandler(event) {
         event.preventDefault();
-        this.setState({ click: true, link: this.state.link });
+        this.setState({ click: true});
     }
 
     onSearch(){
         // history.push('./chooseSize')
     }
+
+    onInputChange(event) {
+        this.setState({link: event.target.value});
+    }
+
     render() {
         if (this.state.click) {
             return (
@@ -44,6 +51,8 @@ export default class HomePage extends Component {
                         icon='search'
                         iconPosition='left'
                         placeholder='Enter Link...'
+                        id="linkInput"
+                        onChange={this.onInputChange}
                     />
 
                     <Divider horizontal>Or</Divider>
@@ -55,7 +64,7 @@ export default class HomePage extends Component {
                                 <p>
                                     Upload an image to receive a recommendation
                                 </p>
-                                <Button>Attach</Button>
+                                <Button icon='add' content='Attach'/>
                             </Grid.Column>
                             <Grid.Column textAlign='center'>
                                 <Header as='h4'>Insert Link</Header>

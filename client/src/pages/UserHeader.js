@@ -24,6 +24,12 @@ export default class UserHeader extends Component {
                         as={Link} to='/recommend'
                         onClick={this.handleItemClick}
                     />
+                    <Menu.Item
+                        name='add item'
+                        active={activeItem === 'add item'}
+                        as={Link} to='/add'
+                        onClick={this.handleItemClick}
+                    />
                     <Menu.Menu position='right'>
                         <Menu.Item
                             name='logout'

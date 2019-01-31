@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 import Choose from "./pages/ChooseSize";
 import User from "./pages/User";
 import Recommend from "./pages/Recommend";
+import addItem from "./pages/AddItem"
 
 class App extends Component {
     render() {
@@ -22,8 +23,9 @@ class App extends Component {
                             <Route path="/login" component={Login} />
                             <Route path="/register" component={Register} />
                             <Route path="/chooseSize" component={Choose} />
-                            <Route path="/User" component={User} />
-                            <Route path="/Recommend" component={Recommend} />
+                            <Route path="/user" component={User} />
+                            <Route path="/recommend" component={Recommend} />
+                            <Route path="/add" component={addItem} />
                         </Switch>
                     </Root>
 

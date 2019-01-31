@@ -1,4 +1,4 @@
-const check_asos = require('../scripts/checkItemAvailability/checkAvailability_asos.js')
+const check_asos = require('../client/src/scripts/checkItemAvailability/checkAvailability_asos.js')
 const mail = require('../mail/mail')
 
 const items = [

@@ -5,6 +5,7 @@ const getSingleSizes = async (page, checkAvailability) => {
     return await page.evaluate((checkAvailability) => {
 
         const name = document.querySelector('#aside-content > div.product-hero > h1').innerHTML
+        const price = document.querySelector('#product-price > div > span.current-price').innerHTML
         const selectorDiv = document.querySelector('#product-size > section > div > div.size-section > div.colour-size-select > select')
         const options = []
 
@@ -34,6 +35,7 @@ const getSingleSizes = async (page, checkAvailability) => {
         }
         return {
             name : name,
+            price : price,
             sizes : options
         }
     }, checkAvailability)

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Segment } from 'semantic-ui-react'
-import { Input, Message } from 'semantic-ui-react'
+import { Message } from 'semantic-ui-react'
 import { Button, Divider, Form, Grid } from 'semantic-ui-react'
 import axios from 'axios'
 import {Link} from "react-router-dom";
@@ -80,8 +80,8 @@ class Login extends Component {
                                 {/*<Input style={{width: '250px', marginBottom: '20px'}} type='email' name='email'  placeholder="Enter email" value={email}  onChange={this.inputChanged} />*/}
                                 {/*<Input style={{width: '250px', marginBottom: '20px'}} type='password' name='password'  placeholder="Enter password" value={password}  onChange={this.inputChanged} />*/}
 
-                                <Form.Input icon='user' iconPosition='left' label='Username' placeholder='Username' value={email}  onChange={this.inputChanged}/>
-                                <Form.Input icon='lock' iconPosition='left' label='Password' type='password' placeholder="Enter password" value={password}  onChange={this.inputChanged}/>
+                                <Form.Input icon='user' iconPosition='left' name='email' placeholder='Username' value={email}  onChange={this.inputChanged}/>
+                                <Form.Input icon='lock' iconPosition='left' name='password' type='password' placeholder="Enter password" value={password}  onChange={this.inputChanged}/>
 
                                 <Button primary style={{width: '250px'}} onClick={this.submitName}> Login </Button>
                             </Form>

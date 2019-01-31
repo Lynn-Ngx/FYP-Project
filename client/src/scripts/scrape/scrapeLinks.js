@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 const mongoose = require('mongoose');
-const linksSchema = require('../../models/links');
+const linksSchema = require('../../../../models/links');
 const _cliProgress = require('cli-progress');
 const fs = require('fs')
 

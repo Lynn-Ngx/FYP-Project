@@ -13,14 +13,14 @@ export default class ChooseSize extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            link: this.props.link,
-            name: '',
-            price: '',
-            sizes: [
-
-            ],
-        };
+        // this.state = {
+        //     link: this.props.link,
+        //     name: '',
+        //     price: '',
+        //     sizes: [
+        //
+        //     ],
+        // };
 
 
     }
@@ -44,8 +44,8 @@ export default class ChooseSize extends Component {
                             <br/><br/><br/>
 
                             <p>Select a size:</p>
-                            <Menu compact>
-                                <Dropdown text='Select Size' options={options} simple item />
+                            <Menu compact style={{width:'180px'}}>
+                                <Dropdown style={{width:'180px'}} text='Select Size' options={options} simple item />
                             </Menu>
                         </Grid.Column>
 
@@ -62,7 +62,7 @@ export default class ChooseSize extends Component {
                                         <label>Email</label>
                                         <input placeholder='Enter Email' />
                                     </Form.Field>
-                                    <Button type='submit'>Notify Me!</Button>
+                                    <Button type='submit' style={{backgroundColor: 'rgb(21, 135, 205)', color: 'White'}}>Notify Me!</Button>
                                 </Form>
                             </div>
                         </Grid.Column>
