@@ -21,9 +21,8 @@ const itemSchema = new Schema({
     name: String,
     link: String,
     size: String,
-    notificationMethod: String,
-
-
+    price: String,
+    notificationMethod: String
 }, {timestamps: true});
 
 

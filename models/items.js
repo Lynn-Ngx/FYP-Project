@@ -1,16 +1,17 @@
 const mongoose = require('mongoose')
 var Schema = mongoose.Schema;
 
-const priceSchema = new Schema({
-    date: String,
-    price: String
-})
+// const priceSchema = new Schema({
+//     date: String,
+//     price: String
+// })
 
 const itemSchema = new Schema({
+    email: String,
     link: String,
     name: String,
-    sizes: Array,
-    prices: [priceSchema]
+    size: String,
+    prices: String,
 })
 
 var Items = mongoose.model('Items', itemSchema);

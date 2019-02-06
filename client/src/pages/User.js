@@ -1,11 +1,8 @@
 import React from 'react'
 import { Button, Image, List } from 'semantic-ui-react'
-import UserHeader from './UserHeader'
 
 const User = () => (
     <div>
-        <UserHeader/>
-
         <List divided verticalAlign='middle' style={{margin: '50px'}}>
 
             <List.Item style={{margin: '30px'}}>

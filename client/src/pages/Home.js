@@ -49,6 +49,7 @@ export default class HomePage extends Component {
                         action={{ color: 'blue', content: 'Search',
                             /* as: Link, to: './chooseSize',*/ onClick: this.linkSubmitHandler}}
                         icon='search'
+                        autocomplete="off"
                         iconPosition='left'
                         placeholder='Enter Link...'
                         id="linkInput"

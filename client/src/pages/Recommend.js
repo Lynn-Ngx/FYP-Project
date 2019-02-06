@@ -1,11 +1,8 @@
 import React from 'react'
 import {Image, List } from 'semantic-ui-react'
-import UserHeader from './UserHeader'
 
 const DashboardHome = () => (
     <div>
-        <UserHeader/>
-
         <h2 style={{margin: '50px'}}> Because you liked... </h2>
 
         <List divided verticalAlign='middle' style={{margin: '50px'}}>

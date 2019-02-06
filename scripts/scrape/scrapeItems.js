@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 const mongoose = require('mongoose');
-const linksSchema = require('../../../../models/items')
+const linksSchema = require('../../models/items')
 
 const connectToLocalDB = () => {
     return new Promise(resolve => {

@@ -6,6 +6,9 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 // const prices = require('./models/prices')
 const cron_test = require('../mail/cron_test')
+const scrapeItemDetails = require('../scripts/checkItemAvailability/checkAvailability_asos')
+const puppeteerHelper = require('../scripts/helper')
+const itemSchema = require('../models/items')
 
 const connect = () => {
     return new Promise(resolve => {
@@ -19,8 +22,6 @@ const connect = () => {
     })
 }
 
-
-
 connect()
 
 var app = express()
@@ -32,20 +33,9 @@ const port = process.env.PORT || 4000;
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-
-// app.get('*', (req, res) => {
-//     res.sendFile(path.join(__dirname+'/client/build/index.html'));
-// });
-
-app.get('/test', (req, res) => {
-    res.send('hello test')
-})
-
 app.post('/api/signup', async (req, res) => {
     const email = req.body.email
     const password = req.body.password
-
-
 
     const userExists = await user.findOne({email: email})
 
@@ -101,6 +91,78 @@ app.post('/api/signin', async (req, res) => {
         return
     }
 })
+
+// app.get('/api/item', (req, res) => {
+//     //send token with request
+//
+//     //identify the user and authenticate them, then add item to that user
+//     console.log("CALLEDdddd")
+//     res.send({success: true, message: "AAAAAAA"})
+// })
+
+app.post('/api/getItemDetails', async (req, res) => {
+
+    const itemLink = req.body.itemLink
+    const browerObject = await puppeteerHelper.launchBrowser()
+    const item = await scrapeItemDetails.getItemDetails_asos(browerObject.page, itemLink)
+    browerObject.browser.close()
+
+    if (!itemLink) res.send("No item link provided")
+
+
+    console.log(req.body)
+
+    res.send(item)
+})
+
+app.post('/api/saveItem', async (req, res)=>{
+
+    const email = req.body.email
+
+    const item = {
+        link: req.body.itemLink,
+        price: req.body.itemPrice,
+        size: req.body.itemSize,
+        name: req.body.itemName
+    }
+
+    const loggedIn = req.body.isLoggedIn
+
+    if(loggedIn === true){
+
+        const doesUserExist = await user.findOne({email: email})
+
+        if (!doesUserExist) res.send("USER DOES NOT EXIST")
+
+        await user.findOneAndUpdate({email: email}, {$push: {items: item}})
+    }else{
+        await itemSchema({
+            email: req.body.email,
+            link: req.body.itemLink,
+            name: req.body.itemName,
+            size: req.body.itemSize,
+            prices: req.body.itemPrice
+        })
+            .save()
+            .then(() => {
+                console.log('saved')
+                res.status(200).send({
+                    success: true,
+                    message: 'Item Saved'
+                })
+            })
+            .catch(err => {
+                console.log(err)
+                res.status.send({
+                    success: false,
+                    message: 'Server error'
+                })
+            })
+    }
+
+    res.send("User Item Updated")
+})
+
 
 
 app.listen(4000)
