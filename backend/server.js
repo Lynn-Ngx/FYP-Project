@@ -1,10 +1,8 @@
 var express = require('express')
 const path = require('path');
-// const database = require('./database')
 const user = require('../models/users')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
-// const prices = require('./models/prices')
 const cron_test = require('../mail/cron_test')
 const scrapeItemDetails = require('../scripts/checkItemAvailability/checkAvailability_asos')
 const puppeteerHelper = require('../scripts/helper')
@@ -162,6 +160,29 @@ app.post('/api/saveItem', async (req, res)=>{
 
     res.send("User Item Updated")
 })
+
+app.post('/api/getDashboardItems', async (req, res) =>{
+    const data = await user.findOne({email:'test'}, {items: 1, expiredItems: 1})
+
+    if (!data) res.send("User does not exist")
+
+    res.send(data)
+})
+
+app.delete('/api/deleteItem', (req, res) =>{
+    //expired: true
+
+    //check if expired item or not
+    const typeOfItem = (req.body.expiredItem) ? 'expiredItems' : 'items'
+
+    user.update( {email: 'test'}, {$pull:  {[typeOfItem]: {_id: req.body.itemid}}}).then((modified) => {
+        res.send('Delete successful')
+    })
+
+
+})
+
+
 
 
 

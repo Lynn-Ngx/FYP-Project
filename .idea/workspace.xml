@@ -4,18 +4,6 @@
     <list default="true" id="4096c04a-c84d-4432-b159-de45da4068b6" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/Recommend.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Recommend.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/User.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scripts/checkItemAvailability/checkAvailability_asos.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/checkItemAvailability/checkAvailability_asos.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scripts/helper.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/helper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scripts/scrape/asos_items.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/scrape/asos_items.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scripts/scrape/scrapeData.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/scrape/scrapeData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scripts/scrape/scrapeItems.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/scrape/scrapeItems.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scripts/scrape/scrapeLinks.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/scrape/scrapeLinks.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/items.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/items.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/users.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -32,8 +20,8 @@
       <file leaf-file-name="server.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/backend/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="97">
-              <caret line="134" column="57" selection-start-line="134" selection-start-column="57" selection-end-line="134" selection-end-column="57" />
+            <state relative-caret-position="228">
+              <caret line="176" column="4" selection-start-line="176" selection-start-column="4" selection-end-line="176" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -41,7 +29,7 @@
       <file leaf-file-name="checkAvailability_asos.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/checkItemAvailability/checkAvailability_asos.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1007">
+            <state relative-caret-position="2085">
               <caret line="139" column="6" selection-start-line="139" selection-start-column="6" selection-end-line="139" selection-end-column="6" />
             </state>
           </provider>
@@ -50,7 +38,7 @@
       <file leaf-file-name="users.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/users.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="46">
+            <state relative-caret-position="165">
               <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
@@ -108,6 +96,7 @@
       <find>ws</find>
       <find>color</find>
       <find>user</find>
+      <find>index.js</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -189,7 +178,7 @@
       <path value="$PROJECT_DIR$/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
+  <component name="ProjectFrameBounds" fullScreen="true">
     <option name="width" value="1280" />
     <option name="height" value="800" />
   </component>
@@ -335,20 +324,23 @@
       <workItem from="1549029061098" duration="176000" />
       <workItem from="1549139102536" duration="3019000" />
       <workItem from="1549394712968" duration="1376000" />
-      <workItem from="1549453296232" duration="6202000" />
+      <workItem from="1549453296232" duration="6300000" />
+      <workItem from="1549466098271" duration="3196000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="129441000" />
+    <option name="totallyTimeSpent" value="132735000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2494043" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32965517" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -361,25 +353,24 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32965517" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2494043" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32965517" />
+      <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.36965516" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="10" />
-      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32965517" />
       <window_info id="Favorites" order="2" side_tool="true" />
     </layout-to-restore>
   </component>
@@ -666,14 +657,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/checkItemAvailability/checkAvailability_asos.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1007">
+        <state relative-caret-position="2085">
           <caret line="139" column="6" selection-start-line="139" selection-start-column="6" selection-end-line="139" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/users.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
+        <state relative-caret-position="165">
           <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
@@ -690,8 +681,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="97">
-          <caret line="134" column="57" selection-start-line="134" selection-start-column="57" selection-end-line="134" selection-end-column="57" />
+        <state relative-caret-position="228">
+          <caret line="176" column="4" selection-start-line="176" selection-start-column="4" selection-end-line="176" selection-end-column="4" />
         </state>
       </provider>
     </entry>
