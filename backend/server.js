@@ -178,6 +178,32 @@ app.delete('/api/deleteItem', (req, res) =>{
     user.update( {email: 'test'}, {$pull:  {[typeOfItem]: {_id: req.body.itemid}}}).then((modified) => {
         res.send('Delete successful')
     })
+})
+
+app.put('/api/renew', async (req, res) =>{
+
+    //id
+    const itemDoc = await user.findOne({email:'test', expiredItems: {$elemMatch: {_id: req.body.itemid}} }, {expiredItems: 1})
+
+
+    //i is for each item
+    // console.log(itemDoc)
+    //Mongo has their own Mongo data type so we have to convert to string
+    let requestedItem = itemDoc.expiredItems.filter(item => item._id.toString() === req.body.itemid)
+    requestedItem = requestedItem[0]
+
+    if (requestedItem) {
+        const call1 = user.update({email: 'test'}, {$pull: {expiredItems: {_id: req.body.itemid}}})
+        const call2 = user.findOneAndUpdate({email: 'test'}, {$push: {items: requestedItem}})
+        await Promise.all([call1, call2])
+
+        res.send('Item Renewed')
+    }else {
+        res.send("No such item")
+
+    }
+
+    //push to items
 
 
 })
