@@ -101,27 +101,28 @@ app.post('/api/signin', async (req, res) => {
 app.post('/api/getItemDetails', async (req, res) => {
 
     const itemLink = req.body.itemLink
-    const browerObject = await puppeteerHelper.launchBrowser()
+    const browerObject = await puppeteerHelper.launchBrowser(false)
     const item = await scrapeItemDetails.getItemDetails_asos(browerObject.page, itemLink)
     browerObject.browser.close()
 
     if (!itemLink) res.send("No item link provided")
 
 
-    console.log(req.body)
+    //console.log(req.body)
 
     res.send(item)
 })
 
 app.post('/api/saveItem', async (req, res)=>{
+    console.log(req.body)
 
     const email = req.body.email
 
     const item = {
-        link: req.body.itemLink,
-        price: req.body.itemPrice,
-        size: req.body.itemSize,
-        name: req.body.itemName
+        link: req.body.link,
+        price: req.body.price,
+        size: req.body.size,
+        name: req.body.name
     }
 
     const loggedIn = req.body.isLoggedIn
@@ -135,11 +136,12 @@ app.post('/api/saveItem', async (req, res)=>{
         await user.findOneAndUpdate({email: email}, {$push: {items: item}})
     }else{
         await itemSchema({
+            username: req.body.username,
             email: req.body.email,
-            link: req.body.itemLink,
-            name: req.body.itemName,
-            size: req.body.itemSize,
-            prices: req.body.itemPrice
+            link: req.body.link,
+            name: req.body.name,
+            size: req.body.size,
+            prices: req.body.price
         })
             .save()
             .then(() => {
@@ -185,9 +187,6 @@ app.put('/api/renew', async (req, res) =>{
     //id
     const itemDoc = await user.findOne({email:'test', expiredItems: {$elemMatch: {_id: req.body.itemid}} }, {expiredItems: 1})
 
-
-    //i is for each item
-    // console.log(itemDoc)
     //Mongo has their own Mongo data type so we have to convert to string
     let requestedItem = itemDoc.expiredItems.filter(item => item._id.toString() === req.body.itemid)
     requestedItem = requestedItem[0]

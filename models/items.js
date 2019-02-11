@@ -8,6 +8,7 @@ var Schema = mongoose.Schema;
 
 const itemSchema = new Schema({
     email: String,
+    username: String,
     link: String,
     name: String,
     size: String,

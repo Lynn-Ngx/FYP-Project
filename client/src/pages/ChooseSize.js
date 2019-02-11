@@ -1,38 +1,80 @@
 import React, {Component} from 'react'
 import { Divider, Grid } from 'semantic-ui-react'
 import {Segment, Button, Form, Popup } from 'semantic-ui-react'
-import { Dropdown, Menu } from 'semantic-ui-react'
+import { Dropdown, Menu, Message} from 'semantic-ui-react'
+import axios from "axios/index";
 
-const options = [
-    { key: 's', text: 'Small', value: 1 },
-    { key: 'm', text: 'Medium', value: 2 },
-    { key: 'l', text: 'Large', value: 3 },
-]
 
 export default class ChooseSize extends Component {
-    constructor(props) {
-        super(props);
 
-        // this.state = {
-        //     link: this.props.link,
-        //     name: '',
-        //     price: '',
-        //     sizes: [
+    state = {
+        link: this.props.link,
+        name: this.props.name,
+        size: '',
+        price: this.props.price,
+        username: '',
+        email: '',
+        errorMessage: ''
+    }
+
+    submitName = async (e) => {
+        this.setState({
+            errorMessage: ''
+        })
+        //this just stops page redirecting when submitting form
+        e.preventDefault()
         //
-        //     ],
-        // };
+        let error = this.validateInput(this.state)
+        //
+        if (error) {
+            this.setState({
+                errorMessage: error
+            })
 
+            return
+        }
+        //
+        axios.post('/api/saveItem', {username: this.state.username,  email: this.state.email, link: this.state.link, name: this.state.name, size: this.state.size, price: this.state.price}).then(res => {
+            console.log(res)
+            if (!res.data.success){
+                this.setState({
+                    errorMessage: res.data.message
+                })
+            }
+        })
 
     }
+
+    validateInput= ({username, email}) => {
+        let error = false
+
+        if (!email || !username) error = 'Fields cannot be empty'
+        else if (email.length < 1) error =  'Must have a email'
+        else if (username.length < 1) error =  'Must have a username'
+
+        return error
+    }
+
+    onChangeFollower = (event, data) => {
+        this.setState({size: data.value})
+    }
+
+    inputChanged = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
     render() {
+        const {errorMessage, username, email} = this.state
         return(
             <div>
                 <Segment style={{margin: '100px', padding: '50px'}}>
 
                     <Grid columns={2} relaxed='very'>
                         <Grid.Column>
-                            <h2>{this.props.link}</h2>
-                            <p>Current Price: €100</p>
+                            <h2>{this.props.name}</h2>
+                            <p>Current Price: {this.props.price}</p>
 
                             <Popup
                                 trigger={<Button color='white' icon='eye' content='View Price History'/>}
@@ -45,7 +87,11 @@ export default class ChooseSize extends Component {
 
                             <p>Select a size:</p>
                             <Menu compact style={{width:'180px'}}>
-                                <Dropdown style={{width:'180px'}} text='Select Size' options={options} simple item />
+                                <Dropdown onChange={this.onChangeFollower} style={{width:'180px'}} placeholder='Select Size' fluid selection options={this.props.sizes.map(size => ({
+                                    key: size,
+                                    value: size,
+                                    text: size,
+                                }))} />
                             </Menu>
                         </Grid.Column>
 
@@ -56,16 +102,25 @@ export default class ChooseSize extends Component {
                                 <Form>
                                     <Form.Field>
                                         <label>Name</label>
-                                        <input placeholder='Enter Name' />
+                                        <input placeholder='Enter Name' name="username" onChange={this.inputChanged} value={username}/>
                                     </Form.Field>
                                     <Form.Field>
                                         <label>Email</label>
-                                        <input placeholder='Enter Email' />
+                                        <input placeholder='Enter Email' name="email" onChange={this.inputChanged} value={email}/>
                                     </Form.Field>
-                                    <Button type='submit' style={{backgroundColor: 'rgb(21, 135, 205)', color: 'White'}}>Notify Me!</Button>
+                                    <Button type='submit' style={{backgroundColor: 'rgb(21, 135, 205)', color: 'White'}} onClick={this.submitName}>Notify Me!</Button>
                                 </Form>
                             </div>
+
+                            {
+                                (errorMessage !== '') &&
+                                <Message negative style={{width:'250px'}}>
+                                    <p>{errorMessage}</p>
+                                </Message>
+                            }
+
                         </Grid.Column>
+
                     </Grid>
 
                     <Divider vertical> - </Divider>

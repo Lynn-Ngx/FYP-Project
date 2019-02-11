@@ -3,8 +3,16 @@ import { Button, Divider, Input, Segment,  Header, Popup, Grid } from 'semantic-
 import history from './History';
 import ChooseSize from './ChooseSize'
 import {Link} from "react-router-dom";
+import axios from "axios/index";
 
 export default class HomePage extends Component {
+
+    state = {
+        name: '',
+        price: '',
+        sizes: []
+    }
+
     constructor(props) {
         super(props);
         this.state = { link: '', click: false };
@@ -14,9 +22,28 @@ export default class HomePage extends Component {
 
     }
 
-    linkSubmitHandler(event) {
+    linkSubmitHandler = async (event) => {
         event.preventDefault();
-        this.setState({ click: true});
+
+        this.setState({
+            name: '',
+            price: '',
+            sizes: []
+        })
+
+        axios.post('/api/getItemDetails', {itemLink: this.state.link}).then(res => {
+
+            this.setState({
+                name: res.data.name,
+                price: res.data.price,
+                sizes: res.data.sizes
+            })
+
+            this.setState({ click: true});
+
+
+        })
+
     }
 
     onSearch(){
@@ -25,12 +52,14 @@ export default class HomePage extends Component {
 
     onInputChange(event) {
         this.setState({link: event.target.value});
+
+
     }
 
     render() {
         if (this.state.click) {
             return (
-                <ChooseSize link={this.state.link} />
+                <ChooseSize link={this.state.link} name={this.state.name} sizes={this.state.sizes} price={this.state.price} />
             );
         }
 
@@ -49,7 +78,7 @@ export default class HomePage extends Component {
                         action={{ color: 'blue', content: 'Search',
                             /* as: Link, to: './chooseSize',*/ onClick: this.linkSubmitHandler}}
                         icon='search'
-                        autocomplete="off"
+                        autoComplete="off"
                         iconPosition='left'
                         placeholder='Enter Link...'
                         id="linkInput"
