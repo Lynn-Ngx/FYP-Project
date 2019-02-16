@@ -101,7 +101,7 @@ app.post('/api/signin', async (req, res) => {
 app.post('/api/getItemDetails', async (req, res) => {
 
     const itemLink = req.body.itemLink
-    const browerObject = await puppeteerHelper.launchBrowser(false)
+    const browerObject = await puppeteerHelper.launchBrowser()
     const item = await scrapeItemDetails.getItemDetails_asos(browerObject.page, itemLink)
     browerObject.browser.close()
 
@@ -159,8 +159,6 @@ app.post('/api/saveItem', async (req, res)=>{
                 })
             })
     }
-
-    res.send("User Item Updated")
 })
 
 app.post('/api/getDashboardItems', async (req, res) =>{

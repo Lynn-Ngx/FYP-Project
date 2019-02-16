@@ -102,22 +102,22 @@ export default class ChooseSize extends Component {
                                 <Form>
                                     <Form.Field>
                                         <label>Name</label>
-                                        <input placeholder='Enter Name' name="username" onChange={this.inputChanged} value={username}/>
+                                        <input  autoComplete="off" placeholder='Enter Name' name="username" onChange={this.inputChanged} value={username}/>
                                     </Form.Field>
                                     <Form.Field>
                                         <label>Email</label>
-                                        <input placeholder='Enter Email' name="email" onChange={this.inputChanged} value={email}/>
+                                        <input autoComplete="off" placeholder='Enter Email' name="email" onChange={this.inputChanged} value={email}/>
+
+                                        {
+                                            (errorMessage !== '') &&
+                                            <Message negative style={{width:'450px'}}>
+                                                <p>{errorMessage}</p>
+                                            </Message>
+                                        }
                                     </Form.Field>
                                     <Button type='submit' style={{backgroundColor: 'rgb(21, 135, 205)', color: 'White'}} onClick={this.submitName}>Notify Me!</Button>
                                 </Form>
                             </div>
-
-                            {
-                                (errorMessage !== '') &&
-                                <Message negative style={{width:'250px'}}>
-                                    <p>{errorMessage}</p>
-                                </Message>
-                            }
 
                         </Grid.Column>
 
