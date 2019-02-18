@@ -8,6 +8,7 @@ const scrapeItemDetails = require('../scripts/checkItemAvailability/checkAvailab
 const puppeteerHelper = require('../scripts/helper')
 const itemSchema = require('../models/items')
 
+
 const connect = () => {
     return new Promise(resolve => {
         mongoose.connect('mongodb://localhost/fypDatabase')
@@ -21,6 +22,7 @@ const connect = () => {
 }
 
 connect()
+
 
 var app = express()
 app.use(bodyParser.json());

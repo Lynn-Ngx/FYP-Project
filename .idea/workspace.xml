@@ -4,7 +4,9 @@
     <bookmark url="file://$PROJECT_DIR$/client/src/pages/Login.js" description="    state = {&#10;        email: '',&#10;        password:..." line="9" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4096c04a-c84d-4432-b159-de45da4068b6" name="Default" comment="" />
+    <list default="true" id="4096c04a-c84d-4432-b159-de45da4068b6" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -17,10 +19,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ChooseSize.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ChooseSize.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/pages/ChooseSize.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
+            <state relative-caret-position="480">
               <caret line="36" column="33" lean-forward="true" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="33" />
             </state>
           </provider>
@@ -74,11 +76,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="server.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="server.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/backend/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="121">
-              <caret line="31" column="46" selection-start-line="31" selection-start-column="46" selection-end-line="31" selection-end-column="46" />
+            <state relative-caret-position="150">
+              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
             </state>
           </provider>
         </entry>
@@ -385,12 +387,12 @@
       <workItem from="1550323283261" duration="37000" />
       <workItem from="1550323426910" duration="6000" />
       <workItem from="1550490751116" duration="666000" />
-      <workItem from="1550506217707" duration="1602000" />
+      <workItem from="1550506217707" duration="2053000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="160399000" />
+    <option name="totallyTimeSpent" value="160850000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -741,17 +743,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/server.js">
+    <entry file="file://$PROJECT_DIR$/client/src/pages/ChooseSize.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="31" column="46" selection-start-line="31" selection-start-column="46" selection-end-line="31" selection-end-column="46" />
+        <state relative-caret-position="480">
+          <caret line="36" column="33" lean-forward="true" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="33" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/pages/ChooseSize.js">
+    <entry file="file://$PROJECT_DIR$/backend/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="36" column="33" lean-forward="true" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="33" />
+        <state relative-caret-position="150">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
         </state>
       </provider>
     </entry>
