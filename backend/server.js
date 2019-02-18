@@ -29,6 +29,13 @@ const port = process.env.PORT || 4000;
 
 // database.connectToInMemeoryDB()
 
+app.use(express.static(path.join(__dirname, '/../client/build')));
+
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname+'/../client/build/index.html'));
+});
+
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.post('/api/signup', async (req, res) => {
