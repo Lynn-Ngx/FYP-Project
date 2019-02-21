@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "chai": "^4.2.0",
+    "cli-progress": "^2.1.1",
     "express": "^4.16.4",
     "mocha": "^5.2.0",
     "mongoose": "^5.3.16",

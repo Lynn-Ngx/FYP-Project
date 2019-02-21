@@ -3,12 +3,13 @@ const Schema = mongoose.Schema;
 
 const linkSchema = new Schema({
     name: String,
-    links: Array
+    link: String,
+    price: Array
 });
 
 //userSchema.index({ name: 1, type: -1 });
 
-const link = mongoose.model('link', linkSchema);
+const links = mongoose.model('link', linkSchema);
 
-module.exports = link;
+module.exports = links;
 
