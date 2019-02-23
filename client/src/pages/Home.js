@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Divider, Input, Segment,  Header, Popup, Grid } from 'semantic-ui-react'
+import { Button, Divider, Input, Segment,  Header, Popup, Grid, Dimmer, Loader} from 'semantic-ui-react'
 import history from './History';
 import ChooseSize from './ChooseSize'
 import {Link} from "react-router-dom";
@@ -23,6 +23,7 @@ export default class HomePage extends Component {
     }
 
     linkSubmitHandler = async (event) => {
+        //history.push('./chooseSize')
         event.preventDefault();
 
         this.setState({
@@ -46,14 +47,8 @@ export default class HomePage extends Component {
 
     }
 
-    onSearch(){
-        // history.push('./chooseSize')
-    }
-
     onInputChange(event) {
         this.setState({link: event.target.value});
-
-
     }
 
     render() {
@@ -64,20 +59,25 @@ export default class HomePage extends Component {
         }
 
         return (
-
             <div style={{margin: '50px', padding:'50px'}}>
+                {/*<Dimmer active>*/}
+                    {/*<Loader size='massive'>Loading</Loader>*/}
+                {/*</Dimmer>*/}
                 <Segment basic textAlign='center'>
 
                     <div style={{margin: '20px'}}>
                         <p>I'M A </p>
-                        <p>SHOPAHOLIC</p>
+                        <p>"SHOPAHOLIC"</p>
                         <p>...IT'S IN MY JEANS</p>
                     </div>
 
+                    <br/><br/>
+
                     <Input
                         action={{ color: 'blue', content: 'Search',
-                            /* as: Link, to: './chooseSize',*/ onClick: this.linkSubmitHandler}}
+                            as: Link, to: '/chooseSize',onClick: this.linkSubmitHandler}}
                         icon='search'
+                        style={{width:'500px'}}
                         //autoComplete="off"
                         iconPosition='left'
                         placeholder='Enter Link...'
@@ -85,7 +85,12 @@ export default class HomePage extends Component {
                         onChange={this.onInputChange}
                     />
 
+                    <br/><br/><br/>
+
+
                     <Divider horizontal>Or</Divider>
+
+                    <br/><br/>
 
                     <Popup trigger={<Button color='teal' content='Recommend Me' icon='add'/> }  position='top center' flowing hoverable>
                         <Grid centered divided columns={2}>

@@ -27,7 +27,7 @@ connect()
 var app = express()
 app.use(bodyParser.json());
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3000;
 
 // database.connectToInMemeoryDB()
 

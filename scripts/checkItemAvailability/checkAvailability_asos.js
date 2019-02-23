@@ -62,9 +62,9 @@ const getMultiSizes = async(page, checkAvailability) => {
 
                 const itemObj = {
                     name : li.querySelector('div.product-info > a > div.product-title').innerHTML,
+                    price: li.querySelector('div.product-info > a > div.product-price').innerText,
                     sizes : []
                 }
-
                 console.log(itemObj.name)
 
                 for (let i = 1; i < selectorDiv.children.length - 1; i++){

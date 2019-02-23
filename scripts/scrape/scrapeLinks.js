@@ -41,12 +41,11 @@ const scrapeLinks = async () => {
         console.log(numberOfPagesInSearch)
 
         const bar1 = new _cliProgress.Bar({}, _cliProgress.Presets.shades_classic);
-        bar1.start(5, 0);
+        bar1.start(numberOfPagesInSearch, 0);
 
 
         //481 but they didnt all store to db, only like 7 pages stored to db
-        // for (let i = 1; i <= numberOfPagesInSearch; i++){
-        for (let i = 1; i <= 2; i++){
+        for (let i = 1; i <= numberOfPagesInSearch; i++){
             bar1.update(i);
 
             try {
@@ -73,6 +72,7 @@ const scrapeLinks = async () => {
                             links.push({
                                 link: document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section > div > article:nth-child(' + i + ') > a').href,
                                 price: document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section > div > article:nth-child(' + 1 + ')  a > p > span._342BXW_').innerHTML
+                                // salePrice: document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section > div > article:nth-child(' + 36 + ')  a > p > span._3iq1GRC').innerText
                             })
                         }
                     }

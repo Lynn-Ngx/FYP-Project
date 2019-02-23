@@ -2,7 +2,36 @@ import React, {Component} from 'react'
 import { Divider, Grid } from 'semantic-ui-react'
 import {Segment, Button, Form, Popup } from 'semantic-ui-react'
 import { Dropdown, Menu, Message} from 'semantic-ui-react'
+import {Line} from 'react-chartjs-2';
 import axios from "axios/index";
+
+
+const data = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [
+        {
+            label: 'Price',
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: 'rgba(75,192,192,0.4)',
+            borderColor: 'rgba(75,192,192,1)',
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: 'rgba(75,192,192,1)',
+            pointBackgroundColor: '#fff',
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [65, 59, 80, 81, 56, 55, 40]
+        }
+    ]
+};
 
 
 export default class ChooseSize extends Component {
@@ -76,14 +105,17 @@ export default class ChooseSize extends Component {
                             <h2>{this.props.name}</h2>
                             <p>Current Price: {this.props.price}</p>
 
-                            <Popup
-                                trigger={<Button color='white' icon='eye' content='View Price History'/>}
-                                content={'Price History Graph'}
-                                on='click'
-                                position='bottom right'
-                            />
+                            <br/>
 
-                            <br/><br/><br/>
+                            <Line data={data}/>
+                            {/*<Popup*/}
+                                {/*trigger={<Button color='white' icon='eye' content='View Price History'/>}*/}
+                                {/*content={<Line data={data}/>}*/}
+                                {/*on='click'*/}
+                                {/*position='bottom right'*/}
+                            {/*/>*/}
+
+                            <br/><br/>
 
                             <p>Select a size:</p>
                             <Menu compact style={{width:'180px'}}>
@@ -95,7 +127,7 @@ export default class ChooseSize extends Component {
                             </Menu>
                         </Grid.Column>
 
-                        <Grid.Column>
+                        <Grid.Column style={{marginTop:'100px'}}>
                             <h2>Enter Details</h2>
 
                             <div>
