@@ -59,21 +59,37 @@ const scrapeLinks = async () => {
                     const links = []
                     for (let i = 1; i < document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section').children.length; i++) {
                         if (document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section > article:nth-child(' + i + ') > a')){
-                            links.push({
-                                link: document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section > article:nth-child(' + i + ') > a').href,
-                                price: document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section > article:nth-child(' + 1 + ')  a > p > span._342BXW_').innerHTML
+                            if(document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section  > article:nth-child(' + i + ')  a > p > span._3iq1GRC').innerText !== ""){
+                                links.push({
+                                    link: document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section > article:nth-child(' + i + ') > a').href,
+                                    price: document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section  > article:nth-child(' + i + ')  a > p > span._3iq1GRC').innerText
 
-                            })
+                                })
+                            }else{
+                                links.push({
+                                    link: document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section > article:nth-child(' + i + ') > a').href,
+                                    price: document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section > article:nth-child(' + i + ')  a > p > span._342BXW_').innerHTML
+
+                                })
+                            }
                         }
                     }
 
                     for (let i = 1; i < document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section > div').children.length + 1; i++) {
                         if (document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section > div > article:nth-child(' + i + ') > a')){
-                            links.push({
-                                link: document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section > div > article:nth-child(' + i + ') > a').href,
-                                price: document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section > div > article:nth-child(' + 1 + ')  a > p > span._342BXW_').innerHTML
-                                // salePrice: document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section > div > article:nth-child(' + 36 + ')  a > p > span._3iq1GRC').innerText
-                            })
+                            if(document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section  > div > article:nth-child(' + i + ')  a > p > span._3iq1GRC').innerText !== ""){
+                                links.push({
+                                    link: document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section > div > article:nth-child(' + i + ') > a').href,
+                                    price: document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section > div > article:nth-child(' + i + ')  a > p > span._3iq1GRC').innerText
+
+                                })
+                            }else{
+                                links.push({
+                                    link: document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section > div  > article:nth-child(' + i + ') > a').href,
+                                    price: document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > div._3-pEc3l > section > div  > article:nth-child(' + i + ')  a > p > span._342BXW_').innerHTML
+
+                                })
+                            }
                         }
                     }
 
@@ -94,23 +110,30 @@ const scrapeLinks = async () => {
 
 (async () => {
     await connectToLocalDB()
-    const objectToAdd = await scrapeLinks()
+    let objectToAdd = await scrapeLinks()
+    // objectToAdd = [objectToAdd[0], objectToAdd[1]]
     const websiteName = 'asos'
+    //
+    // const objectToAdd = [
+    //     {
+    //         link: 'https://www.asos.com/miss-selfridge/miss-selfridge-woven-heeled-boots-in-black/prd/10820816?clr=black&SearchQuery=&cid=4172&gridcolumn=1&gridrow=13&gridsize=3&pge=9&pgesize=72&totalstyles=2157',
+    //         price: '220'
+    //     }
+    // ]
 
     for (let item of objectToAdd){
-        const response = await linksSchema.update({link: item.link}, {$addToSet: {
+        const data = await linksSchema.findOne({link: item.link})
+
+        if (data){
+            await linksSchema.update({link: item.link}, {$addToSet: {
                 price:
                     {
                         price: item.price,
                         date: new Date()
                     }
-            }})
+                }})
 
-        //update return nModified, stating how many records were modified
-        //if nModified is greater than 0, then something was modified,
-        //if 0 then nothing was modified, so maybe the link it was looking for does not exist, in that case we can add the link
-        //if nothing was modified then it is a new link so add
-        if (response.nModified === 0){
+        }else {
             const newLink = new linksSchema({
                 name: websiteName,
                 link: item.link,
