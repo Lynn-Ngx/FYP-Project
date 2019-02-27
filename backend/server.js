@@ -1,12 +1,16 @@
-var express = require('express')
+const dotenv = require('dotenv');
+dotenv.config();
+
+const express = require('express');
 const path = require('path');
-const user = require('../models/users')
-const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
-const cron_test = require('../mail/cron_test')
-const scrapeItemDetails = require('../scripts/checkItemAvailability/checkAvailability_asos')
-const puppeteerHelper = require('../scripts/helper')
-const itemSchema = require('../models/items')
+const user = require('../models/users');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const cron_test = require('../mail/cron_test');
+const scrapeItemDetails = require('../scripts/checkItemAvailability/checkAvailability_asos');
+const puppeteerHelper = require('../scripts/helper');
+const itemSchema = require('../models/items');
+var jwt = require('jsonwebtoken');
 
 
 const connect = () => {
@@ -22,7 +26,6 @@ const connect = () => {
 }
 
 connect()
-
 
 var app = express()
 app.use(bodyParser.json());
@@ -97,7 +100,16 @@ app.post('/api/signin', async (req, res) => {
         })
         return
     }
+
+    var token = jwt.sign({ email: email }, process.env.SECRET_OR_KEY);
+
+    res.status(200).send({
+        success: true,
+        message: 'Token Created',
+        token: token
+    })
 })
+
 
 // app.get('/api/item', (req, res) => {
 //     //send token with request
@@ -115,10 +127,6 @@ app.post('/api/getItemDetails', async (req, res) => {
     browerObject.browser.close()
 
     if (!itemLink) res.send("No item link provided")
-
-
-    //console.log(req.body)
-
     res.send(item)
 })
 
@@ -171,11 +179,32 @@ app.post('/api/saveItem', async (req, res)=>{
 })
 
 app.post('/api/getDashboardItems', async (req, res) =>{
-    const data = await user.findOne({email:'test'}, {items: 1, expiredItems: 1})
 
-    if (!data) res.send("User does not exist")
 
-    res.send(data)
+    if (!req.body.token) {
+        res.send({
+            success: false,
+            message: "Invalid token"
+        })
+    }
+
+    const decoded = jwt.verify(req.body.token, process.env.SECRET_OR_KEY)
+
+    if(!decoded){
+        res.send({
+            success: false,
+            message: "Invalid token"
+        })
+    }
+
+    const data = await user.findOne({email: decoded.email}, {items: 1, expiredItems: 1})
+
+    if (!data) res.send({
+        success: false,
+        message: "Invalid user"
+    })
+
+    res.send({success: true, dashboardData: data})
 })
 
 app.delete('/api/deleteItem', (req, res) =>{
@@ -213,9 +242,5 @@ app.put('/api/renew', async (req, res) =>{
 
 
 })
-
-
-
-
 
 app.listen(port)

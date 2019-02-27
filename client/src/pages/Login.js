@@ -30,7 +30,7 @@ class Login extends Component {
 
             return
         }
-        //
+
         axios.post('/api/signin', {email: this.state.email, password: this.state.password}).then(res => {
             console.log(res)
             if (!res.data.success){
@@ -38,6 +38,11 @@ class Login extends Component {
                     errorMessage: res.data.message
                 })
             }
+
+            if(res.data.success){
+                localStorage.setItem('shopaholic-token', res.data.token)
+            }
+
         })
 
     }

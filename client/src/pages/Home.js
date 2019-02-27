@@ -7,15 +7,17 @@ import axios from "axios/index";
 
 export default class HomePage extends Component {
 
-    state = {
-        name: '',
-        price: '',
-        sizes: []
-    }
+    // state = {
+    //     name: '',
+    //     price: '',
+    //     sizes: [],
+    //     loading: false,
+    //     test: 'ughh'
+    // }
 
     constructor(props) {
         super(props);
-        this.state = { link: '', click: false };
+        this.state = { link: '', click: false, test: 'ughh', loading: false };
 
         this.linkSubmitHandler = this.linkSubmitHandler.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
@@ -29,15 +31,18 @@ export default class HomePage extends Component {
         this.setState({
             name: '',
             price: '',
-            sizes: []
+            sizes: [],
+            loading: true
         })
 
         axios.post('/api/getItemDetails', {itemLink: this.state.link}).then(res => {
 
+
             this.setState({
                 name: res.data.name,
                 price: res.data.price,
-                sizes: res.data.sizes
+                sizes: res.data.sizes,
+                loading: false
             })
 
             this.setState({ click: true});
@@ -52,6 +57,10 @@ export default class HomePage extends Component {
     }
 
     render() {
+        const {loading, test } = this.state
+
+        console.log(loading)
+
         if (this.state.click) {
             return (
                 <ChooseSize link={this.state.link} name={this.state.name} sizes={this.state.sizes} price={this.state.price} />
@@ -60,9 +69,15 @@ export default class HomePage extends Component {
 
         return (
             <div style={{margin: '50px', padding:'50px'}}>
-                {/*<Dimmer active>*/}
-                    {/*<Loader size='massive'>Loading</Loader>*/}
-                {/*</Dimmer>*/}
+
+                {
+                    loading &&
+                    <Dimmer active >
+                        <Loader size='massive'>Loading</Loader>
+                    </Dimmer>
+                }
+
+
                 <Segment basic textAlign='center'>
 
                     <div style={{margin: '20px'}}>
