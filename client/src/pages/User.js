@@ -10,6 +10,26 @@ class User extends Component {
 
     }
 
+    deleteItem = (itemId, expiredItem) => {
+        console.log(itemId)
+        const token = localStorage.getItem('shopaholic-token');
+
+        //store if it is expired or unexpired
+        const itemType = (expiredItem) ? 'expiredItems' : 'items'
+
+
+        const items = [...this.state[itemType]]
+        const index = items.findIndex(element => element._id === itemId)
+
+        if (index === -1) return
+        items.splice(index, 1)
+
+        this.setState({[itemType]: items})
+
+            axios.post('/api/deleteItem', {token, itemId, expiredItem}).then(res => {
+                console.log(res.data)
+            })
+    }
     componentDidMount(){
         const token = localStorage.getItem('shopaholic-token');
 
@@ -34,12 +54,13 @@ class User extends Component {
 
     render() {
         const {items} = this.state
+        const deleteItem = this.deleteItem
 
         const itemsList = items.map( function(item, index) {
             return (
                 <List.Item key={index} style={{margin: '30px'}} >
                     <List.Content floated='right'>
-                        <Button style={{marginTop: '20px'}}>Delete</Button>
+                        <Button style={{marginTop: '20px'}} onClick={() => deleteItem(item._id, false)}>Delete</Button>
                     </List.Content>
                     <img style={{width: '100px', display: 'inline-block', marginRight: '10px'}} src='https://images.asos-media.com/products/rahi-scarlett-midi-dress-in-dot-flower-print/11230722-1-fleurprint?$XXL$&wid=513&fit=constrain' />
                     <div style={{display: 'inline-block', verticalAlign: 'top', marginTop: '30px'}}>

@@ -13,6 +13,7 @@ const itemSchema = require('../models/items');
 var jwt = require('jsonwebtoken');
 
 
+//Token should be sent in header for the jwt autentication
 const connect = () => {
     return new Promise(resolve => {
         mongoose.connect('mongodb://localhost/fypDatabase')
@@ -207,13 +208,34 @@ app.post('/api/getDashboardItems', async (req, res) =>{
     res.send({success: true, dashboardData: data})
 })
 
-app.delete('/api/deleteItem', (req, res) =>{
+/**
+ * itemId - the item id you want to delete
+ * expiredItem - if is an expired item
+ */
+//TODO:: change this to a delete request
+app.post('/api/deleteItem', (req, res) =>{
     //expired: true
+
+    if (!req.body.token) {
+        res.send({
+            success: false,
+            message: "Invalid token"
+        })
+    }
+
+    const decoded = jwt.verify(req.body.token, process.env.SECRET_OR_KEY)
+
+    if(!decoded){
+        res.send({
+            success: false,
+            message: "Invalid token"
+        })
+    }
 
     //check if expired item or not
     const typeOfItem = (req.body.expiredItem) ? 'expiredItems' : 'items'
 
-    user.update( {email: 'test'}, {$pull:  {[typeOfItem]: {_id: req.body.itemid}}}).then((modified) => {
+    user.update( {email: 'test'}, {$pull:  {[typeOfItem]: {_id: req.body.itemId}}}).then((modified) => {
         res.send('Delete successful')
     })
 })
