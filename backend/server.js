@@ -140,12 +140,14 @@ app.post('/api/saveItem', async (req, res)=>{
         link: req.body.link,
         price: req.body.price,
         size: req.body.size,
-        name: req.body.name
+        name: req.body.name,
+        image: req.body.image
     }
 
     const loggedIn = req.body.isLoggedIn
 
     if(loggedIn === true){
+        console.log("logged in")
 
         const doesUserExist = await user.findOne({email: email})
 
@@ -180,8 +182,6 @@ app.post('/api/saveItem', async (req, res)=>{
 })
 
 app.post('/api/getDashboardItems', async (req, res) =>{
-
-
     if (!req.body.token) {
         res.send({
             success: false,
@@ -240,18 +240,35 @@ app.post('/api/deleteItem', (req, res) =>{
     })
 })
 
-app.put('/api/renew', async (req, res) =>{
+//TODO:: should be put but post for now
+app.post('/api/renew', async (req, res) =>{
+
+    if (!req.body.token) {
+        res.send({
+            success: false,
+            message: "Invalid token"
+        })
+    }
+
+    const decoded = jwt.verify(req.body.token, process.env.SECRET_OR_KEY)
+
+    if(!decoded){
+        res.send({
+            success: false,
+            message: "Invalid token"
+        })
+    }
 
     //id
-    const itemDoc = await user.findOne({email:'test', expiredItems: {$elemMatch: {_id: req.body.itemid}} }, {expiredItems: 1})
+    const itemDoc = await user.findOne({email:decoded.email, expiredItems: {$elemMatch: {_id: req.body.itemId}} }, {expiredItems: 1})
 
     //Mongo has their own Mongo data type so we have to convert to string
-    let requestedItem = itemDoc.expiredItems.filter(item => item._id.toString() === req.body.itemid)
+    let requestedItem = itemDoc.expiredItems.filter(item => item._id.toString() === req.body.itemId)
     requestedItem = requestedItem[0]
 
     if (requestedItem) {
-        const call1 = user.update({email: 'test'}, {$pull: {expiredItems: {_id: req.body.itemid}}})
-        const call2 = user.findOneAndUpdate({email: 'test'}, {$push: {items: requestedItem}})
+        const call1 = user.update({email: decoded.email}, {$pull: {expiredItems: {_id: req.body.itemId}}})
+        const call2 = user.findOneAndUpdate({email: decoded.email}, {$push: {items: requestedItem}})
         await Promise.all([call1, call2])
 
         res.send('Item Renewed')

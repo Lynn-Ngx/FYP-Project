@@ -12,12 +12,11 @@ export default class HomePage extends Component {
     //     price: '',
     //     sizes: [],
     //     loading: false,
-    //     test: 'ughh'
     // }
 
     constructor(props) {
         super(props);
-        this.state = { link: '', click: false, test: 'ughh', loading: false };
+        this.state = { link: '', click: false, loading: false };
 
         this.linkSubmitHandler = this.linkSubmitHandler.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
@@ -57,7 +56,7 @@ export default class HomePage extends Component {
     }
 
     render() {
-        const {loading, test } = this.state
+        const {loading} = this.state
 
         console.log(loading)
 

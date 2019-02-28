@@ -63,7 +63,7 @@ export default class ChooseSize extends Component {
             return
         }
         //
-        axios.post('/api/saveItem', {username: this.state.username,  email: this.state.email, link: this.state.link, name: this.state.name, size: this.state.size, price: this.state.price}).then(res => {
+        axios.put('/api/saveItem', {username: this.state.username,  email: this.state.email, link: this.state.link, name: this.state.name, size: this.state.size, price: this.state.price}).then(res => {
             console.log(res)
             if (!res.data.success){
                 this.setState({
@@ -118,6 +118,7 @@ export default class ChooseSize extends Component {
                             <br/><br/>
 
                             <p>Select a size:</p>
+
                             <Menu compact style={{width:'180px'}}>
                                 <Dropdown onChange={this.onChangeFollower} style={{width:'180px'}} placeholder='Select Size' fluid selection options={this.props.sizes.map(size => ({
                                     key: size,

@@ -22,6 +22,7 @@ const itemSchema = new Schema({
     link: String,
     size: String,
     price: String,
+    image: String,
     notificationMethod: String
 }, {timestamps: true});
 

@@ -6,6 +6,9 @@ const getSingleSizes = async (page, checkAvailability) => {
 
         const name = document.querySelector('#aside-content > div.product-hero > h1').innerHTML
         const price = document.querySelector('#product-price > div > span.current-price').innerHTML
+        const image = document.querySelector('#product-gallery > div.window > ul > li:nth-child(2) > div > div > div > div.amp-spinner.amp-relative > div.amp-page.amp-spin > div.amp-page.amp-images > div > div.fullImageContainer > img').src
+        console.log('in here')
+        console.log(image)
         const selectorDiv = document.querySelector('#product-size > section > div > div.size-section > div.colour-size-select > select')
         const options = []
 
@@ -36,7 +39,8 @@ const getSingleSizes = async (page, checkAvailability) => {
         return {
             name : name,
             price : price,
-            sizes : options
+            sizes : options,
+            image: image
         }
     }, checkAvailability)
 }
