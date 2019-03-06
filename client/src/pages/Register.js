@@ -36,6 +36,12 @@ class Register extends Component {
                 this.setState({
                     errorMessage: res.data.message
                 })
+            }else{
+                localStorage.setItem('shopaholic-token', res.data.token)
+                return (
+                    <user/> &&
+                    <navigationBar loggedIn={true}/>
+                );
             }
         })
 

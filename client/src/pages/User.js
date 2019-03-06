@@ -11,7 +11,13 @@ class User extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { items: [],  expiredItems: [], link: '', click: false,  loading: false };
+        this.state = {
+            items: [],
+            expiredItems: [],
+            link: '',
+            click: false,
+            loading: false,
+            addClicked: false};
 
         this.linkSubmitHandler = this.linkSubmitHandler.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
@@ -33,8 +39,10 @@ class User extends Component {
         this.setState({
             name: '',
             price: '',
+            image: '',
             sizes: [],
-            loading: true
+            loading: true,
+            addClicked: true
         })
 
         axios.post('/api/getItemDetails', {itemLink: this.state.link}).then(res => {
@@ -44,7 +52,9 @@ class User extends Component {
                 name: res.data.name,
                 price: res.data.price,
                 sizes: res.data.sizes,
-                loading: false
+                image: res.data.image,
+                loading: false,
+                addClicked: true
             })
 
             this.setState({ click: true});
@@ -94,6 +104,58 @@ class User extends Component {
         })
     }
 
+    validateInput = ({link, size}) => {
+        let error = false
+
+        if (!link || !size) error = 'Fields cannot be empty'
+        else if (link.length < 1) error =  'Enter Link'
+
+        return error
+    }
+
+
+    submitItem = async (e) => {
+        this.setState({
+            errorMessage: ''
+        })
+        //this just stops page redirecting when submitting form
+        e.preventDefault()
+        //
+        let error = this.validateInput(this.state)
+        //
+        if (error) {
+            this.setState({
+                errorMessage: error
+            })
+
+            return
+        }
+        //
+        axios.post('/api/saveItem', {token: localStorage.getItem('shopaholic-token'), link: this.state.link, name: this.state.name, size: this.state.size, price: this.state.price, image: this.state.image, isLoggedIn: true}).then(res => {
+            const item = {
+                link: this.state.link,
+                name: this.state.name,
+                size: this.state.size,
+                price: this.state.price,
+                image: this.state.image,
+            }
+            if (!res.data.success){
+                this.setState({
+                    errorMessage: res.data.message
+                })
+            }else{
+                const itemArr = this.state.items
+                itemArr.unshift(item)
+                document.getElementById("input").value = '';
+
+                this.setState({
+                    items: itemArr,
+                    addClicked: false
+                })
+            }
+        })
+    }
+
     componentDidMount(){
         const token = localStorage.getItem('shopaholic-token');
 
@@ -117,16 +179,25 @@ class User extends Component {
     }
 
     render() {
-        const {items, expiredItems, loading, name, sizes} = this.state
+        const {items, expiredItems, loading, addClicked, name, sizes} = this.state
         const deleteItem = this.deleteItem
         const renewItem = this.renewItem
+        let options;
+
+        if(sizes) {
+            options = sizes.map(size => ({
+                key: size,
+                value: size,
+                text: size,
+            }));
+        }
 
         const itemsList = items.map( function(item, index) {
             return (
                 <List.Item key={index} style={{margin: '20px'}} >
                     <img style={{width: '200px', display: 'inline-block', margin:'20px 50px 0px 0px'}} src={item.image} />
                     <div style={{display: 'inline-block', verticalAlign: 'top', marginTop: '30px'}}>
-                        <b><h1>{item.name}</h1></b>
+                        <b><h3>{item.name}</h3></b>
                         <br/><p style={{fontSize:'18px'}}>Size : {item.size}
                         <br/>Price : {item.price}
                         <br/><a href={item.link}> View item </a>
@@ -142,7 +213,7 @@ class User extends Component {
                 <List.Item key={index} style={{margin: '20px'}} >
                     <img style={{width: '200px', display: 'inline-block', margin:'20px 50px 0px 0px'}} src={item.image}/>
                     <div style={{display: 'inline-block', verticalAlign: 'top', marginTop: '30px'}}>
-                        <b><h1>{item.name}</h1></b>
+                        <b><h2>{item.name}</h2></b>
                         <br/><p style={{fontSize:'18px'}}>Size : {item.size}
                         <br/>Price : {item.price}
                         <br/><a href={item.link}> View item </a>
@@ -163,23 +234,23 @@ class User extends Component {
                     </Dimmer>
                 }
 
-                <Input style={{margin: '50px 0px 0px 70px', width:'500px'}}
+                <Input style={{margin: '50px 0px 20px 70px', width:'500px'}}
+                       id={'input'}
                        label='http://'
                        placeholder='Insert a link to add an item'
                        action={{ color: 'blue', content: 'Add New Item', onClick: this.linkSubmitHandler}}
                        onChange={this.onInputChange}
                        autoComplete="on"/>
 
-                <div style={{margin:'30px 0px 50px 70px' }}>
-                    <h4>{name}</h4>
-                    {/*<Menu compact style={{width:'180px'}}>*/}
-                        {/*<Dropdown onChange={this.onChangeFollower} style={{width:'180px'}} placeholder='Select Size' fluid selection options={sizes.map(size => ({*/}
-                            {/*key: size,*/}
-                            {/*value: size,*/}
-                            {/*text: size,*/}
-                        {/*}))} />*/}
-                    {/*</Menu>*/}
-                </div>
+                {
+                    addClicked && <div style={{margin:'30px 0px 50px 70px' }}>
+                        <h3 style={{display:'inline-block'}}>{name}</h3> &nbsp; &emsp;
+                        <Menu compact style={{width:'180px'}}>
+                            <Dropdown onChange={this.onChangeFollower} style={{width:'180px'}} placeholder='Select Size' fluid selection options={options} />
+                        </Menu> &nbsp; &emsp;
+                        <Button type='submit' style={{backgroundColor: 'rgb(21, 135, 205)', color: 'White'}} onClick={this.submitItem}>Add Item</Button>
+                    </div>
+                }
 
 
                 {

@@ -65,9 +65,11 @@ app.post('/api/signup', async (req, res) => {
         .save()
         .then(() => {
             console.log('saved')
+            var token = jwt.sign({ email: email }, process.env.SECRET_OR_KEY);
             res.status(200).send({
                 success: true,
-                message: 'Account created'
+                message: 'Account created',
+                token: token
             })
         })
         .catch(err => {
@@ -131,10 +133,21 @@ app.post('/api/getItemDetails', async (req, res) => {
     res.send(item)
 })
 
-app.post('/api/saveItem', async (req, res)=>{
-    console.log(req.body)
 
-    const email = req.body.email
+app.use((req, res, next) => {
+    jwt.verify(req.body.token, process.env.SECRET_OR_KEY, (err, decoded) => {
+
+        if (err){
+            res.send({success: false, message: "Invalid token"})
+        }else {
+            req.decoded = decoded
+            next()
+        }
+    })
+})
+
+app.post('/api/saveItem', async (req, res)=>{
+    const email = req.decoded.email
 
     const item = {
         link: req.body.link,
@@ -147,13 +160,18 @@ app.post('/api/saveItem', async (req, res)=>{
     const loggedIn = req.body.isLoggedIn
 
     if(loggedIn === true){
-        console.log("logged in")
 
         const doesUserExist = await user.findOne({email: email})
 
         if (!doesUserExist) res.send("USER DOES NOT EXIST")
 
-        await user.findOneAndUpdate({email: email}, {$push: {items: item}})
+        await user.findOneAndUpdate({email: email}, {$push: {items: item}}).then(() => {
+            console.log('saved')
+            res.status(200).send({
+                success: true,
+                message: 'Item Saved'
+            })
+        })
     }else{
         await itemSchema({
             username: req.body.username,
@@ -182,23 +200,8 @@ app.post('/api/saveItem', async (req, res)=>{
 })
 
 app.post('/api/getDashboardItems', async (req, res) =>{
-    if (!req.body.token) {
-        res.send({
-            success: false,
-            message: "Invalid token"
-        })
-    }
 
-    const decoded = jwt.verify(req.body.token, process.env.SECRET_OR_KEY)
-
-    if(!decoded){
-        res.send({
-            success: false,
-            message: "Invalid token"
-        })
-    }
-
-    const data = await user.findOne({email: decoded.email}, {items: 1, expiredItems: 1})
+    const data = await user.findOne({email: req.decoded.email}, {items: 1, expiredItems: 1})
 
     if (!data) res.send({
         success: false,
@@ -216,26 +219,10 @@ app.post('/api/getDashboardItems', async (req, res) =>{
 app.post('/api/deleteItem', (req, res) =>{
     //expired: true
 
-    if (!req.body.token) {
-        res.send({
-            success: false,
-            message: "Invalid token"
-        })
-    }
-
-    const decoded = jwt.verify(req.body.token, process.env.SECRET_OR_KEY)
-
-    if(!decoded){
-        res.send({
-            success: false,
-            message: "Invalid token"
-        })
-    }
-
     //check if expired item or not
     const typeOfItem = (req.body.expiredItem) ? 'expiredItems' : 'items'
 
-    user.update( {email: 'test'}, {$pull:  {[typeOfItem]: {_id: req.body.itemId}}}).then((modified) => {
+    user.update( {email: req.decoded.email}, {$pull:  {[typeOfItem]: {_id: req.body.itemId}}}).then((modified) => {
         res.send('Delete successful')
     })
 })
@@ -243,32 +230,16 @@ app.post('/api/deleteItem', (req, res) =>{
 //TODO:: should be put but post for now
 app.post('/api/renew', async (req, res) =>{
 
-    if (!req.body.token) {
-        res.send({
-            success: false,
-            message: "Invalid token"
-        })
-    }
-
-    const decoded = jwt.verify(req.body.token, process.env.SECRET_OR_KEY)
-
-    if(!decoded){
-        res.send({
-            success: false,
-            message: "Invalid token"
-        })
-    }
-
     //id
-    const itemDoc = await user.findOne({email:decoded.email, expiredItems: {$elemMatch: {_id: req.body.itemId}} }, {expiredItems: 1})
+    const itemDoc = await user.findOne({email:req.decoded.email, expiredItems: {$elemMatch: {_id: req.body.itemId}} }, {expiredItems: 1})
 
     //Mongo has their own Mongo data type so we have to convert to string
     let requestedItem = itemDoc.expiredItems.filter(item => item._id.toString() === req.body.itemId)
     requestedItem = requestedItem[0]
 
     if (requestedItem) {
-        const call1 = user.update({email: decoded.email}, {$pull: {expiredItems: {_id: req.body.itemId}}})
-        const call2 = user.findOneAndUpdate({email: decoded.email}, {$push: {items: requestedItem}})
+        const call1 = user.update({email: req.decoded.email}, {$pull: {expiredItems: {_id: req.body.itemId}}})
+        const call2 = user.findOneAndUpdate({email: req.decoded.email}, {$push: {items: requestedItem}})
         await Promise.all([call1, call2])
 
         res.send('Item Renewed')

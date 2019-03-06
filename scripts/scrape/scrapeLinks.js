@@ -122,10 +122,11 @@ const scrapeLinks = async () => {
     // ]
 
     for (let item of objectToAdd){
-        const data = await linksSchema.findOne({link: item.link})
+        const formattedLink =  item.link.substring(0,  item.link.indexOf("?"))
+        const data = await linksSchema.findOne({link: formattedLink})
 
         if (data){
-            await linksSchema.update({link: item.link}, {$addToSet: {
+            await linksSchema.update({link: formattedLink}, {$addToSet: {
                 price:
                     {
                         price: item.price,
@@ -136,7 +137,7 @@ const scrapeLinks = async () => {
         }else {
             const newLink = new linksSchema({
                 name: websiteName,
-                link: item.link,
+                link: formattedLink,
                 price: [{
                     price: item.price,
                     date: new Date()

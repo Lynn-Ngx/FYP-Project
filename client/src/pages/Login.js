@@ -4,6 +4,8 @@ import { Message } from 'semantic-ui-react'
 import { Button, Divider, Form, Grid } from 'semantic-ui-react'
 import axios from 'axios'
 import {Link} from "react-router-dom";
+import navigationBar from './Header';
+import User from './User'
 
 class Login extends Component {
 
@@ -41,6 +43,11 @@ class Login extends Component {
 
             if(res.data.success){
                 localStorage.setItem('shopaholic-token', res.data.token)
+                return (
+                    <User/>
+                    &&
+                    <navigationBar loggedIn={true}/>
+                );
             }
 
         })
@@ -85,10 +92,10 @@ class Login extends Component {
                                 {/*<Input style={{width: '250px', marginBottom: '20px'}} type='email' name='email'  placeholder="Enter email" value={email}  onChange={this.inputChanged} />*/}
                                 {/*<Input style={{width: '250px', marginBottom: '20px'}} type='password' name='password'  placeholder="Enter password" value={password}  onChange={this.inputChanged} />*/}
 
-                                <Form.Input icon='user' iconPosition='left' name='email' placeholder='Username' value={email}  onChange={this.inputChanged}/>
+                                <Form.Input icon='user' iconPosition='left' name='email' placeholder='Username' autoComplete="off" value={email}  onChange={this.inputChanged}/>
                                 <Form.Input icon='lock' iconPosition='left' name='password' type='password' placeholder="Enter password" value={password}  onChange={this.inputChanged}/>
 
-                                <Button primary style={{width: '250px'}} onClick={this.submitName}> Login </Button>
+                                <Button primary style={{width: '250px'}} onClick={this.submitName} content='Login'/>
                             </Form>
                         </Grid.Column>
 

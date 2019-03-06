@@ -81,7 +81,7 @@ export default class HomePage extends Component {
 
                     <div style={{margin: '20px'}}>
                         <p>I'M A </p>
-                        <p>"SHOPAHOLIC"</p>
+                        <h3>"SHOPAHOLIC"</h3>
                         <p>...IT'S IN MY JEANS</p>
                     </div>
 
