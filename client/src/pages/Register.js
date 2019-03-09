@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {Segment, Button, Input, Message } from 'semantic-ui-react'
 import axios from 'axios'
+import NavigationBar from './Header';
+import User from './User'
 
 class Register extends Component {
 
@@ -9,7 +11,8 @@ class Register extends Component {
         email: '',
         password: '',
         confirmPassword: '',
-        errorMessage: ''
+        errorMessage: '',
+        signedIn: false
     }
 
 
@@ -38,10 +41,9 @@ class Register extends Component {
                 })
             }else{
                 localStorage.setItem('shopaholic-token', res.data.token)
-                return (
-                    <user/> &&
-                    <navigationBar loggedIn={true}/>
-                );
+                this.setState({
+                    signedIn: true
+                })
             }
         })
 
@@ -64,32 +66,50 @@ class Register extends Component {
     }
 
     render() {
-        const {errorMessage, name, email, password, confirmPassword} = this.state
+        const {errorMessage, name, email, password, confirmPassword, signedIn} = this.state
         return (
             <div>
-                <Segment raised style={{width: '300px', margin: '100px auto 0px auto'}}>
-                    <h1>Sign Up</h1>
 
+                {
+                    signedIn &&
                     <div>
-                        <form  onSubmit={this.submitName}>
-                            <Input style={{width: '250px', marginBottom: '20px'}} type='text' name='name'  placeholder="Enter name" value={name}  onChange={this.inputChanged} />
-                            <Input style={{width: '250px', marginBottom: '20px'}} type='email' name='email'  placeholder="Enter email" value={email}  onChange={this.inputChanged} />
-                            <Input style={{width: '250px', marginBottom: '20px'}} type='password' name='password'  placeholder="Enter password" value={password}  onChange={this.inputChanged} />
-                            <Input style={{width: '250px', marginBottom: '20px'}} type='password' name="confirmPassword"  placeholder="Confirm password" value={confirmPassword}  onChange={this.inputChanged} />
-                            <Button primary style={{width: '250px'}} onClick={this.submitName}> Sign Up </Button>
-                        </form>
+                        <NavigationBar signedIn={this.state.signedIn}/>
+                        <User/>
                     </div>
+                }
+
+                {
+                    !signedIn && <Segment raised style={{width: '300px', margin: '100px auto 0px auto'}}>
+                        <h1>Sign Up</h1>
+
+                        <div>
+                            <form onSubmit={this.submitName}>
+                                <Input style={{width: '250px', marginBottom: '20px'}} type='text' name='name'
+                                       placeholder="Enter name" value={name} onChange={this.inputChanged}/>
+                                <Input style={{width: '250px', marginBottom: '20px'}} type='email' name='email'
+                                       placeholder="Enter email" value={email} onChange={this.inputChanged}/>
+                                <Input style={{width: '250px', marginBottom: '20px'}} type='password' name='password'
+                                       placeholder="Enter password" value={password} onChange={this.inputChanged}/>
+                                <Input style={{width: '250px', marginBottom: '20px'}} type='password'
+                                       name="confirmPassword" placeholder="Confirm password" value={confirmPassword}
+                                       onChange={this.inputChanged}/>
+                                <Button primary style={{width: '250px'}} onClick={this.submitName}> Sign Up </Button>
+                            </form>
+                        </div>
 
 
-                    {
-                        (errorMessage !== '') &&
-                        <Message negative style={{width:'250px'}}>
-                            <p>{errorMessage}</p>
-                        </Message>
-                    }
+                        {
+                            (errorMessage !== '') &&
+                            <Message negative style={{width: '250px'}}>
+                                <p>{errorMessage}</p>
+                            </Message>
+                        }
 
-                </Segment>
-            </div>
+                        </Segment>
+                }
+
+                </div>
+
         );
     }
 }

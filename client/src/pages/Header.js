@@ -5,8 +5,7 @@ import {Link} from "react-router-dom";
 export default class NavigationBar extends Component {
     state = {
         activeItem: 'shopaholic',
-        loggedIn: false
-        // this.props.loggedIn,
+        loggedIn: this.props.signedIn,
     }
 
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })
