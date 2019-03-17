@@ -8,15 +8,20 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cron_test = require('../mail/cron_test');
 const scrapeItemDetails = require('../scripts/checkItemAvailability/checkAvailability_asos');
+const scrapeImage = require('../scripts/scrape/scrapeImage')
 const puppeteerHelper = require('../scripts/helper');
 const itemSchema = require('../models/items');
+const priceSchema = require('../models/links')
 var jwt = require('jsonwebtoken');
 
 
 //Token should be sent in header for the jwt autentication
 const connect = () => {
     return new Promise(resolve => {
-        mongoose.connect('mongodb://localhost/fypDatabase')
+        //mongoose.connect('mongodb://localhost/fypDatabase')
+        mongoose.connect('mongodb+srv://lynn:2GfCBTqUxpPWDvhU@cluster0-knwop.mongodb.net/fypUsers?retryWrites=true')
+        // mongoose.connect('mongodb+srv://lynn:2GfCBTqUxpPWDvhU@cluster0-knwop.mongodb.net/fyp?retryWrites=true')
+        //mongoose.connect('mongodb://localhost/FYP');
         mongoose.connection.once('open', function(){
             console.log('connected');
             resolve()
@@ -24,6 +29,21 @@ const connect = () => {
             console.log('Did not connect', error)
         });
     })
+
+
+    // mongoose
+    //     .connect("mongodb+srv://lynn:19980116@cluster0-knwop.mongodb.net/test?retryWrites=true")
+    //     .then(() => console.log('MongoDB Connected'))
+    //     .catch(err => console.log(err));
+    // const MongoClient = require('mongodb').MongoClient;
+    // const uri = "mongodb+srv://lynn:19980116@cluster0-knwop.mongodb.net/test?retryWrites=true";
+    // const client = new MongoClient(uri, { useNewUrlParser: true });
+    // client.connect(err => {
+    //     const collection = client.db("test").collection("devices");
+    //     // perform actions on the collection object
+    //     client.close();
+    // });
+
 }
 
 connect()
@@ -45,6 +65,7 @@ app.get('*', (req, res) => {
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.post('/api/signup', async (req, res) => {
+    const name = req.body.name
     const email = req.body.email
     const password = req.body.password
 
@@ -59,6 +80,7 @@ app.post('/api/signup', async (req, res) => {
     }
 
     user({
+        username:name,
         email: email,
         password: password
     })
@@ -125,30 +147,51 @@ app.post('/api/signin', async (req, res) => {
 app.post('/api/getItemDetails', async (req, res) => {
 
     const itemLink = req.body.itemLink
-    const browerObject = await puppeteerHelper.launchBrowser()
-    const item = await scrapeItemDetails.getItemDetails_asos(browerObject.page, itemLink)
-    browerObject.browser.close()
+    const browserObject = await puppeteerHelper.launchBrowser()
+    const item = await scrapeItemDetails.getItemDetails_asos(browserObject.page, itemLink)
+    browserObject.browser.close()
 
     if (!itemLink) res.send("No item link provided")
     res.send(item)
 })
 
+app.post('/api/scrapeImage', async(req, res)=>{
+    const link = req.body.link
+    const item = await scrapeImage.scrapeImage(link)
 
-app.use((req, res, next) => {
-    jwt.verify(req.body.token, process.env.SECRET_OR_KEY, (err, decoded) => {
+    if (!link) res.send("No item link provided")
+    res.send(item)
+})
 
-        if (err){
-            res.send({success: false, message: "Invalid token"})
-        }else {
-            req.decoded = decoded
-            next()
-        }
-    })
+app.post('/api/getPrices', async(req, res) =>{
+    const link = req.body.link
+    const linkExist = await priceSchema.findOne({link: link})
+
+    if (!linkExist) {
+        res.status(200).send({
+            success: false,
+            message: 'Link Does Not Exist'
+        })
+        return
+    }
+
+    res.send(linkExist)
+})
+
+app.put('/api/getItems', async(req, res) =>{
+    const items = await itemSchema.find()
+    res.send(items)
+})
+
+app.put('/api/getUserItems', async(req, res) =>{
+    const items = await user.find()
+    res.send(items)
 })
 
 app.post('/api/saveItem', async (req, res)=>{
-    const email = req.decoded.email
+    console.log(req.body)
 
+    //add error checking to make sure there fields were included
     const item = {
         link: req.body.link,
         price: req.body.price,
@@ -158,8 +201,27 @@ app.post('/api/saveItem', async (req, res)=>{
     }
 
     const loggedIn = req.body.isLoggedIn
+    //const loggedIn = (req.body.token)
 
     if(loggedIn === true){
+
+        //have to check if body contains token
+        if (!req.body.token){
+            res.send({success: false, message: "Invalid token"})
+            return
+        }
+
+        jwt.verify(req.body.token, process.env.SECRET_OR_KEY, (err, decoded) => {
+
+            if (err){
+                res.send({success: false, message: "Invalid token"})
+                console.log(err)
+            }else {
+                req.decoded = decoded
+            }
+        })
+
+        const email = req.decoded.email
 
         const doesUserExist = await user.findOne({email: email})
 
@@ -198,6 +260,20 @@ app.post('/api/saveItem', async (req, res)=>{
             })
     }
 })
+
+
+app.use((req, res, next) => {
+    jwt.verify(req.body.token, process.env.SECRET_OR_KEY, (err, decoded) => {
+
+        if (err){
+            res.send({success: false, message: "Invalid token"})
+        }else {
+            req.decoded = decoded
+            next()
+        }
+    })
+})
+
 
 app.post('/api/getDashboardItems', async (req, res) =>{
 

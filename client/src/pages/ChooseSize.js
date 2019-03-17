@@ -43,7 +43,8 @@ export default class ChooseSize extends Component {
         price: this.props.price,
         username: '',
         email: '',
-        errorMessage: ''
+        errorMessage: '',
+        prices: this.props.prices
     }
 
     submitName = async (e) => {
@@ -63,7 +64,7 @@ export default class ChooseSize extends Component {
             return
         }
         //
-        axios.put('/api/saveItem', {username: this.state.username,  email: this.state.email, link: this.state.link, name: this.state.name, size: this.state.size, price: this.state.price}).then(res => {
+        axios.post('/api/saveItem', {username: this.state.username,  email: this.state.email, link: this.state.link, name: this.state.name, size: this.state.size, price: this.state.price, isLoggedIn: false}).then(res => {
             console.log(res)
             if (!res.data.success){
                 this.setState({
@@ -98,16 +99,14 @@ export default class ChooseSize extends Component {
         const {errorMessage, username, email} = this.state
         return(
             <div>
-                <Segment style={{margin: '100px', padding: '50px'}}>
+                <Segment style={{margin: '100px', height: '400px', padding: '50px', overflow: 'scroll'}}>
 
                     <Grid columns={2} relaxed='very'>
                         <Grid.Column>
-                            <h2>{this.props.name}</h2>
-                            <p>Current Price: {this.props.price}</p>
+                            <h2 style={{marginTop:'20px'}} >{this.props.name}</h2>
+                            <p>{this.props.prices}</p>
+                            <p style={{fontSize: '20px'}}>Current Price: {this.props.price}</p>
 
-                            <br/>
-
-                            <Line data={data}/>
                             {/*<Popup*/}
                                 {/*trigger={<Button color='white' icon='eye' content='View Price History'/>}*/}
                                 {/*content={<Line data={data}/>}*/}
@@ -115,9 +114,7 @@ export default class ChooseSize extends Component {
                                 {/*position='bottom right'*/}
                             {/*/>*/}
 
-                            <br/><br/>
-
-                            <p>Select a size:</p>
+                            <p style={{fontSize: '15px'}}>Select a size:</p>
 
                             <Menu compact style={{width:'180px'}}>
                                 <Dropdown onChange={this.onChangeFollower} style={{width:'180px'}} placeholder='Select Size' fluid selection options={this.props.sizes.map(size => ({
@@ -126,10 +123,14 @@ export default class ChooseSize extends Component {
                                     text: size,
                                 }))} />
                             </Menu>
+
+                            <br/><br/><br/><br/>
+
+                            {/*<Line data={data}/>*/}
                         </Grid.Column>
 
-                        <Grid.Column style={{marginTop:'100px'}}>
-                            <h2>Enter Details</h2>
+                        <Grid.Column>
+                            <h2 style={{marginTop:'20px'}}>Enter Details</h2>
 
                             <div>
                                 <Form>

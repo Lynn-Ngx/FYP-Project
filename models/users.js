@@ -28,6 +28,7 @@ const itemSchema = new Schema({
 
 
 const userSchema = new Schema({
+    username: String,
     email: String,
     password: String,
     items: [itemSchema],

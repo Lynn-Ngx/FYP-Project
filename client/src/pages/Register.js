@@ -79,33 +79,36 @@ class Register extends Component {
                 }
 
                 {
-                    !signedIn && <Segment raised style={{width: '300px', margin: '100px auto 0px auto'}}>
-                        <h1>Sign Up</h1>
+                    !signedIn &&
+                    /*<div style={{backgroundColor:'#181818', width:'100%', height:'100%', position: 'absolute'}}>*/
+                        <Segment raised style={{width: '300px', margin: '50px auto 0px auto'}}>
+                            <h1>Sign Up</h1>
 
-                        <div>
-                            <form onSubmit={this.submitName}>
-                                <Input style={{width: '250px', marginBottom: '20px'}} type='text' name='name'
-                                       placeholder="Enter name" value={name} onChange={this.inputChanged}/>
-                                <Input style={{width: '250px', marginBottom: '20px'}} type='email' name='email'
-                                       placeholder="Enter email" value={email} onChange={this.inputChanged}/>
-                                <Input style={{width: '250px', marginBottom: '20px'}} type='password' name='password'
-                                       placeholder="Enter password" value={password} onChange={this.inputChanged}/>
-                                <Input style={{width: '250px', marginBottom: '20px'}} type='password'
-                                       name="confirmPassword" placeholder="Confirm password" value={confirmPassword}
-                                       onChange={this.inputChanged}/>
-                                <Button primary style={{width: '250px'}} onClick={this.submitName}> Sign Up </Button>
-                            </form>
-                        </div>
+                            <div>
+                                <form onSubmit={this.submitName}>
+                                    <Input style={{width: '250px', marginBottom: '20px'}} type='text' name='name'
+                                           placeholder="Enter name" value={name} onChange={this.inputChanged}/>
+                                    <Input style={{width: '250px', marginBottom: '20px'}} type='email' name='email'
+                                           placeholder="Enter email" value={email} onChange={this.inputChanged}/>
+                                    <Input style={{width: '250px', marginBottom: '20px'}} type='password' name='password'
+                                           placeholder="Enter password" value={password} onChange={this.inputChanged}/>
+                                    <Input style={{width: '250px', marginBottom: '20px'}} type='password'
+                                           name="confirmPassword" placeholder="Confirm password" value={confirmPassword}
+                                           onChange={this.inputChanged}/>
+                                    <Button primary style={{width: '250px'}} onClick={this.submitName}> Sign Up </Button>
+                                </form>
+                            </div>
 
 
-                        {
-                            (errorMessage !== '') &&
-                            <Message negative style={{width: '250px'}}>
-                                <p>{errorMessage}</p>
-                            </Message>
-                        }
+                            {
+                                (errorMessage !== '') &&
+                                <Message negative style={{width: '250px'}}>
+                                    <p>{errorMessage}</p>
+                                </Message>
+                            }
 
                         </Segment>
+                    // </div>
                 }
 
                 </div>
