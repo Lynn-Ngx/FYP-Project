@@ -1,6 +1,7 @@
-import { Button, Input, List, Dimmer, Loader, Menu, Dropdown } from 'semantic-ui-react'
+import { Button, Input, List, Dimmer, Loader, Menu, Dropdown, Message } from 'semantic-ui-react'
 import React, { Component } from 'react';
 import axios from 'axios'
+//import NavigationBar from './Header';
 
 class User extends Component {
 
@@ -17,7 +18,9 @@ class User extends Component {
             link: '',
             click: false,
             loading: false,
-            addClicked: false};
+            addClicked: false,
+            noInput: true,
+            errMessage:''};
 
         this.linkSubmitHandler = this.linkSubmitHandler.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
@@ -26,6 +29,9 @@ class User extends Component {
 
     onInputChange(event) {
         this.setState({link: event.target.value});
+
+        if(event.target.value === '') this.setState({noInput: true});
+        else this.setState({noInput: false});
     }
 
     onChangeFollower = (event, data) => {
@@ -46,19 +52,22 @@ class User extends Component {
         })
 
         axios.post('/api/getItemDetails', {itemLink: this.state.link}).then(res => {
-
-
             this.setState({
                 name: res.data.name,
                 price: res.data.price,
                 sizes: res.data.sizes,
                 image: res.data.image,
                 loading: false,
-                addClicked: true
+                addClicked: true,
+                click: true
             })
 
-            this.setState({ click: true});
-
+            if(!res.data.success){
+                this.setState({
+                    loading:false,
+                    errMessage: 'Invalid Link Entered'
+                })
+            }
         })
 
     }
@@ -116,7 +125,9 @@ class User extends Component {
 
     submitItem = async (e) => {
         this.setState({
-            errorMessage: ''
+            errorMessage: '',
+            errMessage: ''
+
         })
         //this just stops page redirecting when submitting form
         e.preventDefault()
@@ -179,7 +190,7 @@ class User extends Component {
     }
 
     render() {
-        const {items, expiredItems, loading, addClicked, name, sizes} = this.state
+        const {items, expiredItems, loading, addClicked, name, sizes, errMessage, noInput} = this.state
         const deleteItem = this.deleteItem
         const renewItem = this.renewItem
         let options;
@@ -227,6 +238,8 @@ class User extends Component {
 
         return (
             <div>
+                {/*<NavigationBar signedIn={true}/>*/}
+
                 {
                     loading &&
                     <Dimmer active >
@@ -238,9 +251,17 @@ class User extends Component {
                        id={'input'}
                        label='http://'
                        placeholder='Insert a link to add an item'
-                       action={{ color: 'blue', content: 'Add New Item', onClick: this.linkSubmitHandler}}
+                       action={{ color: 'blue', content: 'Add New Item', onClick: this.linkSubmitHandler, disabled: noInput}}
                        onChange={this.onInputChange}
-                       autoComplete="on"/>
+                       autoComplete="on"
+                />
+
+                {
+                    (errMessage !== '') &&
+                    <Message negative style={{width:'500px', margin: '0px 0px 20px 70px'}}>
+                        <p>{errMessage}</p>
+                    </Message>
+                }
 
                 {
                     addClicked && <div style={{margin:'30px 0px 50px 70px' }}>

@@ -167,6 +167,7 @@ const checkItems = async (items) => {
         const itemAvailable = await isItemAvailable(browserObject.page, item.link, item.name, item.size)
         if (itemAvailable) availableItems.push(item)
     }
+    console.log(availableItems)
     return availableItems
 }
 

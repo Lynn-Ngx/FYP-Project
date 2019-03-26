@@ -13,14 +13,15 @@ const puppeteerHelper = require('../scripts/helper');
 const itemSchema = require('../models/items');
 const priceSchema = require('../models/links')
 var jwt = require('jsonwebtoken');
+var md5 = require('md5');
 
 
 //Token should be sent in header for the jwt autentication
 const connect = () => {
     return new Promise(resolve => {
-        //mongoose.connect('mongodb://localhost/fypDatabase')
+       // mongoose.connect('mongodb://localhost/fypDatabase')
         mongoose.connect('mongodb+srv://lynn:2GfCBTqUxpPWDvhU@cluster0-knwop.mongodb.net/fypUsers?retryWrites=true')
-        // mongoose.connect('mongodb+srv://lynn:2GfCBTqUxpPWDvhU@cluster0-knwop.mongodb.net/fyp?retryWrites=true')
+        //mongoose.connect('mongodb+srv://lynn:2GfCBTqUxpPWDvhU@cluster0-knwop.mongodb.net/fyp?retryWrites=true')
         //mongoose.connect('mongodb://localhost/FYP');
         mongoose.connection.once('open', function(){
             console.log('connected');
@@ -29,20 +30,6 @@ const connect = () => {
             console.log('Did not connect', error)
         });
     })
-
-
-    // mongoose
-    //     .connect("mongodb+srv://lynn:19980116@cluster0-knwop.mongodb.net/test?retryWrites=true")
-    //     .then(() => console.log('MongoDB Connected'))
-    //     .catch(err => console.log(err));
-    // const MongoClient = require('mongodb').MongoClient;
-    // const uri = "mongodb+srv://lynn:19980116@cluster0-knwop.mongodb.net/test?retryWrites=true";
-    // const client = new MongoClient(uri, { useNewUrlParser: true });
-    // client.connect(err => {
-    //     const collection = client.db("test").collection("devices");
-    //     // perform actions on the collection object
-    //     client.close();
-    // });
 
 }
 
@@ -82,7 +69,7 @@ app.post('/api/signup', async (req, res) => {
     user({
         username:name,
         email: email,
-        password: password
+        password: md5(password)
     })
         .save()
         .then(() => {
@@ -108,7 +95,7 @@ app.post('/api/signin', async (req, res) => {
     const password = req.body.password
 
     const userExists = await user.findOne({email: email})
-    const passwordMatch = await user.findOne({password: password})
+    const passwordMatch = userExists.password
 
     if (!userExists) {
         res.status(200).send({
@@ -118,7 +105,7 @@ app.post('/api/signin', async (req, res) => {
         return
     }
 
-    if (!passwordMatch) {
+    if (md5(password) !== passwordMatch) {
         res.status(200).send({
             success: false,
             message: 'Incorrect Password'
@@ -151,8 +138,14 @@ app.post('/api/getItemDetails', async (req, res) => {
     const item = await scrapeItemDetails.getItemDetails_asos(browserObject.page, itemLink)
     browserObject.browser.close()
 
-    if (!itemLink) res.send("No item link provided")
-    res.send(item)
+    if (!item) {
+        res.send({
+            message: "No item link provided",
+            success: false
+        })
+    }else{
+        res.send({name: item.name, sizes: item.sizes, price: item.price, image: item.image, success: true})
+    }
 })
 
 app.post('/api/scrapeImage', async(req, res)=>{
@@ -165,17 +158,30 @@ app.post('/api/scrapeImage', async(req, res)=>{
 
 app.post('/api/getPrices', async(req, res) =>{
     const link = req.body.link
-    const linkExist = await priceSchema.findOne({link: link})
+    const price = await priceSchema.findOne({link: link})
 
-    if (!linkExist) {
+    if (!price) {
         res.status(200).send({
             success: false,
             message: 'Link Does Not Exist'
         })
         return
     }
+    const prices = []
+    const dates = []
 
-    res.send(linkExist)
+    for(let i=0; i<price.price.length; i++){
+        prices.push(parseFloat(price.price[i].price.slice(1)))
+        //console.log(price.price[i].date.toString())
+        const dt = price.price[i].date
+        price.price[i].date =  dt.getMonth( ) + 1 +'/'+ dt.getDate( ) + '/' +dt.getFullYear( );
+        dates.push(price.price[i].date.toString())
+    }
+    res.send({
+        prices: prices,
+        dates: dates
+    })
+
 })
 
 app.put('/api/getItems', async(req, res) =>{

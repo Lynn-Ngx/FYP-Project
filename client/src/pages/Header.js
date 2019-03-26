@@ -5,34 +5,51 @@ import {Link} from "react-router-dom";
 export default class NavigationBar extends Component {
     state = {
         activeItem: 'shopaholic',
-        loggedIn:true,
+        //loggedIn:false,
     }
 
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
-    logout = () => this.setState({ loggedIn: false })
+    logout = () => {
+        this.setState({ loggedIn: false })
+        localStorage.removeItem("shopaholic-token")
+    }
 
     render() {
-        const { activeItem, loggedIn} = this.state
+        const { activeItem} = this.state
 
         return (
 
             <div>
-                {!loggedIn && <Menu borderless style={{backgroundColor:'#181818', border: '5px solid #181818', borderRadius:'0px'}}>
+                {!this.props.signedIn &&
+                <Menu borderless style={{backgroundColor:'#181818', border: '5px solid #181818', borderRadius:'0px'}}>
                     {/*<Link to={'/home'} active={activeItem === 'shopaholic'}>SHOPAHOLIC</Link>*/}
-                    <Menu.Item  style={{color:'white', fontSize:'30px', marginLeft:'10px'}} name='shopaholic' as={Link} to='/home' active={activeItem === 'shopaholic'}
-                               onClick={this.handleItemClick}/>
-
+                    <Menu.Item  style={{color:'white', fontSize:'30px', marginLeft:'10px'}}
+                                name='shopaholic'
+                                as={Link} to='/home'
+                                active={activeItem === 'shopaholic'}
+                                onClick={this.handleItemClick}
+                    />
                     <Menu.Menu position='right'>
-                        <Menu.Item style={{color:'white', fontSize:'15px',  border: '1px solid white', height:'40px', marginTop:'20px', width: '90px'}} name='login' as={Link} to='/login' active={activeItem === 'login'}
-                                   onClick={this.handleItemClick}/>
-                        <Menu.Item style={{color:'white', fontSize:'15px',  border: '1px solid white', height:'40px', margin:'20px 20px 0px 20px'}} name='register' as={Link} to='/register' active={activeItem === 'register'}
-                                   onClick={this.handleItemClick}/>
+                        <Menu.Item
+                            style={{color:'white', fontSize:'15px',  border: '1px solid white', height:'40px', marginTop:'20px', width: '90px'}}
+                            name='login'
+                            as={Link} to='/login'
+                            active={activeItem === 'login'}
+                            onClick={this.handleItemClick}
+                        />
+                        <Menu.Item
+                            style={{color:'white', fontSize:'15px',  border: '1px solid white', height:'40px', margin:'20px 20px 0px 20px'}}
+                            name='register'
+                            as={Link} to='/register'
+                            active={activeItem === 'register'}
+                            onClick={this.handleItemClick}/>
                     </Menu.Menu>
                 </Menu>
                 }
 
-                { loggedIn &&  <Menu style={{backgroundColor:'#181818', border: '5px solid #181818', borderRadius:'0px'}}>
+                { this.props.signedIn &&
+                <Menu style={{backgroundColor:'#181818', border: '5px solid #181818', borderRadius:'0px'}}>
                     <Menu.Item
                         name='home'
                         style={{color:'white', fontSize:'20px', marginLeft:'10px'}}

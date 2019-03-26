@@ -4,9 +4,21 @@ const puppeteer = require('puppeteer');
 //document.querySelector('#product-gallery > div.window > ul > li:nth-child(2) > div > div > div > div.amp-spinner.amp-relative > div.amp-page.amp-spin > div.amp-page.amp-images > div > div.fullImageContainer > img').src
 
 const scrapeImage = async (link) => {
-    const browser = await puppeteer.launch({headless:false});
-    const page = await browser.newPage();
-
+    const browser = await puppeteer.launch(
+        {
+            headless:true,
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox'
+                // '--no-sandbox',
+                // '--disable-setuid-sandbox',
+                // '--disable-infobars',
+                // '--window-position=0,0',
+                // '--ignore-certifcate-errors',
+                // '--ignore-certifcate-errors-spki-list',
+                // '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"'
+            ] }) //headless so it shows browser
+    const page = await browser.newPage()
 
     //let viewSource = await page.goto('https://images.asos-media.com/products/rahi-scarlett-midi-dress-in-dot-flower-print/11230722-1-fleurprint?$XXL$&wid=513&fit=constrain');
     page.goto(link)

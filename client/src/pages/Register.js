@@ -107,10 +107,10 @@ class Register extends Component {
                                 </Message>
                             }
 
+
                         </Segment>
                     // </div>
                 }
-
                 </div>
 
         );

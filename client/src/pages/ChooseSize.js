@@ -5,37 +5,7 @@ import { Dropdown, Menu, Message} from 'semantic-ui-react'
 import {Line} from 'react-chartjs-2';
 import axios from "axios/index";
 
-
-const data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [
-        {
-            label: 'Price',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [65, 59, 80, 81, 56, 55, 40]
-        }
-    ]
-};
-
-
 export default class ChooseSize extends Component {
-
     state = {
         link: this.props.link,
         name: this.props.name,
@@ -44,7 +14,32 @@ export default class ChooseSize extends Component {
         username: '',
         email: '',
         errorMessage: '',
-        prices: this.props.prices
+        data : {
+            labels: this.props.dates,
+            datasets: [
+                {
+                    label: 'Price',
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: 'rgba(75,192,192,0.4)',
+                    borderColor: 'rgba(75,192,192,1)',
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: 'rgba(75,192,192,1)',
+                    pointBackgroundColor: '#fff',
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+                    pointHoverBorderColor: 'rgba(220,220,220,1)',
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data: this.props.prices
+                }
+            ]
+        }
     }
 
     submitName = async (e) => {
@@ -96,7 +91,7 @@ export default class ChooseSize extends Component {
     }
 
     render() {
-        const {errorMessage, username, email} = this.state
+        const {errorMessage, username, email, data} = this.state
         return(
             <div>
                 <Segment style={{margin: '100px', height: '400px', padding: '50px', overflow: 'scroll'}}>
@@ -104,7 +99,6 @@ export default class ChooseSize extends Component {
                     <Grid columns={2} relaxed='very'>
                         <Grid.Column>
                             <h2 style={{marginTop:'20px'}} >{this.props.name}</h2>
-                            <p>{this.props.prices}</p>
                             <p style={{fontSize: '20px'}}>Current Price: {this.props.price}</p>
 
                             {/*<Popup*/}
@@ -126,7 +120,9 @@ export default class ChooseSize extends Component {
 
                             <br/><br/><br/><br/>
 
-                            {/*<Line data={data}/>*/}
+                            {
+                                data.labels &&  <Line data={data}/>
+                            }
                         </Grid.Column>
 
                         <Grid.Column>

@@ -105,7 +105,7 @@ class Login extends Component {
                                         <Form.Input icon='user' iconPosition='left' name='email' placeholder='Username' autoComplete="off" value={email}  onChange={this.inputChanged}/>
                                         <Form.Input icon='lock' iconPosition='left' name='password' type='password' placeholder="Enter password" value={password}  onChange={this.inputChanged}/>
 
-                                        <Button primary style={{width: '250px'}} as={Link} to='/user' onClick={this.submitName} content='Login'/>
+                                        <Button primary style={{width: '250px'}} as={Link} to={'/user'} onClick={this.submitName} content='Login'/>
                                     </Form>
                                 </Grid.Column>
 

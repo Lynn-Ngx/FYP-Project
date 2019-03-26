@@ -4,21 +4,37 @@ const linksSchema = require('../../models/links');
 const _cliProgress = require('cli-progress');
 const fs = require('fs')
 
-const connectToLocalDB = () => {
-    return new Promise(resolve => {
-        mongoose.connect('mongodb://localhost/FYP');
-        mongoose.connection.once('open', function(){
-            console.log('Connection has been made to local database');
-            resolve()
-        }).on('error', function(error){
-            console.log('Connection error: ' + error);
-        });
-    })
-}
+// const connectToLocalDB = () => {
+//     return new Promise(resolve => {
+//         mongoose.connect('mongodb+srv://lynn:2GfCBTqUxpPWDvhU@cluster0-knwop.mongodb.net/fypUsers?retryWrites=true')
+//         //mongoose.connect('mongodb://localhost/FYP');
+//         mongoose.connection.once('open', function(){
+//             console.log('Connection has been made to database');
+//             resolve()
+//         }).on('error', function(error){
+//             console.log('Connection error: ' + error);
+//         });
+//     })
+// }
 
 const scrapeLinks = async () => {
-    const browser = await puppeteer.launch({headless:false}) //headless so it shows browser
+    const browser = await puppeteer.launch(
+        {
+            headless:true,
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox'
+                // '--no-sandbox',
+                // '--disable-setuid-sandbox',
+                // '--disable-infobars',
+                // '--window-position=0,0',
+                // '--ignore-certifcate-errors',
+                // '--ignore-certifcate-errors-spki-list',
+                // '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"'
+            ] }) //headless so it shows browser
     const page = await browser.newPage()
+
+    page.setUserAgent('request');
 
     let allLinks = []
 
@@ -103,13 +119,14 @@ const scrapeLinks = async () => {
             }
         }
     }
-
+    browser.close()
     return allLinks
 };
 
 
+
 (async () => {
-    await connectToLocalDB()
+    // await connectToLocalDB()
     let objectToAdd = await scrapeLinks()
     // objectToAdd = [objectToAdd[0], objectToAdd[1]]
     const websiteName = 'asos'

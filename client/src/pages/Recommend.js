@@ -1,8 +1,10 @@
 import React from 'react'
 import {Segment, Grid, Header} from 'semantic-ui-react'
+import NavigationBar from './Header';
 
 const DashboardHome = () => (
     <div>
+        <NavigationBar signedIn={true}/>
         <h1 style={{textAlign: 'center', marginTop:'100px'}}>You May Also Like...</h1>
         <Segment placeholder style={{margin: '50px'}}>
             <Grid columns={4} stackable textAlign='center'>
