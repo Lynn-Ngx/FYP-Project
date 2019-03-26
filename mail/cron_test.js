@@ -4,6 +4,7 @@ const mail = require('./mail')
 const itemSchema = require('../models/items')
 const userSchema = require('../models/users');
 
+//Get all items from user
 const getAllItems = async () => {
     const itemsOfRegisteredUsers =[]
     const users = await userSchema.find({}, {email: 1, username: 1, items: 1})
@@ -55,3 +56,4 @@ var scrapeLinks = schedule.scheduleJob('*/4 * * * *', function(){
     console.log('Called!!!!!!')
     const scrapeLinks = require('../scripts/scrape/scrapeLinks')
 });
+
