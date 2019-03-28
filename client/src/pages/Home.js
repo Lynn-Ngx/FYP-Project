@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import { Button, Divider, Input, Segment,  Header, Popup, Grid, Dimmer, Loader, Message} from 'semantic-ui-react'
 import history from './History';
 import ChooseSize from './ChooseSize'
-import {Link} from "react-router-dom";
+import {NavLink, Redirect} from "react-router-dom";
 import axios from "axios/index";
 import ImageUploader from 'react-images-upload';
+
 var fs = require('fs');
 
 export default class HomePage extends Component {
@@ -95,16 +96,15 @@ export default class HomePage extends Component {
     render() {
         const {loading, noInput, errMessage} = this.state
 
-        console.log(loading)
-
-        if (this.state.click) {
-            return (
-                <ChooseSize link={this.state.link} name={this.state.name} sizes={this.state.sizes} price={this.state.price} prices={this.state.prices} dates={this.state.dates}/>
-            );
-        }
-
         return (
             <div>
+
+                {
+                    this.state.click &&
+                    <div>
+                        <ChooseSize link={this.state.link} name={this.state.name} sizes={this.state.sizes} price={this.state.price} prices={this.state.prices} dates={this.state.dates}/>
+                    </div>
+                }
 
                 {
                     loading &&
@@ -115,7 +115,7 @@ export default class HomePage extends Component {
 
                 <Segment basic textAlign='center' style={{backgroundColor:'#181818', height:'310px', paddingTop: '50px'}}>
 
-                    <div >
+                    <div>
                         <p style={{color: 'white', fontFamily:'fantasy', fontSize:'20px'}}>I'M A </p>
                         <h3 style={{color: 'white', fontFamily:'fantasy', fontSize:'50px'}}>"SHOPAHOLIC"</h3>
                         <p style={{color: 'white', fontFamily:'fantasy', fontSize:'20px'}}>...IT'S IN MY JEANS</p>
@@ -125,7 +125,7 @@ export default class HomePage extends Component {
 
                     <Input
                         action={{ color: 'blue', content: 'Search', disabled: noInput,
-                            as: Link, to: '/chooseSize', onClick: this.linkSubmitHandler} }
+                            as: NavLink, to: '/chooseSize', onClick: this.linkSubmitHandler} }
                         icon='search'
                         style={{width:'500px'}}
                         //autoComplete="off"
@@ -150,14 +150,10 @@ export default class HomePage extends Component {
 
                     <br/><br/>
 
-                    <Popup trigger={<Button color='teal' content='Recommend Me' icon='add'/> } on='click' position='top center' flowing hoverable>
+                    <Popup trigger={<Button color='teal' content='Recommend Me' icon='add'/> } position='top center' flowing hoverable>
                         <Grid centered divided columns={2}>
                             <Grid.Column textAlign='center' style={{width: '300px'}}>
                                 <Header as='h4'>Upload an Image</Header>
-                                {/*<p>*/}
-                                    {/*Upload an image to receive a recommendation*/}
-                                {/*</p>*/}
-                                {/*<Button icon='add' content='Attach' onChange={this.attachImage}/>*/}
                                 <ImageUploader
                                     withIcon={false}
                                     buttonText='Attach Image'
@@ -179,7 +175,6 @@ export default class HomePage extends Component {
                                    // type='submit'
                                     onChange={this.onInputChange}
                                 />
-                                {/*<button onClick={this.recomLinkSubmitHandler}>click here</button>*/}
                             </Grid.Column>
                         </Grid>
                     </Popup>
@@ -471,3 +466,11 @@ export default class HomePage extends Component {
         )
     }
 }
+
+// const mapStateToProps = (state) =>{
+//     return{
+//         projects: state.project.projects
+//     }
+// }
+
+// export default connect(mapStateToProps)

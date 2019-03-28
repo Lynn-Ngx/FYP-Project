@@ -5,12 +5,16 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom'
 import 'semantic-ui-css/semantic.min.css';
+import { createStore } from 'redux'
+import rootReducer from './store/reducers/rootReducer'
+import { Provider } from 'react-redux'
 
+const store = createStore(rootReducer);
 
 ReactDOM.render(
-    <BrowserRouter>
+    <Provider store={store}>
         <App/>
-    </BrowserRouter>,
+    </Provider>,
 
     document.getElementById('root'));
 

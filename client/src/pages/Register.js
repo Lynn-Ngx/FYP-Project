@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Segment, Button, Input, Message } from 'semantic-ui-react'
 import axios from 'axios'
-import NavigationBar from './Header';
+import { Redirect } from "react-router-dom";
 import User from './User'
 
 class Register extends Component {
@@ -73,15 +73,14 @@ class Register extends Component {
                 {
                     signedIn &&
                     <div>
-                        <NavigationBar signedIn={this.state.signedIn}/>
                         <User/>
+                        <Redirect to="/user"/>
                     </div>
                 }
 
                 {
                     !signedIn &&
-                    /*<div style={{backgroundColor:'#181818', width:'100%', height:'100%', position: 'absolute'}}>*/
-                        <Segment raised style={{width: '300px', margin: '50px auto 0px auto'}}>
+                        <Segment raised style={{width: '300px', margin: '100px auto 0px auto'}}>
                             <h1>Sign Up</h1>
 
                             <div>
@@ -109,7 +108,6 @@ class Register extends Component {
 
 
                         </Segment>
-                    // </div>
                 }
                 </div>
 

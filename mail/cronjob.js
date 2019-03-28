@@ -46,12 +46,13 @@ var emailUsers = schedule.scheduleJob('*/60 * * * *', async function(){
 
             await userSchema.update( {email: availableItem.email}, {$pull:  {['items']: {_id: items._id}}}).then((modified) => {
             })
+
         }
     })
 });
 //
-// //0 0 0 * * * is everyday at 12am ('0 0 0 * * *'
-var scrapeLinks = schedule.scheduleJob('*/4 * * * *', function(){
+// //0 0 0 * * * is everyday at 12am
+var scrapeLinks = schedule.scheduleJob('0 0 0 * * *', function(){
     //TODO:: MaxListenersExceededWarning: Possible EventEmitter memory leak detected.
     console.log('Called!!!!!!')
     const scrapeLinks = require('../scripts/scrape/scrapeLinks')

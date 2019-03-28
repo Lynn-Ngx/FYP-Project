@@ -6,7 +6,7 @@ const path = require('path');
 const user = require('../models/users');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const cron_test = require('../mail/cron_test');
+const cronjob = require('../mail/cronjob');
 const scrapeItemDetails = require('../scripts/checkItemAvailability/checkAvailability_asos');
 const scrapeImage = require('../scripts/scrape/scrapeImage')
 const puppeteerHelper = require('../scripts/helper');
@@ -19,7 +19,7 @@ var md5 = require('md5');
 //Token should be sent in header for the jwt autentication
 const connect = () => {
     return new Promise(resolve => {
-       // mongoose.connect('mongodb://localhost/fypDatabase')
+        //mongoose.connect('mongodb://localhost/fypDatabase')
         mongoose.connect('mongodb+srv://lynn:2GfCBTqUxpPWDvhU@cluster0-knwop.mongodb.net/fypUsers?retryWrites=true')
         //mongoose.connect('mongodb+srv://lynn:2GfCBTqUxpPWDvhU@cluster0-knwop.mongodb.net/fyp?retryWrites=true')
         //mongoose.connect('mongodb://localhost/FYP');
@@ -38,12 +38,11 @@ connect()
 var app = express()
 app.use(bodyParser.json());
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 // database.connectToInMemeoryDB()
 
 app.use(express.static(path.join(__dirname, '/../client/build')));
-
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname+'/../client/build/index.html'));

@@ -1,7 +1,6 @@
 import { Button, Input, List, Dimmer, Loader, Menu, Dropdown, Message } from 'semantic-ui-react'
 import React, { Component } from 'react';
 import axios from 'axios'
-//import NavigationBar from './Header';
 
 class User extends Component {
 
@@ -39,7 +38,6 @@ class User extends Component {
     }
 
     linkSubmitHandler = async (event) => {
-        //history.push('./chooseSize')
         event.preventDefault();
 
         this.setState({
@@ -168,10 +166,10 @@ class User extends Component {
     }
 
     componentDidMount(){
+
         const token = localStorage.getItem('shopaholic-token');
 
         //if no token redirect to home page
-
         axios.post('/api/getDashboardItems', {token}).then(res => {
 
             if (res.data.success === false){
@@ -238,8 +236,6 @@ class User extends Component {
 
         return (
             <div>
-                {/*<NavigationBar signedIn={true}/>*/}
-
                 {
                     loading &&
                     <Dimmer active >

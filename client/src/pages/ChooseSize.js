@@ -1,9 +1,11 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { Divider, Grid } from 'semantic-ui-react'
-import {Segment, Button, Form, Popup } from 'semantic-ui-react'
+import { Segment, Button, Form } from 'semantic-ui-react'
 import { Dropdown, Menu, Message} from 'semantic-ui-react'
-import {Line} from 'react-chartjs-2';
+import { Redirect } from 'react-router-dom'
+import { Line } from 'react-chartjs-2';
 import axios from "axios/index";
+import HomePage from "./Home";
 
 export default class ChooseSize extends Component {
     state = {
@@ -60,7 +62,17 @@ export default class ChooseSize extends Component {
         }
         //
         axios.post('/api/saveItem', {username: this.state.username,  email: this.state.email, link: this.state.link, name: this.state.name, size: this.state.size, price: this.state.price, isLoggedIn: false}).then(res => {
-            console.log(res)
+            if (res.data.success){
+                console.log(res)
+                return(
+                    <div>
+                        <HomePage/>
+                        <Redirect to="/"/>
+                    </div>
+
+                )
+            }
+
             if (!res.data.success){
                 this.setState({
                     errorMessage: res.data.message
@@ -100,13 +112,6 @@ export default class ChooseSize extends Component {
                         <Grid.Column>
                             <h2 style={{marginTop:'20px'}} >{this.props.name}</h2>
                             <p style={{fontSize: '20px'}}>Current Price: {this.props.price}</p>
-
-                            {/*<Popup*/}
-                                {/*trigger={<Button color='white' icon='eye' content='View Price History'/>}*/}
-                                {/*content={<Line data={data}/>}*/}
-                                {/*on='click'*/}
-                                {/*position='bottom right'*/}
-                            {/*/>*/}
 
                             <p style={{fontSize: '15px'}}>Select a size:</p>
 
