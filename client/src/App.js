@@ -3,14 +3,14 @@ import  {BrowserRouter, Switch, Route } from "react-router-dom"
 // import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 //import Root from "./pages/Root";
-import Home from "./pages/Home";
+import Home from "./pages/SignedOut/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
-import Choose from "./pages/ChooseSize";
-import User from "./pages/User";
-import Recommend from "./pages/Recommend";
-import NavigationBar from "./pages/Header"
+import Choose from "./pages/SignedOut/ChooseSize";
+import User from "./pages/SignedIn/User";
+import Recommend from "./pages/SignedIn/Recommend";
+import NavigationBar from "./pages/NavigationBar/Header"
 
 class App extends Component {
     render() {

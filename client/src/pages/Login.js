@@ -4,8 +4,8 @@ import { Message } from 'semantic-ui-react'
 import { Button, Divider, Form, Grid } from 'semantic-ui-react'
 import axios from 'axios'
 import {NavLink, Redirect} from "react-router-dom";
-import User from './User'
-import history from './History';
+import User from './SignedIn/User'
+import history from './NavigationBar/History';
 
 class Login extends Component {
 

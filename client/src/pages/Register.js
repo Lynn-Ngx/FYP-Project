@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Segment, Button, Input, Message } from 'semantic-ui-react'
 import axios from 'axios'
 import { Redirect } from "react-router-dom";
-import User from './User'
+import User from './SignedIn/User'
 
 class Register extends Component {
 

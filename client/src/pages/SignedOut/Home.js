@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Divider, Input, Segment,  Header, Popup, Grid, Dimmer, Loader, Message} from 'semantic-ui-react'
-import history from './History';
+import history from '../NavigationBar/History';
 import ChooseSize from './ChooseSize'
 import {NavLink, Redirect} from "react-router-dom";
 import axios from "axios/index";
