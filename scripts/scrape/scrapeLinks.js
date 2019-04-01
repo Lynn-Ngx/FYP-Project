@@ -1,3 +1,7 @@
+// require('events').EventEmitter.defaultMaxListeners = 50;
+// require('events').EventEmitter.prototype._maxListeners = 100
+// require('events').defaultMaxListeners = 100;
+var y = require('events').EventEmitter.prototype._maxListeners = 100;
 const puppeteer = require('puppeteer');
 const mongoose = require('mongoose');
 const linksSchema = require('../../models/links');
@@ -119,7 +123,7 @@ const scrapeLinks = async () => {
             }
         }
     }
-    browser.close()
+    await browser.close();
     return allLinks
 };
 

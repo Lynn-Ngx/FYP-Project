@@ -97,7 +97,7 @@ app.post('/api/signin', async (req, res) => {
     const passwordMatch = userExists.password
 
     if (!userExists) {
-        res.status(200).send({
+        res.status(400).send({
             success: false,
             message: 'User Does Not Exist'
         })
@@ -105,7 +105,7 @@ app.post('/api/signin', async (req, res) => {
     }
 
     if (md5(password) !== passwordMatch) {
-        res.status(200).send({
+        res.status(400).send({
             success: false,
             message: 'Incorrect Password'
         })
@@ -160,7 +160,7 @@ app.post('/api/getPrices', async(req, res) =>{
     const price = await priceSchema.findOne({link: link})
 
     if (!price) {
-        res.status(200).send({
+        res.status(400).send({
             success: false,
             message: 'Link Does Not Exist'
         })

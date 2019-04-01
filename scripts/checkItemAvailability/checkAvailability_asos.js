@@ -113,11 +113,13 @@ const isItemAvailable = async(page, link, testName, testSize) => {
         const size = item.sizes
 
         for(let i in size){
-            if(name === testName && size[i].charAt(0) === testSize && size[i].includes("Notavailable")){
+            if(name === testName && size[i].substring(0,  size[i].indexOf(" ")) === testSize && size[i].includes("Notavailable")){
                 return false
             }
-            else return true
+
         }
+
+        return true
     }else  {
         const items = await getMultiSizes(page, true)
         for(let item of items) {
@@ -167,7 +169,7 @@ const checkItems = async (items) => {
         const itemAvailable = await isItemAvailable(browserObject.page, item.link, item.name, item.size)
         if (itemAvailable) availableItems.push(item)
     }
-    console.log(availableItems)
+    //console.log(availableItems)
     return availableItems
 }
 

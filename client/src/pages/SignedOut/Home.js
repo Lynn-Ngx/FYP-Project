@@ -24,7 +24,7 @@ export default class HomePage extends Component {
             pictures: this.state.pictures.concat(picture),
         });
 
-        fs.writeFile('/../../image/image.jpg', picture, 'binary', function(err) {
+        fs.writeFile('/../../image/image.jpg', this.state.pictures, 'binary', function(err) {
             console.log("The file was saved!");
         });
     }
@@ -46,7 +46,16 @@ export default class HomePage extends Component {
     }
 
     linkSubmitHandler = async (event) => {
-        history.push('./chooseSize')
+
+        const isValidUrl = (string) => {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
         event.preventDefault();
 
         this.setState({
@@ -58,31 +67,51 @@ export default class HomePage extends Component {
             loading: true
         })
 
-        axios.post('/api/getPrices', {link: this.state.link}).then(res => {
-            this.setState({
-                prices: res.data.prices,
-                dates: res.data.dates,
-                priceExist: true
-            })
-        })
+        const validLink = isValidUrl(this.state.link)
 
-        axios.post('/api/getItemDetails', {itemLink: this.state.link}).then(res => {
-            this.setState({
+        if(validLink){
+            history.push('./chooseSize')
+
+            axios.post('/api/getPrices', {link: this.state.link}).then(res => {
+                this.setState({
+                    prices: res.data.prices,
+                    dates: res.data.dates,
+                    priceExist: true
+                })
+            })
+
+            axios.post('/api/getItemDetails', {itemLink: this.state.link}).then(res => {
+                this.setState({
                     name: res.data.name,
                     price: res.data.price,
                     sizes: res.data.sizes,
                     loading: false,
                     click: true
-            })
-
-            if(!res.data.success){
-                this.setState({
-                    loading:false,
-                    errMessage: 'Invalid Link Entered'
                 })
-            }
 
-        })
+                // return(
+                //     <div>
+                //         <Redirect to="/chooseSize"/>
+                //         <ChooseSize link={this.state.link} name={this.state.name} sizes={this.state.sizes} price={this.state.price} prices={this.state.prices} dates={this.state.dates}/>
+                //     </div>
+                //
+                // )
+
+                // if(!res.data.success){
+                //     this.setState({
+                //         loading:false,
+                //         errMessage: 'Invalid Link Entered'
+                //     })
+                // }
+
+            })
+        }else{
+            this.setState({
+                loading:false,
+                errMessage: 'Invalid Link Entered'
+            })
+        }
+
     }
 
     onInputChange(event) {
@@ -101,9 +130,7 @@ export default class HomePage extends Component {
 
                 {
                     this.state.click &&
-                    <div>
-                        <ChooseSize link={this.state.link} name={this.state.name} sizes={this.state.sizes} price={this.state.price} prices={this.state.prices} dates={this.state.dates}/>
-                    </div>
+                    <ChooseSize link={this.state.link} name={this.state.name} sizes={this.state.sizes} price={this.state.price} prices={this.state.prices} dates={this.state.dates}/>
                 }
 
                 {

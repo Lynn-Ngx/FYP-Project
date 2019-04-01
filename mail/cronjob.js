@@ -28,7 +28,7 @@ const getAllItems = async () => {
 
 
 //Every 60mins
-var emailUsers = schedule.scheduleJob('*/60 * * * *', async function(){
+var emailUsers = schedule.scheduleJob('*/2 * * * *', async function(){
 
     const items = await getAllItems()
 

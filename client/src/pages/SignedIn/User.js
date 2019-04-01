@@ -38,6 +38,15 @@ class User extends Component {
     }
 
     linkSubmitHandler = async (event) => {
+        const isValidUrl = (string) => {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
         event.preventDefault();
 
         this.setState({
@@ -46,27 +55,36 @@ class User extends Component {
             image: '',
             sizes: [],
             loading: true,
-            addClicked: true
         })
 
-        axios.post('/api/getItemDetails', {itemLink: this.state.link}).then(res => {
-            this.setState({
-                name: res.data.name,
-                price: res.data.price,
-                sizes: res.data.sizes,
-                image: res.data.image,
-                loading: false,
-                addClicked: true,
-                click: true
-            })
+        const validLink = isValidUrl(this.state.link)
 
-            if(!res.data.success){
+        if(validLink){
+            axios.post('/api/getItemDetails', {itemLink: this.state.link}).then(res => {
                 this.setState({
-                    loading:false,
-                    errMessage: 'Invalid Link Entered'
+                    name: res.data.name,
+                    price: res.data.price,
+                    sizes: res.data.sizes,
+                    image: res.data.image,
+                    loading: false,
+                    addClicked: true,
+                    click: true,
+                    errMessage: ''
                 })
-            }
-        })
+
+                if(!res.data.success){
+                    this.setState({
+                        loading:false,
+                        errMessage: 'Invalid Link Entered'
+                    })
+                }
+            })
+        }else{
+            this.setState({
+                loading:false,
+                errMessage: 'Invalid Link Entered'
+            })
+        }
 
     }
 
