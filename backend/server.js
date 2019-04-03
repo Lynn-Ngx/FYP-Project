@@ -88,6 +88,22 @@ app.post('/api/signup', async (req, res) => {
             })
         })
 })
+var fs = require('fs');
+
+
+app.post('/api/recommendation', async (req, res) => {
+    const ps = require('python-shell')
+
+    ps.PythonShell.run('../python-code2/recommend.py', null, async function (err, results) {
+        await results
+        if (err) throw err;
+        console.log(results)
+
+        var bitmap = fs.readFileSync('../python-code2/output/recommendations/' + req.body.id + '_rec.png');
+
+        res.send({imageBase64: new Buffer(bitmap).toString('base64')})
+    });
+} )
 
 app.post('/api/signin', async (req, res) => {
     const email = req.body.email
@@ -97,7 +113,7 @@ app.post('/api/signin', async (req, res) => {
     const passwordMatch = userExists.password
 
     if (!userExists) {
-        res.status(400).send({
+        res.status(200).send({
             success: false,
             message: 'User Does Not Exist'
         })
@@ -105,7 +121,7 @@ app.post('/api/signin', async (req, res) => {
     }
 
     if (md5(password) !== passwordMatch) {
-        res.status(400).send({
+        res.status(200).send({
             success: false,
             message: 'Incorrect Password'
         })
@@ -152,7 +168,8 @@ app.post('/api/scrapeImage', async(req, res)=>{
     const item = await scrapeImage.scrapeImage(link)
 
     if (!link) res.send("No item link provided")
-    res.send(item)
+
+    res.send({item: item})
 })
 
 app.post('/api/getPrices', async(req, res) =>{

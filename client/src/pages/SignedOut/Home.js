@@ -5,13 +5,16 @@ import ChooseSize from './ChooseSize'
 import {NavLink, Redirect} from "react-router-dom";
 import axios from "axios/index";
 import ImageUploader from 'react-images-upload';
+import Recommendation from './Recommendation'
+const ps = require('python-shell')
 
 var fs = require('fs');
+const timeoutLength = 3500
 
 export default class HomePage extends Component {
     constructor(props) {
         super(props);
-        this.state = { link: '', click: false, loading: false, pictures: [], noInput: true, errMessage:''};
+        this.state = { link: '', click: false, loading: false, pictures: [], noInput: true, errMessage:'', recomClick: false, imageID: ''};
 
         this.onDrop = this.onDrop.bind(this);
         this.linkSubmitHandler = this.linkSubmitHandler.bind(this);
@@ -40,8 +43,12 @@ export default class HomePage extends Component {
         axios.post('/api/scrapeImage', {link: this.state.link}).then(res => {
             this.setState({
                 imageID: res.data.item,
-                loading: false
+                loading: false,
+                recomClick: true
             })
+
+            console.log(this.state.imageID)
+
         })
     }
 
@@ -122,11 +129,30 @@ export default class HomePage extends Component {
 
     }
 
+    state = { isOpen: false }
+
+    handleOpen = () => {
+        this.setState({ isOpen: true })
+
+        this.timeout = setTimeout(() => {
+            this.setState({ isOpen: false })
+        }, timeoutLength)
+    }
+
+    handleClose = () => {
+        this.setState({ isOpen: false })
+        clearTimeout(this.timeout)
+    }
+
     render() {
-        const {loading, noInput, errMessage} = this.state
+        const {loading, noInput, errMessage, recomClick, imageID} = this.state
 
         return (
             <div>
+
+                {
+                    recomClick && <Redirect to={'/recommendation?imageID='+ imageID}/>
+                }
 
                 {
                     this.state.click &&
@@ -177,7 +203,14 @@ export default class HomePage extends Component {
 
                     <br/><br/>
 
-                    <Popup trigger={<Button color='teal' content='Recommend Me' icon='add'/> } position='top center' flowing hoverable>
+                    <Popup
+                        trigger={<Button color='teal' content='Recommend Me' icon='add'/>}
+                        position='top center' flowing
+                        on='click'
+                        open={this.state.isOpen}
+                        onClose={this.handleClose}
+                        onOpen={this.handleOpen}
+                    >
                         <Grid centered divided columns={2}>
                             <Grid.Column textAlign='center' style={{width: '300px'}}>
                                 <Header as='h4'>Upload an Image</Header>

@@ -1,28 +1,19 @@
 const puppeteer = require('puppeteer');
+const helper = require('../helper')
 
 //To get image link of ASOS
 //document.querySelector('#product-gallery > div.window > ul > li:nth-child(2) > div > div > div > div.amp-spinner.amp-relative > div.amp-page.amp-spin > div.amp-page.amp-images > div > div.fullImageContainer > img').src
 
 const scrapeImage = async (link) => {
-    const browser = await puppeteer.launch(
-        {
-            headless:true,
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox'
-                // '--no-sandbox',
-                // '--disable-setuid-sandbox',
-                // '--disable-infobars',
-                // '--window-position=0,0',
-                // '--ignore-certifcate-errors',
-                // '--ignore-certifcate-errors-spki-list',
-                // '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"'
-            ] }) //headless so it shows browser
-    const page = await browser.newPage()
+    const obj = await helper.launchBrowser()
+    const page = obj.page
+    const browser = obj.browser
 
-    //let viewSource = await page.goto('https://images.asos-media.com/products/rahi-scarlett-midi-dress-in-dot-flower-print/11230722-1-fleurprint?$XXL$&wid=513&fit=constrain');
+    //page.goto('https://images.asos-media.com/products/rahi-scarlett-midi-dress-in-dot-flower-print/11230722-1-fleurprint?$XXL$&wid=513&fit=constrain');
     page.goto(link)
+
     await page.waitForSelector('#product-gallery > div.window > ul > li:nth-child(2) > img')
+
     // require('fs').writeFile("test.jpg", await viewSource.buffer(), function(err) {
     //     if(err) {
     //         return console.log(err);
@@ -32,7 +23,7 @@ const scrapeImage = async (link) => {
     // //body > img
     const path = require('path')
     let imgid = Math.random().toString(35).substr(2, 11);
-    const imageName = path.join(__dirname, '/../../image', imgid + '.jpg')
+    const imageName = path.join(__dirname, '/../../python-code2/DB', imgid + '.jpg')
     // const svgImage = await page.evaluate(() => {
     //     return document.querySelector("body > img");
     // })
@@ -42,6 +33,7 @@ const scrapeImage = async (link) => {
         omitBackground: false,
     });
 
+    await page.close()
     await browser.close();
     return imgid
 };

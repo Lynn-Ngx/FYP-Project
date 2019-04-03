@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 
 import Choose from "./pages/SignedOut/ChooseSize";
+import Recommendation from "./pages/SignedOut/Recommendation"
 import User from "./pages/SignedIn/User";
 import Recommend from "./pages/SignedIn/Recommend";
 import NavigationBar from "./pages/NavigationBar/Header"
@@ -41,6 +42,7 @@ class App extends Component {
                         <Route path='/register' component={Register}/>
                         <Route path='/user' component={User}/>
                         <Route path='/recommend' component={Recommend}/>
+                        <Route path='/recommendation' component={Recommendation}/>
                     </Switch>
                 </div>
             </BrowserRouter>

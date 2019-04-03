@@ -46,7 +46,7 @@ const scrapeLinks = async () => {
     // const hardLinks = ["https://www.asos.com/search/?page=PAGENUMBER&q=Women"]
     const hardLinks = ["https://www.asos.com/women/shoes/cat/?cid=4172&nlid=ww|shoes|shop%20by%20product&page=PAGENUMBER", "https://www.asos.com/men/shoes-boots-trainers/cat/?cid=4209&nlid=mw|shoes|shop%20by%20product&page=PAGENUMBER"]
     for (const link of hardLinks){
-        await page.goto(link.replace('PAGENUMBER', '1'))
+        await page.goto(link.replace('PAGENUMBER', '1')); //,{timeout: 3000000}
 
         //get number of pages and loop that amount for each page in that search result
 
@@ -123,6 +123,7 @@ const scrapeLinks = async () => {
             }
         }
     }
+    await page.close()
     await browser.close();
     return allLinks
 };
