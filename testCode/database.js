@@ -4,6 +4,7 @@ const items = require('../models/items')
 
 const connect = () => {
     return new Promise(resolve => {
+        console.log("IM TELLING YOU I DIDNT USE THIS FILE")
         mongoose.connect('mongodb://localhost/fypDatabase')
         mongoose.connection.once('open', function(){
             console.log('connected');

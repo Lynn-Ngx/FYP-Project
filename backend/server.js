@@ -15,7 +15,7 @@ const priceSchema = require('../models/links')
 var jwt = require('jsonwebtoken');
 var md5 = require('md5');
 const mail = require('../mail/mail')
-const ps = require('python-shell')
+// const ps = require('python-shell')
 
 
 

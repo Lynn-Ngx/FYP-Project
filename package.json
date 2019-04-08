@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "npm i - install all libraries",
   "main": "index.js",
+  "engines": {
+    "node": "8.11.3"
+  },
   "dependencies": {
     "cli-progress": "^2.1.1",
     "dotenv": "^6.2.0",
@@ -26,7 +29,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./backend/server.js",
+    "build": "node ./backend/server.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "repository": {
