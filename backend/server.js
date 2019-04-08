@@ -110,9 +110,9 @@ const multer = require('multer');
 /** Permissible loading a single file,
  the value of the attribute "name" in the form of "recfile". **/
 
-app.post('/uploadfile', upload, (req,res) => {
-    res.send({success: true, imageID: req.file.imageID})
-});
+// app.post('/uploadfile', upload, (req,res) => {
+//     res.send({success: true, imageID: req.file.imageID})
+// });
 
 // app.post('/api/recommendation', async (req, res) => {
 //
