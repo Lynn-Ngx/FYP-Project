@@ -6,9 +6,10 @@ const getSingleSizes = async (page, checkAvailability) => {
 
         const name = document.querySelector('#aside-content > div.product-hero > h1').innerHTML
         const price = document.querySelector('#product-price > div > span.current-price').innerHTML
-        const image = document.querySelector('#product-gallery > div.window > ul > li:nth-child(2) > div > div > div > div.amp-spinner.amp-relative > div.amp-page.amp-spin > div.amp-page.amp-images > div > div.fullImageContainer > img').src
-        console.log('in here')
-        console.log(image)
+        const image = document.querySelector('#product-gallery > div.window > ul > li:nth-child(2) > ' +
+            'div > div > div > div.amp-spinner.amp-relative > div.amp-page.amp-spin > div.amp-page.amp-images > ' +
+            'div > div.fullImageContainer > img').src
+
         const selectorDiv = document.querySelector('#product-size > section > div > div.size-section > div.colour-size-select > select')
         const options = []
 
@@ -21,21 +22,17 @@ const getSingleSizes = async (page, checkAvailability) => {
 
         //selectorDiv.children.length = How many options that selector has
         for (let i = 1; i < selectorDiv.children.length; i++){
-
-            //selectorDiv has Ul elements, for each element we splitting it according to the dashes
             const optionSplit = selectorDiv.childNodes[i].innerText.split('-')
-
             //remove spaces
             for (let i = 0; i < optionSplit.length; i++){
                 optionSplit[i] = optionSplit[i].replace(/\s/g, '')
             }
-
             if (checkAvailability){
                 if (optionSplit[optionSplit.length - 1] === 'Notavailable') options.push( optionSplit[0] + ' - Notavailable')
                 else options.push(optionSplit[0])
             }else options.push(optionSplit[0])
-
         }
+
         return {
             name : name,
             price : price,
@@ -102,7 +99,7 @@ const isPageSingleViewLayout = async(page) => {
 }
 
 
-const isItemAvailable = async(page, link, testName, testSize) => {
+const isItemAvailable = async(page, link, itemName, itemSize) => {
 
     await page.goto(link)
     const isSingleLayout = await isPageSingleViewLayout(page)
@@ -113,12 +110,10 @@ const isItemAvailable = async(page, link, testName, testSize) => {
         const size = item.sizes
 
         for(let i in size){
-            if(name === testName && size[i].substring(0,  size[i].indexOf(" ")) === testSize && size[i].includes("Notavailable")){
+            if(name === itemName && size[i].substring(0,  size[i].indexOf(" ")) === itemSize && size[i].includes("Notavailable")){
                 return false
             }
-
         }
-
         return true
     }else  {
         const items = await getMultiSizes(page, true)
@@ -126,10 +121,10 @@ const isItemAvailable = async(page, link, testName, testSize) => {
             //const name = item.name
             const size = item.sizes
 
-            if (item.name === testName){
+            if (item.name === itemName){
                 for(let i in item.sizes) {
 
-                    if (size[i].includes(testSize) && size[i].includes("Notavailable")) {
+                    if (size[i].includes(itemSize) && size[i].includes("Notavailable")) {
                         return false
                     }
 
@@ -169,7 +164,6 @@ const checkItems = async (items) => {
         const itemAvailable = await isItemAvailable(browserObject.page, item.link, item.name, item.size)
         if (itemAvailable) availableItems.push(item)
     }
-    //console.log(availableItems)
     return availableItems
 }
 

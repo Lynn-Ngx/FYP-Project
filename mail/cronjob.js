@@ -16,6 +16,8 @@ const getAllItems = async () => {
                 link: item.link,
                 name: item.name,
                 size:item.size,
+                _id: item._id,
+                userSchema: true
             })
         }
     }
@@ -25,16 +27,13 @@ const getAllItems = async () => {
     return items
 }
 
-
-
 //Every 60mins
-var emailUsers = schedule.scheduleJob('*/60 * * * *', async function(){
-
+const alertUser = async () => {
+    console.log("FYP")
     const items = await getAllItems()
 
-    const messageTemplate = 'Hey USER_NAME, \n\nThe item ITEM_NAME at size ITEM_SIZE that you are watching is now available. \n\n' +
+    const messageTemplate = 'Hey USER_NAME, \n\nThe item "ITEM_NAME" in size ITEM_SIZE that you are watching is now available. \n\n' +
         'Item link: ITEM_LINK \n\n Thank you for using Shopaholic \n\n Best Regards, \n Shopaholic'
-
 
     check_asos.checkItems_asos(items).then(async availableItems => {
 
@@ -42,19 +41,34 @@ var emailUsers = schedule.scheduleJob('*/60 * * * *', async function(){
 
             const message = messageTemplate.replace('USER_NAME', availableItem.username).replace('ITEM_NAME', availableItem.name).replace('ITEM_SIZE', availableItem.size).replace('ITEM_LINK', availableItem.link)
 
-            mail('Asos item available', message, null, availableItem.email)
+            mail('Asos Item Available', message, null, availableItem.email)
 
-            await userSchema.update( {email: availableItem.email}, {$pull:  {['items']: {_id: items._id}}}).then((modified) => {
-            })
+            if ('userSchema' in availableItem){
+                await userSchema.update( {email: availableItem.email}, {$pull:  {['items']: {_id: availableItem._id}}}).exec()
 
+            }else{
+                await itemSchema.findOneAndRemove({_id: availableItem._id}).exec()
+            }
         }
     })
-});
+}
+
+// var emailUsers = schedule.scheduleJob('*/60 * * * *', async function(){
+//     console.log('CALLED')
+//     await alertUser()
+// });
+
+setTimeout(() => {
+    alertUser()
+}, 5000)
 //
 // //0 0 0 * * * is everyday at 12am
+
 var scrapeLinks = schedule.scheduleJob('0 0 0 * * *', function(){
-    //TODO:: MaxListenersExceededWarning: Possible EventEmitter memory leak detected.
+
     console.log('Called!!!!!!')
     const scrapeLinks = require('../scripts/scrape/scrapeLinks')
 });
+
+
 

@@ -43,16 +43,22 @@ const scrapeLinks = async () => {
     let allLinks = []
 
     //predetermined links that we want to scrape
-    // const hardLinks = ["https://www.asos.com/search/?page=PAGENUMBER&q=Women"]
-    const hardLinks = ["https://www.asos.com/women/shoes/cat/?cid=4172&nlid=ww|shoes|shop%20by%20product&page=PAGENUMBER", "https://www.asos.com/men/shoes-boots-trainers/cat/?cid=4209&nlid=mw|shoes|shop%20by%20product&page=PAGENUMBER"]
-    for (const link of hardLinks){
+    const linksToScrape = [
+        "https://www.asos.com/women/shoes/cat/?cid=4172&nlid=ww|shoes|shop%20by%20product&page=PAGENUMBER",
+        "https://www.asos.com/men/shoes-boots-trainers/cat/?cid=4209&nlid=mw|shoes|shop%20by%20product&page=PAGENUMBER"
+    ]
+
+    for (const link of linksToScrape){
         await page.goto(link.replace('PAGENUMBER', '1')); //,{timeout: 3000000}
 
         //get number of pages and loop that amount for each page in that search result
 
         //wait for the selector before calling it
         // await page.waitForSelector('#plp > div > div._3JNRYc8 > div > p')
+
         await page.waitForSelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > p')
+
+
         const numberOfPagesInSearch = await page.evaluate(() => {
             return Math.ceil(parseInt(document.querySelector('#plp > div > div > div._3JNRYc8 > div.zCgWNEA > p').innerText.split(" ")[0].replace(/,/g, ''))/72)
 
@@ -131,17 +137,8 @@ const scrapeLinks = async () => {
 
 
 (async () => {
-    // await connectToLocalDB()
     let objectToAdd = await scrapeLinks()
-    // objectToAdd = [objectToAdd[0], objectToAdd[1]]
     const websiteName = 'asos'
-    //
-    // const objectToAdd = [
-    //     {
-    //         link: 'https://www.asos.com/miss-selfridge/miss-selfridge-woven-heeled-boots-in-black/prd/10820816?clr=black&SearchQuery=&cid=4172&gridcolumn=1&gridrow=13&gridsize=3&pge=9&pgesize=72&totalstyles=2157',
-    //         price: '220'
-    //     }
-    // ]
 
     for (let item of objectToAdd){
         const formattedLink =  item.link.substring(0,  item.link.indexOf("?"))
@@ -155,7 +152,6 @@ const scrapeLinks = async () => {
                         date: new Date()
                     }
                 }})
-
         }else {
             const newLink = new linksSchema({
                 name: websiteName,

@@ -84,38 +84,37 @@ class Login extends Component {
 
                 {
                     !signedIn &&
-                        <Segment raised style={{width: '600px', margin: '100px auto 0px auto'}}>
+                    <Segment raised style={{width: '600px', margin: '160px auto 0px auto'}}>
 
-                            <h1>SIGN IN</h1>
+                        <h1>SIGN IN</h1>
 
-                            <Grid columns={2} relaxed='very' stackable>
-                                <Grid.Column>
-                                    <Form onSubmit={this.submitName}>
-                                        <Form.Input icon='user' iconPosition='left' name='email' placeholder='Username' autoComplete="off" value={email}  onChange={this.inputChanged}/>
-                                        <Form.Input icon='lock' iconPosition='left' name='password' type='password' placeholder="Enter password" value={password}  onChange={this.inputChanged}/>
+                        <Grid columns={2} relaxed='very' stackable>
+                            <Grid.Column>
+                                <Form onSubmit={this.submitName}>
+                                    <Form.Input icon='user' iconPosition='left' name='email' placeholder='Username' autoComplete="off" value={email}  onChange={this.inputChanged}/>
+                                    <Form.Input icon='lock' iconPosition='left' name='password' type='password' placeholder="Enter password" value={password}  onChange={this.inputChanged}/>
 
-                                        <Button primary style={{width: '250px'}} onClick={this.submitName} content='Login'/>
-                                    </Form>
-                                </Grid.Column>
+                                    <Button primary style={{width: '250px'}} onClick={this.submitName} content='Login'/>
+                                </Form>
+                            </Grid.Column>
 
 
-                                <Grid.Column verticalAlign='middle'>
-                                    <Button content='Sign up' as={NavLink} to='/register' icon='signup' size='big' style={{width: '250px'}}/>
-                                </Grid.Column>
-                            </Grid>
+                            <Grid.Column verticalAlign='middle'>
+                                <Button content='Sign up' as={NavLink} to='/register' icon='signup' size='big' style={{width: '250px'}}/>
+                            </Grid.Column>
+                        </Grid>
 
-                            <Divider vertical>Or</Divider>
+                        <Divider vertical>Or</Divider>
 
-                            {
-                                (errorMessage !== '') &&
-                                <Message negative style={{width:'250px'}}>
-                                    <p>{errorMessage}</p>
-                                </Message>
-                            }
+                        {
+                            (errorMessage !== '') &&
+                            <Message negative style={{width:'250px'}}>
+                                <p>{errorMessage}</p>
+                            </Message>
+                        }
 
-                        </Segment>
+                    </Segment>
                 }
-
             </div>
         );
     }

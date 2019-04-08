@@ -9,15 +9,17 @@ import HomePage from "./Home";
 
 export default class ChooseSize extends Component {
     state = {
-        link: this.props.link,
-        name: this.props.name,
+        link: this.props.location.state.link,
+        name: this.props.location.state.name,
         size: '',
-        price: this.props.price,
+        price: this.props.location.state.price,
         username: '',
         email: '',
         errorMessage: '',
+        errMessage: '',
+        saved: false,
         data : {
-            labels: this.props.dates,
+            labels: this.props.location.state.dates,
             datasets: [
                 {
                     label: 'Price',
@@ -38,7 +40,7 @@ export default class ChooseSize extends Component {
                     pointHoverBorderWidth: 2,
                     pointRadius: 1,
                     pointHitRadius: 10,
-                    data: this.props.prices
+                    data: this.props.location.state.prices
                 }
             ]
         }
@@ -46,7 +48,8 @@ export default class ChooseSize extends Component {
 
     submitName = async (e) => {
         this.setState({
-            errorMessage: ''
+            errorMessage: '',
+            errMessage: ''
         })
         //this just stops page redirecting when submitting form
         e.preventDefault()
@@ -60,17 +63,12 @@ export default class ChooseSize extends Component {
 
             return
         }
-        //
+
         axios.post('/api/saveItem', {username: this.state.username,  email: this.state.email, link: this.state.link, name: this.state.name, size: this.state.size, price: this.state.price, isLoggedIn: false}).then(res => {
             if (res.data.success){
-                console.log(res)
-                return(
-                    <div>
-                        <HomePage/>
-                        <Redirect to="/"/>
-                    </div>
-
-                )
+                this.setState({
+                    saved: true
+                })
             }
 
             if (!res.data.success){
@@ -82,10 +80,11 @@ export default class ChooseSize extends Component {
 
     }
 
-    validateInput= ({username, email}) => {
+    validateInput= ({username, email, size}) => {
         let error = false
 
-        if (!email || !username) error = 'Fields cannot be empty'
+        if (!email || !username) {error = 'Fields cannot be empty'}
+        else if(!size) {error = 'Please select a size'}
         else if (email.length < 1) error =  'Must have a email'
         else if (username.length < 1) error =  'Must have a username'
 
@@ -103,63 +102,81 @@ export default class ChooseSize extends Component {
     }
 
     render() {
-        const {errorMessage, username, email, data} = this.state
+        const {errorMessage, username, email, data, saved} = this.state
         return(
             <div>
-                <Segment style={{margin: '100px', height: '400px', padding: '50px', overflow: 'scroll'}}>
 
-                    <Grid columns={2} relaxed='very'>
-                        <Grid.Column>
-                            <h2 style={{marginTop:'20px'}} >{this.props.name}</h2>
-                            <p style={{fontSize: '20px'}}>Current Price: {this.props.price}</p>
+                {
+                    saved &&
+                    <div>
+                        <HomePage/>
+                        <Redirect to="/"/>
+                    </div>
+                }
 
-                            <p style={{fontSize: '15px'}}>Select a size:</p>
+                {
+                    !saved &&
+                    <Segment style={{margin: '100px', height: '400px', padding: '50px', overflow: 'scroll'}}>
 
-                            <Menu compact style={{width:'180px'}}>
-                                <Dropdown onChange={this.onChangeFollower} style={{width:'180px'}} placeholder='Select Size' fluid selection options={this.props.sizes.map(size => ({
-                                    key: size,
-                                    value: size,
-                                    text: size,
-                                }))} />
-                            </Menu>
+                        <Grid columns={2} relaxed='very'>
+                            <Grid.Column>
+                                <h2 style={{marginTop: '20px'}}>{this.props.location.state.name}</h2>
+                                <p style={{fontSize: '20px'}}>Current Price: {this.props.location.state.price}</p>
 
-                            <br/><br/><br/><br/>
+                                <p style={{fontSize: '15px'}}>Select a size:</p>
 
-                            {
-                                data.labels &&  <Line data={data}/>
-                            }
-                        </Grid.Column>
+                                <Menu compact style={{width: '180px'}}>
+                                    <Dropdown onChange={this.onChangeFollower} style={{width: '180px'}}
+                                              placeholder='Select Size' fluid selection
+                                              options={this.props.location.state.sizes.map(size => ({
+                                                  key: size,
+                                                  value: size,
+                                                  text: size,
+                                              }))}/>
+                                </Menu>
 
-                        <Grid.Column>
-                            <h2 style={{marginTop:'20px'}}>Enter Details</h2>
+                                <br/><br/><br/><br/>
 
-                            <div>
-                                <Form>
-                                    <Form.Field>
-                                        <label>Name</label>
-                                        <input  autoComplete="off" placeholder='Enter Name' name="username" onChange={this.inputChanged} value={username}/>
-                                    </Form.Field>
-                                    <Form.Field>
-                                        <label>Email</label>
-                                        <input autoComplete="off" placeholder='Enter Email' name="email" onChange={this.inputChanged} value={email}/>
+                                {
+                                    data.labels && <Line data={data}/>
+                                }
+                            </Grid.Column>
 
-                                        {
-                                            (errorMessage !== '') &&
-                                            <Message negative style={{width:'450px'}}>
-                                                <p>{errorMessage}</p>
-                                            </Message>
-                                        }
-                                    </Form.Field>
-                                    <Button type='submit' style={{backgroundColor: 'rgb(21, 135, 205)', color: 'White'}} onClick={this.submitName}>Notify Me!</Button>
-                                </Form>
-                            </div>
+                            <Grid.Column>
+                                <h2 style={{marginTop: '20px'}}>Enter Details</h2>
 
-                        </Grid.Column>
+                                <div>
+                                    <Form>
+                                        <Form.Field>
+                                            <label>Name</label>
+                                            <input autoComplete="off" placeholder='Enter Name' name="username"
+                                                   onChange={this.inputChanged} value={username}/>
+                                        </Form.Field>
+                                        <Form.Field>
+                                            <label>Email</label>
+                                            <input autoComplete="off" placeholder='Enter Email' name="email"
+                                                   onChange={this.inputChanged} value={email}/>
 
-                    </Grid>
+                                            {
+                                                (errorMessage !== '') &&
+                                                <Message negative style={{width: '550px'}}>
+                                                    <p>{errorMessage}</p>
+                                                </Message>
+                                            }
+                                        </Form.Field>
+                                        <Button type='submit'
+                                                style={{backgroundColor: 'rgb(21, 135, 205)', color: 'White'}}
+                                                onClick={this.submitName}>Notify Me!</Button>
+                                    </Form>
+                                </div>
 
-                    <Divider vertical> - </Divider>
-                </Segment>
+                            </Grid.Column>
+
+                        </Grid>
+
+                        <Divider vertical> - </Divider>
+                    </Segment>
+                }
             </div>
         )
     }

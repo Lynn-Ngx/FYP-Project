@@ -14,6 +14,9 @@ const itemSchema = require('../models/items');
 const priceSchema = require('../models/links')
 var jwt = require('jsonwebtoken');
 var md5 = require('md5');
+const mail = require('../mail/mail')
+const ps = require('python-shell')
+
 
 
 //Token should be sent in header for the jwt autentication
@@ -30,7 +33,6 @@ const connect = () => {
             console.log('Did not connect', error)
         });
     })
-
 }
 
 connect()
@@ -58,7 +60,7 @@ app.post('/api/signup', async (req, res) => {
     const userExists = await user.findOne({email: email})
 
     if (userExists) {
-        res.status(200).send({
+        res.status(400).send({
             success: false,
             message: 'User with that email exists'
         })
@@ -90,14 +92,33 @@ app.post('/api/signup', async (req, res) => {
 })
 var fs = require('fs');
 
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: "../python-code2/DB",
+    filename: function(req, file, cb){
+        file.imageID = Math.random().toString(35).substr(2, 11)
+        cb(null, file.imageID + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({
+    storage: storage,
+    limits:{fileSize: 100000000},
+}).single("file");
+
+/** Permissible loading a single file,
+ the value of the attribute "name" in the form of "recfile". **/
+
+app.post('/uploadfile', upload, (req,res) => {
+    res.send({success: true, imageID: req.file.imageID})
+});
 
 app.post('/api/recommendation', async (req, res) => {
-    const ps = require('python-shell')
 
     ps.PythonShell.run('../python-code2/recommend.py', null, async function (err, results) {
         await results
         if (err) throw err;
-        console.log(results)
 
         var bitmap = fs.readFileSync('../python-code2/output/recommendations/' + req.body.id + '_rec.png');
 
@@ -113,7 +134,7 @@ app.post('/api/signin', async (req, res) => {
     const passwordMatch = userExists.password
 
     if (!userExists) {
-        res.status(200).send({
+        res.status(401).send({
             success: false,
             message: 'User Does Not Exist'
         })
@@ -121,7 +142,7 @@ app.post('/api/signin', async (req, res) => {
     }
 
     if (md5(password) !== passwordMatch) {
-        res.status(200).send({
+        res.status(400).send({
             success: false,
             message: 'Incorrect Password'
         })
@@ -173,6 +194,7 @@ app.post('/api/scrapeImage', async(req, res)=>{
 })
 
 app.post('/api/getPrices', async(req, res) =>{
+
     const link = req.body.link
     const price = await priceSchema.findOne({link: link})
 
@@ -200,19 +222,17 @@ app.post('/api/getPrices', async(req, res) =>{
 
 })
 
-app.put('/api/getItems', async(req, res) =>{
-    const items = await itemSchema.find()
-    res.send(items)
-})
-
-app.put('/api/getUserItems', async(req, res) =>{
-    const items = await user.find()
-    res.send(items)
-})
+// app.put('/api/getItems', async(req, res) =>{
+//     const items = await itemSchema.find()
+//     res.send(items)
+// })
+//
+// app.put('/api/getUserItems', async(req, res) =>{
+//     const items = await user.find()
+//     res.send(items)
+// })
 
 app.post('/api/saveItem', async (req, res)=>{
-    console.log(req.body)
-
     //add error checking to make sure there fields were included
     const item = {
         link: req.body.link,
@@ -268,6 +288,15 @@ app.post('/api/saveItem', async (req, res)=>{
             .save()
             .then(() => {
                 console.log('saved')
+
+                const messageTemplate = 'Hey USER_NAME, \n\nYou are now tracking the ASOS item "ITEM_NAME" in size ITEM_SIZE. ' +
+                    'We will notify you when the item is available! \n\n' +
+                    'Thank you for using Shopaholic \n\n Best Regards, \n Shopaholic'
+
+                const message = messageTemplate.replace('USER_NAME', req.body.username).replace('ITEM_NAME', req.body.name).replace('ITEM_SIZE', req.body.size)
+
+                mail('Tracking Item', message, null, req.body.email)
+
                 res.status(200).send({
                     success: true,
                     message: 'Item Saved'
@@ -286,7 +315,6 @@ app.post('/api/saveItem', async (req, res)=>{
 
 app.use((req, res, next) => {
     jwt.verify(req.body.token, process.env.SECRET_OR_KEY, (err, decoded) => {
-
         if (err){
             res.send({success: false, message: "Invalid token"})
         }else {
@@ -303,7 +331,7 @@ app.post('/api/getDashboardItems', async (req, res) =>{
 
     if (!data) res.send({
         success: false,
-        message: "Invalid user"
+        message: "No items found"
     })
 
     res.send({success: true, dashboardData: data})
@@ -313,11 +341,9 @@ app.post('/api/getDashboardItems', async (req, res) =>{
  * itemId - the item id you want to delete
  * expiredItem - if is an expired item
  */
-//TODO:: change this to a delete request
-app.post('/api/deleteItem', (req, res) =>{
-    //expired: true
 
-    //check if expired item or not
+app.post('/api/deleteItem', (req, res) =>{
+
     const typeOfItem = (req.body.expiredItem) ? 'expiredItems' : 'items'
 
     user.update( {email: req.decoded.email}, {$pull:  {[typeOfItem]: {_id: req.body.itemId}}}).then((modified) => {
@@ -325,14 +351,15 @@ app.post('/api/deleteItem', (req, res) =>{
     })
 })
 
-//TODO:: should be put but post for now
 app.post('/api/renew', async (req, res) =>{
 
     //id
     const itemDoc = await user.findOne({email:req.decoded.email, expiredItems: {$elemMatch: {_id: req.body.itemId}} }, {expiredItems: 1})
 
     //Mongo has their own Mongo data type so we have to convert to string
+
     let requestedItem = itemDoc.expiredItems.filter(item => item._id.toString() === req.body.itemId)
+
     requestedItem = requestedItem[0]
 
     if (requestedItem) {
@@ -343,12 +370,7 @@ app.post('/api/renew', async (req, res) =>{
         res.send('Item Renewed')
     }else {
         res.send("No such item")
-
     }
-
-    //push to items
-
-
 })
 
 app.listen(port)

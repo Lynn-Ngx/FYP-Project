@@ -1,20 +1,26 @@
 import React, { Component } from 'react'
 import { Button, Divider, Input, Segment,  Header, Popup, Grid, Dimmer, Loader, Message} from 'semantic-ui-react'
-import history from '../NavigationBar/History';
-import ChooseSize from './ChooseSize'
 import {NavLink, Redirect} from "react-router-dom";
 import axios from "axios/index";
 import ImageUploader from 'react-images-upload';
-import Recommendation from './Recommendation'
-const ps = require('python-shell')
 
 var fs = require('fs');
-const timeoutLength = 3500
+// const timeoutLength = 10000
 
 export default class HomePage extends Component {
     constructor(props) {
         super(props);
-        this.state = { link: '', click: false, loading: false, pictures: [], noInput: true, errMessage:'', recomClick: false, imageID: ''};
+        this.state = {
+            link: '',
+            click: false,
+            loading: false,
+            pictures: [],
+            noInput: true,
+            errMessage:'',
+            recomClick: false,
+            imageID: '',
+            errRecMessage: ''
+        };
 
         this.onDrop = this.onDrop.bind(this);
         this.linkSubmitHandler = this.linkSubmitHandler.bind(this);
@@ -22,34 +28,73 @@ export default class HomePage extends Component {
 
     }
 
-    onDrop(picture) {
-        this.setState({
-            pictures: this.state.pictures.concat(picture),
-        });
+    onDrop(files) {
+        console.log("SSDHSHDSHDS")
+        console.log(files)
 
-        fs.writeFile('/../../image/image.jpg', this.state.pictures, 'binary', function(err) {
-            console.log("The file was saved!");
+        const formData = new FormData();
+        formData.append('file', files[0]);
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        };
+
+        axios.post("/uploadfile",formData,config)
+            .then((res) => {
+
+                this.setState({
+                    imageID: res.data.imageID,
+                    loading: false,
+                    recomClick: true
+                })
+
+            }).catch((error) => {
         });
+        // console.log(picture)
+        // this.setState({
+        //     pictures: this.state.pictures.concat(picture),
+        // });
+        //
+        // fs.writeFile('/../../image/image.jpg', this.state.pictures, 'binary', function(err) {
+        //     console.log("The file was saved!");
+        // });
     }
 
     recomLinkSubmitHandler = async (event) => {
         event.preventDefault();
+
+        const isValidUrl = (string) => {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
+        const validLink = isValidUrl(this.state.link)
 
         this.setState({
             imageID: '',
             loading: true
         })
 
-        axios.post('/api/scrapeImage', {link: this.state.link}).then(res => {
-            this.setState({
-                imageID: res.data.item,
-                loading: false,
-                recomClick: true
+        if(validLink){
+            axios.post('/api/scrapeImage', {link: this.state.link}).then(res => {
+                this.setState({
+                    imageID: res.data.item,
+                    loading: false,
+                    recomClick: true
+                })
             })
+        }else{
+            this.setState({
+                loading:false,
+                errRecMessage: 'Invalid Link Entered'
+            })
+        }
 
-            console.log(this.state.imageID)
-
-        })
     }
 
     linkSubmitHandler = async (event) => {
@@ -77,7 +122,7 @@ export default class HomePage extends Component {
         const validLink = isValidUrl(this.state.link)
 
         if(validLink){
-            history.push('./chooseSize')
+            // history.push('./chooseSize')
 
             axios.post('/api/getPrices', {link: this.state.link}).then(res => {
                 this.setState({
@@ -95,22 +140,6 @@ export default class HomePage extends Component {
                     loading: false,
                     click: true
                 })
-
-                // return(
-                //     <div>
-                //         <Redirect to="/chooseSize"/>
-                //         <ChooseSize link={this.state.link} name={this.state.name} sizes={this.state.sizes} price={this.state.price} prices={this.state.prices} dates={this.state.dates}/>
-                //     </div>
-                //
-                // )
-
-                // if(!res.data.success){
-                //     this.setState({
-                //         loading:false,
-                //         errMessage: 'Invalid Link Entered'
-                //     })
-                // }
-
             })
         }else{
             this.setState({
@@ -134,18 +163,18 @@ export default class HomePage extends Component {
     handleOpen = () => {
         this.setState({ isOpen: true })
 
-        this.timeout = setTimeout(() => {
-            this.setState({ isOpen: false })
-        }, timeoutLength)
+        // this.timeout = setTimeout(() => {
+        //     this.setState({ isOpen: false })
+        // }, timeoutLength)
     }
 
     handleClose = () => {
         this.setState({ isOpen: false })
-        clearTimeout(this.timeout)
+        // clearTimeout(this.timeout)
     }
 
     render() {
-        const {loading, noInput, errMessage, recomClick, imageID} = this.state
+        const {loading, noInput, errMessage, recomClick, imageID, errRecMessage} = this.state
 
         return (
             <div>
@@ -156,7 +185,20 @@ export default class HomePage extends Component {
 
                 {
                     this.state.click &&
-                    <ChooseSize link={this.state.link} name={this.state.name} sizes={this.state.sizes} price={this.state.price} prices={this.state.prices} dates={this.state.dates}/>
+                    <div>
+                        {/*<ChooseSize link={this.state.link} name={this.state.name} sizes={this.state.sizes} price={this.state.price} prices={this.state.prices} dates={this.state.dates}/>*/}
+                        <Redirect to={{
+                            pathname: '/chooseSize',
+                            state: {
+                                link: this.state.link,
+                                name: this.state.name,
+                                sizes: this.state.sizes,
+                                price: this.state.price,
+                                prices: this.state.prices,
+                                dates: this.state.dates
+                            }
+                        }}/>
+                    </div>
                 }
 
                 {
@@ -166,85 +208,119 @@ export default class HomePage extends Component {
                     </Dimmer>
                 }
 
-                <Segment basic textAlign='center' style={{backgroundColor:'#181818', height:'310px', paddingTop: '50px'}}>
+                {
+                    !this.state.click &&
+                    <Segment basic textAlign='center'
+                             style={{backgroundColor: '#181818', height: '310px', paddingTop: '50px'}}>
 
-                    <div>
-                        <p style={{color: 'white', fontFamily:'fantasy', fontSize:'20px'}}>I'M A </p>
-                        <h3 style={{color: 'white', fontFamily:'fantasy', fontSize:'50px'}}>"SHOPAHOLIC"</h3>
-                        <p style={{color: 'white', fontFamily:'fantasy', fontSize:'20px'}}>...IT'S IN MY JEANS</p>
-                    </div>
+                        <div>
+                            <p style={{color: 'white', fontFamily: 'fantasy', fontSize: '20px'}}>I'M A </p>
+                            <h3 style={{color: 'white', fontFamily: 'fantasy', fontSize: '50px'}}>"SHOPAHOLIC"</h3>
+                            <p style={{color: 'white', fontFamily: 'fantasy', fontSize: '20px'}}>...IT'S IN MY JEANS</p>
+                        </div>
 
-                    <br/><br/>
+                        <br/><br/>
 
-                    <Input
-                        action={{ color: 'blue', content: 'Search', disabled: noInput,
-                            as: NavLink, to: '/chooseSize', onClick: this.linkSubmitHandler} }
-                        icon='search'
-                        style={{width:'500px'}}
-                        //autoComplete="off"
-                        iconPosition='left'
-                        placeholder='Enter Link...'
-                        id="linkInput"
-                        //type='submit'
-                        onChange={this.onInputChange}
-                    />
+                        <Input
+                            action={{
+                                color: 'blue', content: 'Search', disabled: noInput,
+                                as: NavLink, to: '/chooseSize', onClick: this.linkSubmitHandler
+                            }}
+                            icon='search'
+                            style={{width: '500px'}}
+                            //autoComplete="off"
+                            iconPosition='left'
+                            placeholder='Enter Link...'
+                            id="linkInput"
+                            //type='submit'
+                            onChange={this.onInputChange}
+                        />
 
-                    {
-                        (errMessage !== '') &&
-                        <Message negative style={{width:'500px', display: 'block', marginLeft: 'auto', marginRight:'auto'}}>
-                            <p>{errMessage}</p>
-                        </Message>
-                    }
+                        {
+                            (errMessage !== '') &&
+                            <Message negative style={{
+                                width: '500px',
+                                display: 'block',
+                                marginLeft: 'auto',
+                                marginRight: 'auto'
+                            }}>
+                                <p>{errMessage}</p>
+                            </Message>
+                        }
 
-                    <br/><br/><br/>
+                        <br/><br/><br/>
 
 
-                    <Divider horizontal style={{color:'black'}}>Or</Divider>
+                        <Divider horizontal style={{color: 'black'}}>Or</Divider>
 
-                    <br/><br/>
+                        <br/><br/>
 
-                    <Popup
-                        trigger={<Button color='teal' content='Recommend Me' icon='add'/>}
-                        position='top center' flowing
-                        on='click'
-                        open={this.state.isOpen}
-                        onClose={this.handleClose}
-                        onOpen={this.handleOpen}
-                    >
-                        <Grid centered divided columns={2}>
-                            <Grid.Column textAlign='center' style={{width: '300px'}}>
-                                <Header as='h4'>Upload an Image</Header>
-                                <ImageUploader
-                                    withIcon={false}
-                                    buttonText='Attach Image'
-                                    onChange={this.onDrop}
-                                    imgExtension={['.jpg', '.jpeg', '.png']}
-                                    maxFileSize={5242880}
-                                />
-                            </Grid.Column>
-                            <Grid.Column textAlign='center'>
-                                <Header as='h4'>Insert Link</Header>
-                                <p>
-                                    <br/> Enter a link that contain an image/images <br/>
-                                </p>
-                                <Input
-                                    action={{ color: 'blue', content: 'Search', onClick: this.recomLinkSubmitHandler, type:'submit'}}
-                                    icon='search'
-                                    iconPosition='left'
-                                    placeholder='Enter Link...'
-                                   // type='submit'
-                                    onChange={this.onInputChange}
-                                />
-                            </Grid.Column>
-                        </Grid>
-                    </Popup>
+                        <Popup
+                            trigger={<Button color='teal' content='Recommend Me' icon='add'/>}
+                            position='top center' flowing
+                            on='click'
+                            open={this.state.isOpen}
+                            onClose={this.handleClose}
+                            onOpen={this.handleOpen}
+                        >
+                            <Grid centered divided columns={2}>
+                                <Grid.Column textAlign='center' style={{width: '300px'}}>
+                                    <Header as='h4'>Upload an Image</Header>
+                                    <ImageUploader
+                                        withIcon={false}
+                                        buttonText='Attach Image'
+                                        onChange={this.onDrop}
+                                        imgExtension={['.jpg', '.jpeg', '.png']}
+                                        maxFileSize={5242880}
+                                    />
+                                </Grid.Column>
+                                <Grid.Column textAlign='center'>
+                                    <Header as='h4'>Insert Link</Header>
+                                    <p>
+                                        <br/> Enter a link that contain an image/images <br/>
+                                    </p>
+                                    <Input
+                                        action={{
+                                            color: 'blue',
+                                            content: 'Search',
+                                            onClick: this.recomLinkSubmitHandler,
+                                            disabled: noInput,
+                                            type: 'submit'
+                                        }}
+                                        icon='search'
+                                        iconPosition='left'
+                                        placeholder='Enter Link...'
+                                        // type='submit'
+                                        onChange={this.onInputChange}
+                                    />
+                                </Grid.Column>
+                            </Grid>
+                        </Popup>
 
-                    <br/><br/><br/><br/><br/><br/>
-                    <Grid columns={3} divided >
-                        <Grid.Row>
-                            <Grid.Column>
-                                <div style={{width:'70px', height:'70px', position:'block', margin:'0px auto 0px auto'}}>
-                                    <span dangerouslySetInnerHTML={{__html: "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n" +
+                        {
+                            (errRecMessage !== '') &&
+                            <Message negative style={{
+                                width: '200px',
+                                display: 'block',
+                                marginLeft: 'auto',
+                                marginRight: 'auto'
+                            }}>
+                                <p>{errRecMessage}</p>
+                            </Message>
+                        }
+
+                        <br/><br/><br/><br/><br/><br/>
+                        <Grid columns={3} divided>
+                            <Grid.Row>
+                                <Grid.Column>
+                                    <div style={{
+                                        width: '70px',
+                                        height: '70px',
+                                        position: 'block',
+                                        margin: '0px auto 0px auto'
+                                    }}>
+                                    <span dangerouslySetInnerHTML={{
+                                        __html: "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n" +
                                         "<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->\n" +
                                         "<svg version=\"1.1\" id=\"Capa_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\n" +
                                         "\t viewBox=\"0 0 512 512\" style=\"enable-background:new 0 0 512 512;\" xml:space=\"preserve\">\n" +
@@ -311,24 +387,31 @@ export default class HomePage extends Component {
                                         "</linearGradient>\n" +
                                         "<path style=\"fill:url(#SVGID_7_);\" d=\"M27.99,426.77V27.638c0-11.636,9.434-21.07,21.07-21.07h427.018\n" +
                                         "\tc4.135,0,7.98,1.209,11.234,3.267C483.579,3.932,477.01,0,469.509,0H42.491c-11.636,0-21.07,9.434-21.07,21.07v399.131\n" +
-                                        "\tc0,7.502,3.932,14.07,9.836,17.804C29.199,434.75,27.99,430.905,27.99,426.77z\"/>\n <g>\n </g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n"+ "</g>\n" +  "<g>\n</g>\n</svg>\n"}}
+                                        "\tc0,7.502,3.932,14.07,9.836,17.804C29.199,434.75,27.99,430.905,27.99,426.77z\"/>\n <g>\n </g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n" + "</g>\n" + "<g>\n</g>\n</svg>\n"
+                                    }}
                                     />
-                                </div>
-                               <h1 style={{fontSize:'40px'}}>User Notification</h1>
-                                <p style={{fontSize:'15px', textAlign:'left', marginLeft:'60px'}}>
-                                    Constantly checking for an item that is<br/>
-                                    out of stock? Using Shopaholic will allow<br/>
-                                    you to keep track of an item without having<br/>
-                                    to go on the website. Enter a link above, choose<br/>
-                                    the size you are looking for and finally enter your<br/>
-                                    email. Once the item is back in stock you will <br/>
-                                    receive an email. Yes, it is THAT simple! </p>
+                                    </div>
+                                    <h1 style={{fontSize: '40px'}}>User Notification</h1>
+                                    <p style={{fontSize: '15px', textAlign: 'left', marginLeft: '60px'}}>
+                                        Constantly checking for an item that is<br/>
+                                        out of stock? Using Shopaholic will allow<br/>
+                                        you to keep track of an item without having<br/>
+                                        to go on the website. Enter a link above, choose<br/>
+                                        the size you are looking for and finally enter your<br/>
+                                        email. Once the item is back in stock you will <br/>
+                                        receive an email. Yes, it is THAT simple! </p>
 
-                                <br/><br/><br/>
-                            </Grid.Column>
-                            <Grid.Column>
-                                <div style={{width:'70px', height:'70px', position:'block', margin:'0px auto 0px auto'}}>
-                                    <span dangerouslySetInnerHTML={{__html: "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n" +
+                                    <br/><br/><br/>
+                                </Grid.Column>
+                                <Grid.Column>
+                                    <div style={{
+                                        width: '70px',
+                                        height: '70px',
+                                        position: 'block',
+                                        margin: '0px auto 0px auto'
+                                    }}>
+                                    <span dangerouslySetInnerHTML={{
+                                        __html: "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n" +
                                         "<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->\n" +
                                         "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n" +
                                         "<svg version=\"1.1\" id=\"Capa_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\n" +
@@ -354,24 +437,31 @@ export default class HomePage extends Component {
                                         "\t<circle style=\"fill:#F29C1F;\" cx=\"11.012\" cy=\"42.988\" r=\"5\"/>\n" +
                                         "\t<circle style=\"fill:#71C285;\" cx=\"23\" cy=\"31\" r=\"5\"/>\n" +
                                         "\t<circle style=\"fill:#71C285;\" cx=\"54\" cy=\"28\" r=\"5\"/>\n" +
-                                        "\t<circle style=\"fill:#F29C1F;\" cx=\"36\" cy=\"44\" r=\"5\"/>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n</svg>\n"}}
+                                        "\t<circle style=\"fill:#F29C1F;\" cx=\"36\" cy=\"44\" r=\"5\"/>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n</svg>\n"
+                                    }}
                                     />
-                                        </div>
-                                <h1 style={{fontSize:'40px'}}>Price History</h1>
-                                <p style={{fontSize:'15px', textAlign:'left', marginLeft:'60px'}}>
-                                    This feature lets you track the item price!<br/>
-                                    You can use this to see how often the item<br/>
-                                    goes on sale, or if the price was raised before<br/>
-                                    the sale. This  helps you decide when is the<br/>
-                                    best time to purchase the item. The price<br/>
-                                    history is neatly displayed on a line graph with<br/>
-                                    the date and price of the item. </p>
+                                    </div>
+                                    <h1 style={{fontSize: '40px'}}>Price History</h1>
+                                    <p style={{fontSize: '15px', textAlign: 'left', marginLeft: '60px'}}>
+                                        This feature lets you track the item price!<br/>
+                                        You can use this to see how often the item<br/>
+                                        goes on sale, or if the price was raised before<br/>
+                                        the sale. This helps you decide when is the<br/>
+                                        best time to purchase the item. The price<br/>
+                                        history is neatly displayed on a line graph with<br/>
+                                        the date and price of the item. </p>
 
-                                <br/><br/><br/>
-                            </Grid.Column>
-                            <Grid.Column>
-                                <div style={{width:'70px', height:'70px', position:'block', margin:'0px auto 0px auto'}}>
-                                    <span dangerouslySetInnerHTML={{__html:"<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n" +
+                                    <br/><br/><br/>
+                                </Grid.Column>
+                                <Grid.Column>
+                                    <div style={{
+                                        width: '70px',
+                                        height: '70px',
+                                        position: 'block',
+                                        margin: '0px auto 0px auto'
+                                    }}>
+                                    <span dangerouslySetInnerHTML={{
+                                        __html: "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n" +
                                         "<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->\n" +
                                         "<svg version=\"1.1\" id=\"Capa_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\n" +
                                         "\t viewBox=\"0 0 512 512\" style=\"enable-background:new 0 0 512 512;\" xml:space=\"preserve\">\n" +
@@ -499,28 +589,36 @@ export default class HomePage extends Component {
                                         "<path d=\"M110.167,355.082c5.086,0,6.662-4.316,10.674-8.07c2.8-3.081,2.573-7.848-0.508-10.65c-3.081-2.8-7.848-2.574-10.65,0.508\n" +
                                         "\tl-5.093,5.603C100.168,347.338,103.696,355.082,110.167,355.082z\"/>\n" +
                                         "<path d=\"M128.012,359.968c5.483,0,6.824-4.759,15.767-13.673c2.8-3.081,2.573-7.848-0.508-10.65c-3.081-2.8-7.849-2.575-10.65,0.508\n" +
-                                        "\tl-10.186,11.204C118.012,352.225,121.542,359.968,128.012,359.968z\"/>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n</svg>\n"}}
+                                        "\tl-10.186,11.204C118.012,352.225,121.542,359.968,128.012,359.968z\"/>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n<g>\n</g>\n</svg>\n"
+                                    }}
                                     />
-                                </div>
-                                <h1 style={{fontSize:'40px'}}>Recommender</h1>
-                                <p style={{fontSize:'15px', textAlign:'left', marginLeft:'50px'}}>
-                                    This recommender feature was built on an artificial<br/>
-                                    intelligent system. Using Machine Learning the<br/>
-                                    system plots out the most accurate result before<br/>
-                                    displaying it to you. Unlike other systems, the<br/>
-                                    application does not use keywords but uses the <br/>
-                                    image that can be uploaded. If a link is entered,<br/>
-                                    the system will scrape the link before recommening</p>
+                                    </div>
+                                    <h1 style={{fontSize: '40px'}}>Recommender</h1>
+                                    <p style={{fontSize: '15px', textAlign: 'left', marginLeft: '50px'}}>
+                                        This recommender feature was built on an artificial<br/>
+                                        intelligent system. Using Machine Learning the<br/>
+                                        system plots out the most accurate result before<br/>
+                                        displaying it to you. Unlike other systems, the<br/>
+                                        application does not use keywords but uses the <br/>
+                                        image that can be uploaded. If a link is entered,<br/>
+                                        the system will scrape the link before recommening</p>
 
-                                <br/><br/><br/>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
+                                    <br/><br/><br/>
+                                </Grid.Column>
+                            </Grid.Row>
+                        </Grid>
 
-                    <footer style={{backgroundColor:'#181818', border: '5px solid #181818', borderRadius:'0px', color:'white',margin: '0px'}}>
-                        shopaholicsystem@gmail.com
-                    </footer>
-                </Segment>
+                        <footer style={{
+                            backgroundColor: '#181818',
+                            border: '5px solid #181818',
+                            borderRadius: '0px',
+                            color: 'white',
+                            margin: '0px'
+                        }}>
+                            shopaholicsystem@gmail.com
+                        </footer>
+                    </Segment>
+                }
             </div>
 
         )

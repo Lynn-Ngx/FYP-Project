@@ -30,7 +30,7 @@ export default class Recommendation extends Component {
                 {
                    !this.state.imageLoaded &&
                        <div>
-                           <h1 style={{margin: '50px'}}>You're recommendation is being rendered...</h1>
+                           <h1 style={{margin: '50px'}}>Your recommendations are being processed...</h1>
                            <Dimmer active inverted>
                                <Loader inverted size='large'>This may take a few minutes :)</Loader>
                            </Dimmer>
