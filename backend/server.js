@@ -15,9 +15,7 @@ const priceSchema = require('../models/links')
 var jwt = require('jsonwebtoken');
 var md5 = require('md5');
 const mail = require('../mail/mail')
-// const ps = require('python-shell')
-
-
+const ps = require('python-shell')
 
 //Token should be sent in header for the jwt autentication
 const connect = () => {
@@ -94,37 +92,37 @@ var fs = require('fs');
 
 const multer = require('multer');
 
-// const storage = multer.diskStorage({
-//     destination: "../python-code2/DB",
-//     filename: function(req, file, cb){
-//         file.imageID = Math.random().toString(35).substr(2, 11)
-//         cb(null, file.imageID + path.extname(file.originalname));
-//     }
-// });
-//
-// const upload = multer({
-//     storage: storage,
-//     limits:{fileSize: 100000000},
-// }).single("file");
+const storage = multer.diskStorage({
+    destination: "../python-code2/DB",
+    filename: function(req, file, cb){
+        file.imageID = Math.random().toString(35).substr(2, 11)
+        cb(null, file.imageID + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({
+    storage: storage,
+    limits:{fileSize: 100000000},
+}).single("file");
 
 /** Permissible loading a single file,
  the value of the attribute "name" in the form of "recfile". **/
 
-// app.post('/uploadfile', upload, (req,res) => {
-//     res.send({success: true, imageID: req.file.imageID})
-// });
+app.post('/uploadfile', upload, (req,res) => {
+    res.send({success: true, imageID: req.file.imageID})
+});
 
-// app.post('/api/recommendation', async (req, res) => {
-//
-//     ps.PythonShell.run('../python-code2/recommend.py', null, async function (err, results) {
-//         await results
-//         if (err) throw err;
-//
-//         var bitmap = fs.readFileSync('../python-code2/output/recommendations/' + req.body.id + '_rec.png');
-//
-//         res.send({imageBase64: new Buffer(bitmap).toString('base64')})
-//     });
-// } )
+app.post('/api/recommendation', async (req, res) => {
+
+    ps.PythonShell.run('../python-code2/recommend.py', null, async function (err, results) {
+        await results
+        if (err) throw err;
+
+        var bitmap = fs.readFileSync('../python-code2/output/recommendations/' + req.body.id + '_rec.png');
+
+        res.send({imageBase64: new Buffer(bitmap).toString('base64')})
+    });
+} )
 
 app.post('/api/signin', async (req, res) => {
     const email = req.body.email

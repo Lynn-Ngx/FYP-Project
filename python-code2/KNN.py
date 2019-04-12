@@ -3,12 +3,10 @@ from sklearn.neighbors import NearestNeighbors
 class kNN(object):
 
     def __init__(self):
-        # Parameters from training/test data set
-        self.n_train = None  # number of training examples
-        self.n_test = None  # number of test examples
-        self.d = None  # number of features
+        self.n_train = None
+        self.n_test = None
+        self.d = None
 
-        # Parameters for kNN model
         self.n_neighbours = None
         self.algorithm = None
         self.metric = None

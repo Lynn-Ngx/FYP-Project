@@ -18,6 +18,8 @@ export default class ChooseSize extends Component {
         errorMessage: '',
         errMessage: '',
         saved: false,
+
+
         data : {
             labels: this.props.location.state.dates,
             datasets: [

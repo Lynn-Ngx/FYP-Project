@@ -21,7 +21,7 @@ from keras.preprocessing import image
 from keras.utils import layer_utils
 from keras.utils.data_utils import get_file
 from keras import backend as K
-from keras.applications.imagenet_utils import decode_predictions
+# from keras.applications.imagenet_utils import decode_predictions
 from keras.applications.imagenet_utils import preprocess_input
 from keras_applications.imagenet_utils import _obtain_input_shape
 from keras.engine.topology import get_source_inputs
@@ -93,6 +93,7 @@ def VGG19(include_top=True, weights='imagenet',
         raise ValueError('If using `weights` as imagenet with `include_top`'
                          ' as true, `classes` should be 1000')
     # Determine proper input shape
+
     input_shape = _obtain_input_shape(input_shape,
                                       default_size=224,
                                       min_size=48,
@@ -131,6 +132,7 @@ def VGG19(include_top=True, weights='imagenet',
     x = MaxPooling2D((2, 2), strides=(2, 2), name='block4_pool')(x)
 
     # Block 5
+
     x = Conv2D(512, (3, 3), activation='relu', padding='same', name='block5_conv1')(x)
     x = Conv2D(512, (3, 3), activation='relu', padding='same', name='block5_conv2')(x)
     x = Conv2D(512, (3, 3), activation='relu', padding='same', name='block5_conv3')(x)
@@ -156,6 +158,7 @@ def VGG19(include_top=True, weights='imagenet',
     else:
         inputs = img_input
     # Create model.
+
     model = Model(inputs, x, name='vgg19')
 
     # load weights
@@ -202,4 +205,4 @@ if __name__ == '__main__':
     print('Input image shape:', x.shape)
 
     preds = model.predict(x)
-    print('Predicted:', decode_predictions(preds))
+    # print('Predicted:', decode_predictions(preds))
