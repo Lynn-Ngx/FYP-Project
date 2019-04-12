@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter } from 'react-router-dom'
 import 'semantic-ui-css/semantic.min.css';
 import { createStore } from 'redux'
 import rootReducer from './store/reducers/rootReducer'

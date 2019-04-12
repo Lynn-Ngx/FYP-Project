@@ -20,10 +20,7 @@ const ps = require('python-shell')
 //Token should be sent in header for the jwt autentication
 const connect = () => {
     return new Promise(resolve => {
-        //mongoose.connect('mongodb://localhost/fypDatabase')
         mongoose.connect('mongodb+srv://lynn:2GfCBTqUxpPWDvhU@cluster0-knwop.mongodb.net/fypUsers?retryWrites=true')
-        //mongoose.connect('mongodb+srv://lynn:2GfCBTqUxpPWDvhU@cluster0-knwop.mongodb.net/fyp?retryWrites=true')
-        //mongoose.connect('mongodb://localhost/FYP');
         mongoose.connection.once('open', function(){
             console.log('connected');
             resolve()
@@ -156,15 +153,6 @@ app.post('/api/signin', async (req, res) => {
     })
 })
 
-
-// app.get('/api/item', (req, res) => {
-//     //send token with request
-//
-//     //identify the user and authenticate them, then add item to that user
-//     console.log("CALLEDdddd")
-//     res.send({success: true, message: "AAAAAAA"})
-// })
-
 app.post('/api/getItemDetails', async (req, res) => {
 
     const itemLink = req.body.itemLink
@@ -208,7 +196,6 @@ app.post('/api/getPrices', async(req, res) =>{
 
     for(let i=0; i<price.price.length; i++){
         prices.push(parseFloat(price.price[i].price.slice(1)))
-        //console.log(price.price[i].date.toString())
         const dt = price.price[i].date
         price.price[i].date =  dt.getMonth( ) + 1 +'/'+ dt.getDate( ) + '/' +dt.getFullYear( );
         dates.push(price.price[i].date.toString())
@@ -220,18 +207,7 @@ app.post('/api/getPrices', async(req, res) =>{
 
 })
 
-// app.put('/api/getItems', async(req, res) =>{
-//     const items = await itemSchema.find()
-//     res.send(items)
-// })
-//
-// app.put('/api/getUserItems', async(req, res) =>{
-//     const items = await user.find()
-//     res.send(items)
-// })
-
 app.post('/api/saveItem', async (req, res)=>{
-    //add error checking to make sure there fields were included
     const item = {
         link: req.body.link,
         price: req.body.price,
@@ -241,7 +217,6 @@ app.post('/api/saveItem', async (req, res)=>{
     }
 
     const loggedIn = req.body.isLoggedIn
-    //const loggedIn = (req.body.token)
 
     if(loggedIn === true){
 
